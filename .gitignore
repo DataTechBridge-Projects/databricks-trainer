@@ -5,3 +5,4 @@ __pycache__/
 venv/
 site/
 output/
+SESSION_NOTES.md

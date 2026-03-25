@@ -1,12 +1,17 @@
 import re
 from pathlib import Path
-from config import OUTPUT_DIR, COURSE_TOPIC, COURSE_AUDIENCE
+from config import OUTPUT_DIR, COURSE_TOPIC, COURSE_AUDIENCE, PROMPT_MODULE
 from graph import build_graph
 from state import OverallState
 
 MKDOCS_FILE = Path("mkdocs.yml")
-NAV_START = "    # DATABRICKS_SECTIONS_START"
-NAV_END = "    # DATABRICKS_SECTIONS_END"
+
+# Each course folder maps to its own nav marker in mkdocs.yml
+_NAV_MARKERS = {
+    "docs/databricks": ("    # DATABRICKS_SECTIONS_START", "    # DATABRICKS_SECTIONS_END"),
+    "docs/aws":        ("    # AWS_SECTIONS_START",        "    # AWS_SECTIONS_END"),
+}
+NAV_START, NAV_END = _NAV_MARKERS.get(OUTPUT_DIR.as_posix(), ("    # DATABRICKS_SECTIONS_START", "    # DATABRICKS_SECTIONS_END"))
 
 
 def _write_index(final_state: OverallState) -> None:

@@ -69,6 +69,10 @@ nav:
     - "14. Testing, Debugging, and Monitoring": databricks/section_14_testing_debugging_and_monitoring.md
     - "15. Capstone and Exam Readiness": databricks/section_15_capstone_and_exam_readiness.md
     # DATABRICKS_SECTIONS_END
+  - AWS:
+    - Home: aws/index.md
+    # AWS_SECTIONS_START
+    # AWS_SECTIONS_END
 
 extra:
   social:

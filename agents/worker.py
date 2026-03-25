@@ -1,17 +1,15 @@
 import re
+import importlib
 from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from state import WorkerState, SectionResult
-from config import MODEL_NAME, OLLAMA_BASE_URL, OUTPUT_DIR, NUM_PREDICT
+from config import MODEL_NAME, OLLAMA_BASE_URL, OUTPUT_DIR, NUM_PREDICT, PROMPT_MODULE
 
 _llm = ChatOllama(
     model=MODEL_NAME,
     base_url=OLLAMA_BASE_URL,
     num_predict=NUM_PREDICT,
 )
-
-_SYSTEM = """You are an expert AWS Databricks instructor writing content for a Udemy course.
-Your writing style is detailed, precise, and practical — like a well-structured technical book chapter."""
 
 
 def _safe_filename(index: int, title: str) -> str:
@@ -24,63 +22,21 @@ def _safe_filename(index: int, title: str) -> str:
 def worker(state: WorkerState) -> dict:
     """
     Generates full markdown content for one course section.
+    Loads WORKER_PROMPT and WORKER_SYSTEM from the active PROMPT_MODULE.
     Runs in parallel — one instance per section.
     Returns: {'completed_sections': [SectionResult]}
-    The list wrapper is required so operator.add can concatenate results.
     """
-    user_prompt = f"""Write the complete course content for this section:
-
-Section Title: {state['section']}
-Section {state['section_index'] + 1} of {state['total_sections']}
-Course: {state['course_topic']}
-Target Audience: {state['course_audience']}
-
-Your content MUST include ALL of the following components, clearly labeled with markdown headings:
-
-## {state['section']}
-
-### Overview
-[3-4 paragraphs of deep conceptual explanation written like a technical book]
-
-### Core Concepts
-[Detailed explanation of each concept with sub-sections as needed]
-
-### Architecture / How It Works
-[At least one ASCII diagram or mermaid diagram in a code block illustrating architecture or data flow.
-Example:
-```
-+-------------------+       +------------------+       +-------------+
-|   Raw S3 Bucket   |  -->  |   Auto Loader    |  -->  |  Delta Lake |
-+-------------------+       +------------------+       +-------------+
-```
-]
-
-### Hands-On: Key Operations
-[Step-by-step PySpark / Python / SQL code examples with explanation of each block]
-
-### AWS-Specific Considerations
-[How this topic integrates with AWS: S3, IAM, Glue, EMR, Lake Formation, CloudWatch, etc.]
-
-### Exam Focus Areas
-[Bulleted list of what the Databricks Data Engineer Associate exam tests on this topic]
-
-### Quick Recap
-- [Key takeaway 1]
-- [Key takeaway 2]
-- [Key takeaway 3]
-- [Key takeaway 4]
-- [Key takeaway 5]
-
-### Code References
-[Links to official Databricks docs, Apache Spark docs, and relevant GitHub examples]
-
-### Blog & Further Reading
-[3-5 recommended articles or documentation pages with a one-line description each]
-
-Be exhaustive. A presenter should be able to speak for 45-60 minutes using only this section."""
+    prompts = importlib.import_module(PROMPT_MODULE)
+    user_prompt = prompts.WORKER_PROMPT.format(
+        section=state["section"],
+        section_index=state["section_index"] + 1,
+        total_sections=state["total_sections"],
+        course_topic=state["course_topic"],
+        course_audience=state["course_audience"],
+    )
 
     response = _llm.invoke([
-        SystemMessage(content=_SYSTEM),
+        SystemMessage(content=prompts.WORKER_SYSTEM),
         HumanMessage(content=user_prompt),
     ])
 

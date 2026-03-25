@@ -1,6 +1,6 @@
-# Databricks Course Generator — Multi-Agent LangGraph System
+# Data Engineer Hub — Multi-Agent Course Generator
 
-A three-agent LangGraph pipeline that autonomously generates a complete Udemy course for the **AWS Databricks Data Engineer Certification**, targeting engineers familiar with Apache Spark and AWS Glue.
+A three-agent LangGraph pipeline that autonomously generates complete technical courses from a topic and audience description. Databricks is the first course — any engineering topic can be added as a new tab.
 
 ---
 
@@ -11,14 +11,14 @@ START
   │
   ▼
 ┌─────────────┐
-│  Supervisor │  Creates a structured course outline (12-16 sections)
+│  Supervisor │  Creates a structured course outline (15 sections)
 └──────┬──────┘
        │  conditional edge → Send API fans out to N parallel workers
        │
    ┌───┼──────────────────────┐
    ▼   ▼                      ▼
 [Worker] [Worker]  ...  [Worker]   ← one instance per section, runs in parallel
-   │       │                  │
+   │       │                  │     each saves its file to disk immediately
    └───────┴──────────────────┘
        │  operator.add reducer merges all results into shared state
        ▼
@@ -33,16 +33,16 @@ START
 
 | Agent | Role | LangGraph Node |
 |---|---|---|
-| **Supervisor** | Calls Claude to produce a JSON array of section titles | `supervisor` |
-| **Worker** | Generates exhaustive markdown content for one section; runs as N parallel instances via `Send` | `worker` |
-| **Summarizer** | Sorts worker results by `section_index`, writes course intro + ToC, assembles `complete_course.md` | `summarizer` |
+| **Supervisor** | Produces a structured JSON outline of section titles | `supervisor` |
+| **Worker** | Generates exhaustive markdown content for one section; N parallel instances via `Send` | `worker` |
+| **Summarizer** | Sorts by `section_index`, writes course intro + ToC, assembles `complete_course.md` | `summarizer` |
 
 ### Why LangGraph?
 
-- **Parallel execution** via the `Send` API — the Supervisor fans out to one Worker per section, all running concurrently.
-- **Safe state merging** — `completed_sections` uses `Annotated[list, operator.add]` so parallel writes never collide.
-- **Deterministic ordering** — each `SectionResult` carries `section_index`; the Summarizer sorts before assembling.
-- **Reusable** — swap `COURSE_TOPIC` and `COURSE_AUDIENCE` in `config.py` to generate a course on any subject.
+- **Parallel execution** via the `Send` API — Supervisor fans out to one Worker per section, all running concurrently
+- **Safe state merging** — `completed_sections` uses `Annotated[list, operator.add]` so parallel writes never collide
+- **Deterministic ordering** — each `SectionResult` carries `section_index`; Summarizer sorts before assembling
+- **Reusable** — swap `COURSE_TOPIC` and `COURSE_AUDIENCE` in `config.py` for any subject
 
 ---
 
@@ -50,21 +50,22 @@ START
 
 ```
 .
-├── main.py             # entry point
-├── graph.py            # StateGraph definition + route_to_workers (Send fan-out)
-├── state.py            # OverallState, WorkerState, SectionResult TypedDicts
-├── config.py           # model, paths, course metadata
+├── main.py                   # entry point
+├── graph.py                  # StateGraph + Send fan-out routing
+├── state.py                  # OverallState, WorkerState, SectionResult
+├── config.py                 # model, paths, course topic/audience
 ├── agents/
-│   ├── supervisor.py   # outline generation
-│   ├── worker.py       # section content generation (parallel)
-│   └── summarizer.py   # final document assembly
-├── output/             # auto-created at runtime
-│   ├── section_01_*.md
-│   ├── section_02_*.md
-│   └── complete_course.md
-├── requirements.txt
-├── .env.example
-└── README.md
+│   ├── supervisor.py         # outline generation
+│   ├── worker.py             # section content generation (parallel, incremental save)
+│   └── summarizer.py         # final document assembly
+├── docs/
+│   ├── index.md              # site homepage
+│   ├── agent/                # Agent tab — pipeline documentation
+│   └── databricks/           # Databricks tab — generated course content
+├── mkdocs.yml                # MkDocs Material site config
+├── .github/workflows/
+│   └── deploy-docs.yml       # auto-deploy to GitHub Pages on push
+└── requirements.txt
 ```
 
 ---
@@ -77,12 +78,10 @@ START
 pip install -r requirements.txt
 ```
 
-### 2. Set your Anthropic API key
+### 2. Pull the model (local Ollama — no API key needed)
 
 ```bash
-cp .env.example .env
-# edit .env and add your key:
-# ANTHROPIC_API_KEY=sk-ant-...
+ollama pull nemotron-cascade-2
 ```
 
 ### 3. Run
@@ -93,22 +92,22 @@ python main.py
 
 The pipeline will:
 1. Print the generated outline (Supervisor)
-2. Show each worker completing its section in parallel
-3. Save individual section files to `output/`
-4. Save `output/complete_course.md` — the full combined course
+2. Show each worker saving its section in parallel
+3. Save individual section files to `docs/databricks/`
+4. Save `docs/databricks/complete_course.md` — the full combined course
 
 ---
 
 ## Output Format
 
-Each section file includes:
+Each section includes:
 
 - **Overview** — deep conceptual explanation (book-level depth)
 - **Core Concepts** — detailed sub-sections
 - **Architecture / How It Works** — ASCII or Mermaid diagrams
 - **Hands-On: Key Operations** — PySpark / Python / SQL code examples
 - **AWS-Specific Considerations** — S3, IAM, Glue, Lake Formation integration notes
-- **Exam Focus Areas** — what the Databricks certification tests
+- **Exam Focus Areas** — what the certification tests
 - **Quick Recap** — bullet-point summary for fast review
 - **Code References** — official docs and GitHub links
 - **Blog & Further Reading** — 3-5 recommended resources
@@ -121,11 +120,32 @@ Edit `config.py` to change:
 
 | Setting | Default | Description |
 |---|---|---|
-| `MODEL_NAME` | `claude-opus-4-6` | Anthropic model to use |
+| `MODEL_NAME` | `nemotron-cascade-2` | Local Ollama model |
+| `OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama server URL |
+| `NUM_PREDICT` | `4096` | Max tokens per section — lower = faster |
 | `COURSE_TOPIC` | AWS Databricks Data Engineer Certification | Course subject |
-| `COURSE_AUDIENCE` | Spark + AWS Glue engineers | Target audience description |
-| `OUTPUT_DIR` | `output/` | Where to save generated files |
-| `MAX_TOKENS_WORKER` | `8192` | Max tokens per section (controls depth) |
+| `COURSE_AUDIENCE` | Spark + AWS Glue engineers | Target audience |
+| `OUTPUT_DIR` | `docs/databricks` | Where to save generated files |
+
+---
+
+## Adding a new course
+
+1. Update `config.py` with the new topic and audience
+2. Change `OUTPUT_DIR` to `docs/<course-name>/`
+3. Run `python main.py`
+4. Commit and push — a new tab appears on the site automatically
+
+---
+
+## GitHub Pages
+
+Site: `https://datatechbridge-projects.github.io/databricks-trainer/`
+
+Tabs:
+- **Agent** — pipeline documentation
+- **Databricks** — AWS Databricks Data Engineer Certification course
+- *(future courses appear as new tabs)*
 
 ---
 
@@ -152,5 +172,5 @@ class WorkerState(TypedDict):
 ## Requirements
 
 - Python 3.11+
-- `ANTHROPIC_API_KEY` environment variable
+- Ollama running locally with the model pulled
 - See `requirements.txt` for package versions

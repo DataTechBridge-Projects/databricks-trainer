@@ -6,7 +6,9 @@
       "Bash(python -c \"from langgraph.types import Send; print\\(''Send API available''\\)\")",
       "Bash(python:*)",
       "Bash(\"C:\\\\Users\\\\conne\\\\OneDrive\\\\Documents\\\\Projects\\\\2026-03-Databricks-Trainer\\\\README.md\":*)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(mkdir -p docs/databricks)",
+      "Bash(rm -rf docs/course)"
     ]
   }
 }

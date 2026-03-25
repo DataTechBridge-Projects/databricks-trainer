@@ -9,7 +9,7 @@ A multi-agent AI system that autonomously generates technical Udemy courses usin
 | | |
 |---|---|
 | [**Agent**](agent/index.md) | How the multi-agent pipeline works — architecture, setup, and configuration |
-| [**Course**](course/index.md) | The generated AWS Databricks Data Engineer Certification course content |
+| [**Databricks**](databricks/index.md) | AWS Databricks Data Engineer Certification course content |
 
 ---
 

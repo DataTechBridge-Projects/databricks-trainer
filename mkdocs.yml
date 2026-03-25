@@ -45,6 +45,31 @@ markdown_extensions:
 plugins:
   - search
 
+nav:
+  - Agent:
+    - Overview: agent/index.md
+    - Setup: agent/setup.md
+    - Architecture: agent/architecture.md
+  - Databricks:
+    - Home: databricks/index.md
+    # DATABRICKS_SECTIONS_START
+    - "1. Course Introduction": databricks/section_01_course_introduction.md
+    - "2. Exam Overview and Strategy": databricks/section_02_exam_overview_and_strategy.md
+    - "3. AWS Setup": databricks/section_03_aws_setup.md
+    - "4. Databricks Platform": databricks/section_04_databricks_platform.md
+    - "5. Spark on Databricks": databricks/section_05_spark_on_databricks.md
+    - "6. Delta Lake Core Concepts": databricks/section_06_delta_lake_core_concepts.md
+    - "7. Lakehouse Architecture": databricks/section_07_lakehouse_architecture.md
+    - "8. Data Ingestion with Auto Loader": databricks/section_08_data_ingestion_with_auto_loader.md
+    - "9. Data Transformation and ETL Pipelines": databricks/section_09_data_transformation_and_etl_pipelines.md
+    - "10. Unity Catalog and Governance": databricks/section_10_unity_catalog_governance.md
+    - "11. Workflows and Orchestration": databricks/section_11_workflows_and_orchestration.md
+    - "12. Performance Tuning": databricks/section_12_performance_tuning.md
+    - "13. Advanced Delta Optimization": databricks/section_13_advanced_delta_optimization.md
+    - "14. Testing, Debugging, and Monitoring": databricks/section_14_testing_debugging_and_monitoring.md
+    - "15. Capstone and Exam Readiness": databricks/section_15_capstone_and_exam_readiness.md
+    # DATABRICKS_SECTIONS_END
+
 extra:
   social:
     - icon: fontawesome/brands/github

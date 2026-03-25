@@ -1,7 +1,12 @@
+import re
 from pathlib import Path
 from config import OUTPUT_DIR, COURSE_TOPIC, COURSE_AUDIENCE
 from graph import build_graph
 from state import OverallState
+
+MKDOCS_FILE = Path("mkdocs.yml")
+NAV_START = "    # DATABRICKS_SECTIONS_START"
+NAV_END = "    # DATABRICKS_SECTIONS_END"
 
 
 def _write_index(final_state: OverallState) -> None:
@@ -24,6 +29,33 @@ def _write_index(final_state: OverallState) -> None:
     print(f"  Saved: {OUTPUT_DIR / 'index.md'}")
 
 
+def _update_mkdocs_nav(final_state: OverallState) -> None:
+    """Replace the section entries between nav markers in mkdocs.yml."""
+    ordered = sorted(final_state["completed_sections"], key=lambda x: x["section_index"])
+
+    # Build clean nav entries — number. Title: path
+    lines = []
+    for s in ordered:
+        num = s["section_index"] + 1
+        title = s["section_title"]
+        # Strip any "Section N:" / "Section N –" prefix the LLM may have added
+        title = re.sub(r"^section\s+\d+[\s:\-–]+", "", title, flags=re.IGNORECASE).strip()
+        folder = OUTPUT_DIR.as_posix()  # e.g. docs/databricks
+        lines.append(f'    - "{num}. {title}": {folder}/{s["filename"]}')
+
+    new_block = "\n".join([NAV_START] + lines + [NAV_END])
+
+    content = MKDOCS_FILE.read_text(encoding="utf-8")
+    content = re.sub(
+        rf"{re.escape(NAV_START)}.*?{re.escape(NAV_END)}",
+        new_block,
+        content,
+        flags=re.DOTALL,
+    )
+    MKDOCS_FILE.write_text(content, encoding="utf-8")
+    print(f"  Updated: {MKDOCS_FILE} nav ({len(ordered)} sections)")
+
+
 def save_outputs(final_state: OverallState) -> None:
     # Section files are already saved incrementally by each worker.
     # Save combined doc to output/ (not docs/) to keep it out of the MkDocs sidebar.
@@ -36,6 +68,7 @@ def save_outputs(final_state: OverallState) -> None:
     print(f"  Saved: {combined_path}")
 
     _write_index(final_state)
+    _update_mkdocs_nav(final_state)
 
 
 def main() -> None:

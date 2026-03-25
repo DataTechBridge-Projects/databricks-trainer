@@ -2,7 +2,7 @@ site_name: AWS Databricks Data Engineer Certification
 site_description: A comprehensive Udemy course guide for the Databricks Certified Data Engineer Associate exam on AWS
 site_author: Databricks Trainer
 
-docs_dir: output
+docs_dir: docs
 
 theme:
   name: material

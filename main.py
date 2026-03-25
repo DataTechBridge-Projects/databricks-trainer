@@ -5,7 +5,7 @@ from state import OverallState
 
 
 def _write_index(final_state: OverallState) -> None:
-    """Generate output/index.md — the MkDocs homepage."""
+    """Generate docs/course/index.md — the Course tab homepage."""
     ordered = sorted(final_state["completed_sections"], key=lambda x: x["section_index"])
 
     toc_lines = []

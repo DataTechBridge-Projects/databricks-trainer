@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "output/**"
+      - "docs/**"
       - "mkdocs.yml"
       - ".github/workflows/deploy-docs.yml"
 

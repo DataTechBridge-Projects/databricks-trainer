@@ -6,7 +6,7 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 NUM_PREDICT = 4096   # max tokens per worker response; increase for deeper content, decrease to speed up
 
 # Paths
-OUTPUT_DIR = Path("output")
+OUTPUT_DIR = Path("docs/course")
 
 # Course metadata
 COURSE_TOPIC = "AWS Databricks Data Engineer Certification"

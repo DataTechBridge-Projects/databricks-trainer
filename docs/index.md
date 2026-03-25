@@ -1,6 +1,6 @@
-# Databricks Trainer
+# Data Engineer Hub
 
-A multi-agent AI system that autonomously generates technical Udemy courses using LangGraph and local LLM inference via Ollama.
+A multi-agent AI system that autonomously generates technical engineering courses using LangGraph and local LLM inference via Ollama. Each course is a dedicated tab — add a new topic, get a new tab.
 
 ---
 
@@ -9,8 +9,8 @@ A multi-agent AI system that autonomously generates technical Udemy courses usin
 | | |
 |---|---|
 | [**Agent**](agent/index.md) | How the multi-agent pipeline works — architecture, setup, and configuration |
-| [**Databricks**](databricks/index.md) | AWS Databricks Data Engineer Certification course content |
+| [**Databricks**](databricks/index.md) | AWS Databricks Data Engineer Certification course |
 
 ---
 
-Use the tabs above to navigate between the two applications.
+Use the tabs above to navigate between the agent and the available courses.

@@ -1,6 +1,6 @@
-site_name: AWS Databricks Data Engineer Certification
-site_description: A comprehensive Udemy course guide for the Databricks Certified Data Engineer Associate exam on AWS
-site_author: Databricks Trainer
+site_name: Data Engineer Hub
+site_description: A multi-agent AI system that generates technical engineering courses — powered by LangGraph and local LLM inference
+site_author: Data Engineer Hub
 
 docs_dir: docs
 

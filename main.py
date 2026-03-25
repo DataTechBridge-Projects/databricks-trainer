@@ -18,8 +18,6 @@ def _write_index(final_state: OverallState) -> None:
         f"---\n\n"
         f"## Course Sections\n\n"
         + "\n".join(toc_lines)
-        + "\n\n---\n\n"
-        f"[Read the full combined course](complete_course.md)\n"
     )
 
     (OUTPUT_DIR / "index.md").write_text(index, encoding="utf-8")
@@ -28,15 +26,16 @@ def _write_index(final_state: OverallState) -> None:
 
 def save_outputs(final_state: OverallState) -> None:
     # Section files are already saved incrementally by each worker.
-    # Write the combined document and homepage index here.
+    # Save combined doc to output/ (not docs/) to keep it out of the MkDocs sidebar.
     OUTPUT_DIR.mkdir(exist_ok=True)
+    archive_dir = Path("output")
+    archive_dir.mkdir(exist_ok=True)
 
-    combined_path = OUTPUT_DIR / "complete_course.md"
+    combined_path = archive_dir / "complete_course.md"
     combined_path.write_text(final_state["final_document"], encoding="utf-8")
     print(f"  Saved: {combined_path}")
 
     _write_index(final_state)
-    print(f"  Saved: {OUTPUT_DIR / 'index.md'}")
 
 
 def main() -> None:

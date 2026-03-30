@@ -3,7 +3,7 @@ from pathlib import Path
 # Model — local Ollama
 MODEL_NAME = "nemotron-cascade-2"
 OLLAMA_BASE_URL = "http://localhost:11434"
-NUM_PREDICT = 4096   # max tokens per worker response; increase for deeper content, decrease to speed up
+NUM_PREDICT = -1   # max tokens per worker response; increase for deeper content, decrease to speed up
 
 # ── Active course ──────────────────────────────────────────────────────────────
 # Switch between courses by changing these three lines.
@@ -27,3 +27,12 @@ COURSE_AUDIENCE = (
     "cloud engineers and developers familiar with AWS core services who want to "
     "pass the AWS Certified Data Engineer Associate exam"
 )
+
+# ── Azure Data Engineer course (uncomment to switch) ──────────────────────────
+# PROMPT_MODULE   = "prompts.azure_data_engineer"
+# OUTPUT_DIR      = Path("docs/azure")
+# COURSE_TOPIC    = "Azure Data Engineer Associate (DP-203)"
+# COURSE_AUDIENCE = (
+#     "data engineers familiar with SQL and cloud fundamentals who want to "
+#     "pass the Microsoft Azure Data Engineer Associate DP-203 exam"
+# )

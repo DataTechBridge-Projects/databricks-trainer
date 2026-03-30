@@ -11,6 +11,7 @@ A multi-agent AI system that autonomously generates technical engineering course
 | [**Agent**](agent/index.md) | How the multi-agent pipeline works — architecture, setup, and configuration |
 | [**Databricks**](databricks/index.md) | AWS Databricks Data Engineer Certification course |
 | [**AWS**](aws/index.md) | AWS Certified Data Engineer Associate (DEA-C01) course |
+| [**Azure**](azure/index.md) | Azure Data Engineer Associate (DP-203) course |
 
 ---
 

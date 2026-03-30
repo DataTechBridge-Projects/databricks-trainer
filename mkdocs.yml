@@ -73,6 +73,10 @@ nav:
     - Home: aws/index.md
     # AWS_SECTIONS_START
     # AWS_SECTIONS_END
+  - Azure:
+    - Home: azure/index.md
+    # AZURE_SECTIONS_START
+    # AZURE_SECTIONS_END
 
 extra:
   social:

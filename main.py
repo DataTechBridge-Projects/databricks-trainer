@@ -10,6 +10,7 @@ MKDOCS_FILE = Path("mkdocs.yml")
 _NAV_MARKERS = {
     "docs/databricks": ("    # DATABRICKS_SECTIONS_START", "    # DATABRICKS_SECTIONS_END"),
     "docs/aws":        ("    # AWS_SECTIONS_START",        "    # AWS_SECTIONS_END"),
+    "docs/azure":      ("    # AZURE_SECTIONS_START",      "    # AZURE_SECTIONS_END"),
 }
 NAV_START, NAV_END = _NAV_MARKERS.get(OUTPUT_DIR.as_posix(), ("    # DATABRICKS_SECTIONS_START", "    # DATABRICKS_SECTIONS_END"))
 

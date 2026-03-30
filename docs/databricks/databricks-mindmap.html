@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Databricks Docs — Study Mind Map</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0d0f14;--bg2:#141720;--bg3:#1c2030;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e2e4ee;--text2:#8b90a4;--text3:#4e5368;
+}
+html,body{width:100%;height:100%;background:var(--bg);font-family:'IBM Plex Sans',sans-serif;color:var(--text);overflow:hidden;}
+svg{width:100%;height:100%;}
+.link{stroke:rgba(255,255,255,0.06);stroke-width:1;fill:none;}
+.link-section{stroke-width:1.5;}
+.link-mid{stroke-width:1;}
+.link-leaf{stroke-width:0.7;stroke-dasharray:3 3;}
+.node text{pointer-events:none;font-family:'IBM Plex Sans',sans-serif;}
+#panel{position:absolute;top:20px;right:20px;width:310px;background:var(--bg2);border:1px solid var(--border2);border-radius:12px;padding:18px;display:none;flex-direction:column;gap:10px;max-height:calc(100vh - 40px);overflow-y:auto;}
+#panel.vis{display:flex;}
+.pcl{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text3);font-size:17px;cursor:pointer;line-height:1;}
+.pcl:hover{color:var(--text);}
+.p-hint{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace;}
+.p-title{font-size:16px;font-weight:500;line-height:1.3;}
+.p-parent{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;}
+.p-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:500;padding:2px 9px;border-radius:20px;font-family:'IBM Plex Mono',monospace;width:fit-content;}
+.be{background:rgba(224,85,85,.14);color:#e07070;border:1px solid rgba(224,85,85,.28);}
+.bn{background:rgba(124,92,191,.14);color:#a585e0;border:1px solid rgba(124,92,191,.28);}
+.br{background:rgba(196,122,26,.14);color:#d4943a;border:1px solid rgba(196,122,26,.28);}
+.bs{background:rgba(46,125,82,.12);color:#5aab80;border:1px solid rgba(46,125,82,.24);}
+.p-desc{font-size:12px;line-height:1.65;color:var(--text2);padding:10px 12px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);}
+.p-div{height:1px;background:var(--border);}
+.p-btn{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:'IBM Plex Mono',monospace;padding:7px 12px;border-radius:7px;border:1px solid var(--border2);background:none;color:var(--text);cursor:pointer;text-decoration:none;transition:background .12s;}
+.p-btn:hover{background:var(--bg3);}
+.p-btn.pri{background:rgba(79,142,247,.11);border-color:rgba(79,142,247,.32);color:#7ab0ff;}
+.p-btn.pri:hover{background:rgba(79,142,247,.2);}
+.c-tl{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:5px;}
+.chips{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:10px;padding:2px 8px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:background .1s,color .1s;}
+.chip:hover{background:var(--border2);color:var(--text);}
+#legend{position:absolute;bottom:18px;left:18px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:10px 14px;display:flex;flex-direction:column;gap:5px;}
+.lg-t{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-bottom:2px;}
+.lg-r{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--text2);}
+.lg-d{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+#hdr{position:absolute;top:18px;left:18px;}
+#hdr h1{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;color:var(--text2);letter-spacing:.04em;}
+#hdr p{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:2px;}
+#hint{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:5px 13px;border-radius:20px;pointer-events:none;transition:opacity .4s;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+</style>
+</head>
+<body>
+<div id="hdr"><h1>Databricks Docs</h1><p>Associate Developer Exam — Study Mind Map</p></div>
+<div id="hint">drag nodes · scroll to zoom · click to explore</div>
+<div id="panel">
+  <button class="pcl" id="pcl">&#x2715;</button>
+  <div class="p-hint" id="ph"></div>
+  <div class="p-title" id="pt"></div>
+  <div class="p-parent" id="pp"></div>
+  <div class="p-badge" id="pb"></div>
+  <div class="p-desc" id="pd"></div>
+  <div class="p-div"></div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap;">
+    <a class="p-btn pri" id="pbtn" href="#" target="_blank">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      open docs
+    </a>
+  </div>
+  <div id="pch" style="display:none;">
+    <div class="p-div"></div>
+    <div class="c-tl">Subtopics</div>
+    <div class="chips" id="pchips"></div>
+  </div>
+</div>
+<div id="legend">
+  <div class="lg-t">Priority</div>
+  <div class="lg-r"><div class="lg-d" style="background:#e07070"></div>Exam critical</div>
+  <div class="lg-r"><div class="lg-d" style="background:#a585e0"></div>New study</div>
+  <div class="lg-r"><div class="lg-d" style="background:#d4943a"></div>Quick review</div>
+  <div class="lg-r"><div class="lg-d" style="background:#5aab80"></div>Skip</div>
+</div>
+<script>
+var B="https://docs.databricks.com/aws/en";
+var PL={exam:"Exam — critical",new:"New — study carefully",review:"Quick review",skip:"Skip / out of scope"};
+var PC={exam:"be",new:"bn",review:"br",skip:"bs"};
+
+var DATA={id:"root",label:"Databricks",type:"root",color:"#4f8ef7",section:"Root",desc:"Databricks Data Intelligence Platform — unified data, analytics, and AI on the Lakehouse.",
+children:[
+  {id:"intro",label:"What is\nDatabricks?",type:"top",color:"#4f8ef7",path:"/introduction/",priority:"exam",section:"Root",desc:"Databricks is a unified, open analytics platform. Covers the Lakehouse concept, data intelligence, and main product pillars (compute, storage, governance, ML).",
+   children:[
+     {id:"intro-lh",label:"What is a\nLakehouse?",type:"leaf",color:"#4f8ef7",path:"/lakehouse/",priority:"exam",section:"What is Databricks?",desc:"The Lakehouse combines data warehouses and data lakes: ACID transactions, schema enforcement, BI support, and open formats (Delta Lake) in one platform."},
+     {id:"intro-comp",label:"Databricks\nComponents",type:"leaf",color:"#4f8ef7",path:"/getting-started/concepts",priority:"exam",section:"What is Databricks?",desc:"Key components: workspaces, all-purpose vs job clusters, notebooks, Databricks Runtime, REPL environments (Python/Scala/SQL/R), DBFS, and identity concepts."},
+     {id:"intro-uc",label:"Unity Catalog\nOverview",type:"leaf",color:"#4f8ef7",path:"/data-governance/unity-catalog/",priority:"new",section:"What is Databricks?",desc:"Unity Catalog: three-level namespace (catalog.schema.table), unified access control, data lineage, discovery, and auditing across all workspaces."}
+   ]},
+  {id:"gs",label:"Get\nStarted",type:"section",color:"#1db87a",
+   children:[
+     {id:"signup",label:"Sign Up",type:"leaf",color:"#1db87a",path:"/getting-started/free-trial-vs-free-edition",priority:"skip",section:"Get started",desc:"Free trial vs. free edition comparison. Choose your cloud provider (AWS, Azure, GCP) and provision your first workspace. Not exam-relevant."},
+     {id:"tutorials",label:"Tutorials",type:"mid",color:"#1db87a",path:"/getting-started/",priority:"review",section:"Get started",desc:"Guided tutorials for first data pipeline, SQL query, ML model, and notebook workflows on Databricks.",
+      children:[
+        {id:"tut-df",label:"DataFrame\nTutorial",type:"leaf",color:"#1db87a",path:"/getting-started/dataframes",priority:"exam",section:"Tutorials",desc:"Load and transform data using Apache Spark DataFrames. Covers read, write, schema inference, display() vs show(), and common DataFrame operations."},
+        {id:"tut-delta",label:"Delta Lake\nTutorial",type:"leaf",color:"#1db87a",path:"/getting-started/delta",priority:"exam",section:"Tutorials",desc:"Create and manage Delta Lake tables: CREATE TABLE, INSERT, UPDATE, DELETE, MERGE INTO, time travel, DESCRIBE HISTORY."},
+        {id:"tut-etl",label:"ETL / CDC\nTutorial",type:"leaf",color:"#1db87a",path:"/getting-started/etl-simple",priority:"review",section:"Tutorials",desc:"Build an ETL pipeline using change data capture (CDC). Covers Auto Loader, MERGE INTO patterns, and Bronze/Silver medallion architecture."}
+      ]},
+     {id:"wsui",label:"Workspace\nUI",type:"mid",color:"#1db87a",path:"/workspace/",priority:"review",section:"Get started",desc:"Workspace UI guide: sidebar navigation, Catalog Explorer, search, settings, and personal preferences.",
+      children:[
+        {id:"wsui-nav",label:"Navigate\nWorkspace",type:"leaf",color:"#1db87a",path:"/workspace/workspace-nav",priority:"review",section:"Workspace UI",desc:"Navigate the Databricks sidebar: Catalog, Workflows, Compute, Data, Settings, and Search. Understand workspace vs account-level navigation."},
+        {id:"wsui-files",label:"Work with\nFiles",type:"leaf",color:"#1db87a",path:"/files/",priority:"review",section:"Workspace UI",desc:"Work with files in Databricks: DBFS, Volumes, workspace files, and Unity Catalog storage locations. Upload, download, and manage files."}
+      ]},
+     {id:"data-guides",label:"Data\nGuides",type:"leaf",color:"#1db87a",path:"/guides/",priority:"review",section:"Get started",desc:"Practical data guides: format comparisons, ingestion patterns, query optimization, and serving data from the Lakehouse."}
+   ]},
+  {id:"dm",label:"Data\nManagement",type:"section",color:"#7c5cbf",
+   children:[
+     {id:"de",label:"Data\nEngineering",type:"mid",color:"#7c5cbf",path:"/data-engineering/",priority:"exam",section:"Data Management",desc:"Core data engineering on Databricks: pipelines, streaming, batch, CDC, schema evolution, and orchestration via Lakeflow.",
+      children:[
+        {id:"de-concepts",label:"Concepts",type:"mid",color:"#7c5cbf",path:"/data-engineering/concepts",priority:"exam",section:"Data Engineering",desc:"Foundational concepts: procedural vs declarative processing, schema evolution, CDC, streaming vs batch, tables and views. Key exam area.",
+         children:[
+           {id:"de-proc",label:"Procedural vs\nDeclarative",type:"leaf",color:"#7c5cbf",path:"/data-engineering/procedural-vs-declarative",priority:"exam",section:"Concepts",desc:"Procedural = step-by-step imperative code (PySpark/Scala). Declarative = describe the result (SQL, DLT). Key exam concept for pipeline design decisions."},
+           {id:"de-schema",label:"Schema\nEvolution",type:"leaf",color:"#7c5cbf",path:"/data-engineering/schema-evolution",priority:"exam",section:"Concepts",desc:"Schema evolution across Auto Loader, Delta tables, and Structured Streaming. Options: mergeSchema, overwriteSchema, column mapping, type widening."},
+           {id:"de-cdc",label:"Change Data\nCapture",type:"leaf",color:"#7c5cbf",path:"/data-engineering/what-is-change-data-capture",priority:"exam",section:"Concepts",desc:"CDC fundamentals: change feeds vs snapshots, SCD Type 1 (overwrite current state) vs SCD Type 2 (full history with __START_AT/__END_AT columns)."},
+           {id:"de-tblviews",label:"Tables &\nViews",type:"leaf",color:"#7c5cbf",path:"/data-engineering/tables-views",priority:"exam",section:"Concepts",desc:"Tables vs views vs materialized views vs streaming tables. Managed vs external tables. Batch semantics (materialized views) vs streaming (streaming tables)."},
+           {id:"de-batchstream",label:"Batch vs\nStreaming",type:"leaf",color:"#7c5cbf",path:"/structured-streaming/concepts",priority:"exam",section:"Concepts",desc:"When to use batch vs streaming. Latency, cost, and complexity tradeoffs. Structured Streaming integrates with Delta Lake for unified processing."}
+         ]},
+        {id:"de-lfc",label:"Lakeflow\nConnect",type:"mid",color:"#7c5cbf",path:"/ingestion/overview",priority:"review",section:"Data Engineering",desc:"Managed connectors for ingesting from SaaS apps, databases, message buses (Kafka), and cloud storage into Databricks.",
+         children:[
+           {id:"de-autoloader",label:"Auto Loader\ncloudFiles",type:"leaf",color:"#7c5cbf",path:"/ingestion/cloud-object-storage/auto-loader/",priority:"exam",section:"Lakeflow Connect",desc:"Auto Loader (cloudFiles format) incrementally ingests new files from cloud object storage. Supports schema inference, evolution, rescue data column, and directory listing."},
+           {id:"de-kafka",label:"Kafka\nIntegration",type:"leaf",color:"#7c5cbf",path:"/structured-streaming/kafka",priority:"review",section:"Lakeflow Connect",desc:"Read from and write to Apache Kafka topics using Structured Streaming. Subscribe to topics, set starting offsets, and handle backpressure."}
+         ]},
+        {id:"de-ldp",label:"Declarative\nPipelines",type:"mid",color:"#7c5cbf",path:"/ldp/",priority:"review",section:"Data Engineering",desc:"Lakeflow Spark Declarative Pipelines (DLT): declarative ETL framework with automatic error handling, autoscaling, and built-in lineage tracking.",
+         children:[
+           {id:"de-ldp-cdc",label:"CDC in\nPipelines",type:"leaf",color:"#7c5cbf",path:"/ldp/what-is-change-data-capture",priority:"review",section:"Declarative Pipelines",desc:"Apply CDC in Lakeflow pipelines: APPLY CHANGES INTO simplifies SCD1 and SCD2 without writing custom MERGE logic or staging tables."},
+           {id:"de-ldp-compute",label:"Pipeline\nCompute",type:"leaf",color:"#7c5cbf",path:"/ldp/configure-compute",priority:"review",section:"Declarative Pipelines",desc:"Configure classic vs serverless compute for pipelines. Update cluster vs maintenance cluster. Labels: default, updates, maintenance."}
+         ]},
+        {id:"de-jobs",label:"Lakeflow\nJobs",type:"mid",color:"#7c5cbf",path:"/jobs/",priority:"exam",section:"Data Engineering",desc:"Databricks Jobs for orchestrating multi-task workflows: task dependencies, scheduling, retries, repair runs, and alerting.",
+         children:[
+           {id:"de-jobs-create",label:"Create &\nSchedule",type:"leaf",color:"#7c5cbf",path:"/jobs/create-run-jobs",priority:"exam",section:"Lakeflow Jobs",desc:"Create jobs with notebook, Python script, JAR, SQL, or DLT pipeline tasks. Set CRON schedules, trigger conditions, and task dependency DAGs."},
+           {id:"de-jobs-repair",label:"Repair &\nRetry",type:"leaf",color:"#7c5cbf",path:"/jobs/repair-job-failures",priority:"review",section:"Lakeflow Jobs",desc:"Repair failed job runs by re-running only failed and downstream tasks. Configure max retries and retry interval per task."},
+           {id:"de-jobs-params",label:"Job\nParameters",type:"leaf",color:"#7c5cbf",path:"/jobs/settings",priority:"review",section:"Lakeflow Jobs",desc:"Pass parameters to job tasks using task values, job parameters, widgets, and dynamic value references between tasks."}
+         ]},
+        {id:"de-bp",label:"Best\nPractices",type:"mid",color:"#7c5cbf",path:"/data-engineering/best-practices",priority:"exam",section:"Data Engineering",desc:"Data engineering best practices: table optimization, pipeline design patterns, cost control, and performance tuning on Databricks.",
+         children:[
+           {id:"de-bp-prod",label:"Production\nStreaming",type:"leaf",color:"#7c5cbf",path:"/structured-streaming/production",priority:"exam",section:"Best Practices",desc:"Production streaming rules: use job clusters (not all-purpose), continuous trigger mode, avoid display() in production, use checkpoint locations, scheduler pools."},
+           {id:"de-bp-optim",label:"Table\nOptimization",type:"leaf",color:"#7c5cbf",path:"/delta/optimization/",priority:"exam",section:"Best Practices",desc:"OPTIMIZE for file compaction, Z-ORDER BY for multi-dimensional clustering, VACUUM to remove old files, Bloom filters, and data skipping with statistics."}
+         ]}
+      ]},
+     {id:"dw",label:"Data\nWarehousing",type:"mid",color:"#7c5cbf",path:"/sql/",priority:"review",section:"Data Management",desc:"SQL warehouses, serverless compute, and Spark SQL patterns. Context for Spark SQL exam questions.",
+      children:[
+        {id:"dw-sql",label:"Spark SQL\nLanguage",type:"leaf",color:"#7c5cbf",path:"/sql/language-manual/",priority:"exam",section:"Data Warehousing",desc:"Full Spark SQL manual: DDL, DML, SELECT, JOINs, window functions (OVER PARTITION BY ORDER BY), CTEs, LATERAL VIEW EXPLODE, QUALIFY, MERGE INTO."},
+        {id:"dw-warehouse",label:"SQL\nWarehouses",type:"leaf",color:"#7c5cbf",path:"/sql/admin/sql-warehouses",priority:"review",section:"Data Warehousing",desc:"SQL warehouses vs all-purpose clusters. Serverless vs classic. Scaling options, auto-stop, and spot instance support."}
+      ]},
+     {id:"tables",label:"Tables",type:"mid",color:"#7c5cbf",path:"/tables/",priority:"review",section:"Data Management",desc:"Managed vs external tables, Delta Lake format, partitioning strategies, Hive metastore vs Unity Catalog.",
+      children:[
+        {id:"tables-managed",label:"Managed vs\nExternal",type:"leaf",color:"#7c5cbf",path:"/tables/tables",priority:"exam",section:"Tables",desc:"Managed tables: Databricks controls data lifecycle, always Delta format, stored in UC managed storage. External: you own the files, supports multiple formats."},
+        {id:"tables-part",label:"Partitioning\nStrategy",type:"leaf",color:"#7c5cbf",path:"/tables/partitions",priority:"exam",section:"Tables",desc:"Partition by low-cardinality columns (date, region). Avoid over-partitioning (small files). Delta data skipping often makes explicit partitions unnecessary."},
+        {id:"tables-delta",label:"Delta Lake\nInternals",type:"leaf",color:"#7c5cbf",path:"/delta/",priority:"exam",section:"Tables",desc:"Delta Lake: ACID transactions via transaction log (_delta_log), scalable metadata, time travel (VERSION AS OF), schema enforcement, and unified batch/streaming."}
+      ]},
+     {id:"sharing",label:"Data\nSharing",type:"leaf",color:"#7c5cbf",path:"/data-sharing/",priority:"skip",section:"Data Management",desc:"Delta Sharing: open protocol for sharing live data across organizations and cloud platforms without copying data. Not exam-relevant."},
+     {id:"oltp",label:"OLTP\nLakebase",type:"leaf",color:"#7c5cbf",path:"/oltp/",priority:"skip",section:"Data Management",desc:"Lakebase: managed PostgreSQL-compatible OLTP database integrated with the Databricks platform. Not exam-relevant for Associate developer."}
+   ]},
+  {id:"ai",label:"AI &\nAnalytics",type:"section",color:"#e0633a",
+   children:[
+     {id:"genie",label:"Genie\nCode",type:"leaf",color:"#e0633a",path:"/genie-code/",priority:"skip",section:"AI & Analytics",desc:"AI-powered code generation assistant inside Databricks. Generates, explains, and debugs code in notebooks. Not covered in Associate exam."},
+     {id:"ml",label:"AI & Machine\nLearning",type:"mid",color:"#e0633a",path:"/machine-learning/",priority:"skip",section:"AI & Analytics",desc:"MLflow tracking, Feature Store, model serving, AutoML, and generative AI. Out of scope for the Associate developer exam.",
+      children:[
+        {id:"ml-mlflow",label:"MLflow\nTracking",type:"leaf",color:"#e0633a",path:"/mlflow/",priority:"skip",section:"AI & ML",desc:"MLflow experiment tracking, model registry, deployment, and artifact storage. Out of scope for Associate exam."},
+        {id:"ml-automl",label:"AutoML",type:"leaf",color:"#e0633a",path:"/machine-learning/automl",priority:"skip",section:"AI & ML",desc:"Automated ML for classification, regression, and forecasting. Generates notebooks with complete ML workflow. Not exam-relevant."}
+      ]},
+     {id:"bi",label:"Business\nIntelligence",type:"leaf",color:"#e0633a",path:"/ai-bi/",priority:"skip",section:"AI & Analytics",desc:"Databricks dashboards, Lakeview reporting, and BI analytics. Out of scope for the Associate developer exam."}
+   ]},
+  {id:"plat",label:"Platform",type:"section",color:"#4f8ef7",
+   children:[
+     {id:"arch",label:"Architecture",type:"mid",color:"#4f8ef7",path:"/getting-started/architecture",priority:"exam",section:"Platform",desc:"Databricks platform architecture: control plane vs data plane, DBFS, cloud storage integration, and networking.",
+      children:[
+        {id:"arch-planes",label:"Control vs\nData Plane",type:"leaf",color:"#4f8ef7",path:"/getting-started/architecture",priority:"exam",section:"Architecture",desc:"Control plane (Databricks-managed): web app, jobs service, cluster manager, Unity Catalog. Data plane (your cloud): Spark compute, cloud storage, network traffic."},
+        {id:"arch-dbfs",label:"DBFS &\nVolumes",type:"leaf",color:"#4f8ef7",path:"/dbfs/",priority:"review",section:"Architecture",desc:"DBFS: abstraction over cloud storage (deprecated pattern). Unity Catalog Volumes are now preferred for file storage with governance and access control."},
+        {id:"arch-net",label:"Networking",type:"leaf",color:"#4f8ef7",path:"/security/network/",priority:"skip",section:"Architecture",desc:"VPC peering, private link, IP access lists. Admin/security topic — not exam-relevant for developers."}
+      ]},
+     {id:"compute",label:"Compute",type:"mid",color:"#4f8ef7",path:"/compute/",priority:"exam",section:"Platform",desc:"Cluster configuration, types, Databricks Runtime, auto-scaling, serverless compute, and instance pools.",
+      children:[
+        {id:"comp-create",label:"Create &\nConfigure",type:"leaf",color:"#4f8ef7",path:"/compute/configure",priority:"exam",section:"Compute",desc:"Cluster settings: DBR version, node type, worker count, auto-scaling (min/max), auto-termination, Spark config, init scripts, access mode (standard/dedicated)."},
+        {id:"comp-types",label:"Cluster\nTypes",type:"leaf",color:"#4f8ef7",path:"/compute/cluster-types",priority:"exam",section:"Compute",desc:"All-purpose (interactive, shared, manually created/terminated) vs job clusters (automated, created per run, terminated on completion). Single-node for ML experiments."},
+        {id:"comp-manage",label:"Manage\nClusters",type:"leaf",color:"#4f8ef7",path:"/compute/clusters-manage",priority:"review",section:"Compute",desc:"Start, terminate, pin, clone, and view cluster details. Access event log, driver logs, Spark UI, and Ganglia metrics. 30-day retention for terminated clusters."},
+        {id:"comp-dbr",label:"Databricks\nRuntime",type:"leaf",color:"#4f8ef7",path:"/release-notes/runtime/",priority:"exam",section:"Compute",desc:"DBR = Spark + Delta + libraries. Standard DBR, DBR ML, DBR Genomics. LTS releases (2+ year support). Photon runtime for vectorized SQL/DataFrame execution."},
+        {id:"comp-serverless",label:"Serverless\nCompute",type:"leaf",color:"#4f8ef7",path:"/compute/serverless",priority:"review",section:"Compute",desc:"Serverless compute for notebooks, jobs, and pipelines. No cluster config needed — instantly available, auto-scales, fully managed by Databricks."},
+        {id:"comp-pools",label:"Instance\nPools",type:"leaf",color:"#4f8ef7",path:"/compute/pool-best-practices",priority:"review",section:"Compute",desc:"Pre-warmed instance pools reduce cluster startup time. Attach pools to clusters to avoid cold starts on job pipelines."},
+        {id:"comp-policy",label:"Cluster\nPolicies",type:"leaf",color:"#4f8ef7",path:"/admin/clusters/policies",priority:"review",section:"Compute",desc:"Cluster policies limit configuration options for users. Fixed policies enforce values; limiting policies restrict choices. Personal Compute policy available by default."},
+        {id:"comp-photon",label:"Photon\nEngine",type:"leaf",color:"#4f8ef7",path:"/compute/photon",priority:"review",section:"Compute",desc:"Photon: native vectorized execution engine. Accelerates SQL and DataFrame ops — especially joins, aggregations, and large scans. Most effective for SQL workloads."},
+        {id:"comp-bp",label:"Compute\nBest Practices",type:"leaf",color:"#4f8ef7",path:"/compute/cluster-config-best-practices",priority:"exam",section:"Compute",desc:"Prefer serverless. Standard vs dedicated access mode. Storage-optimized nodes for ML. Set auto-termination. Use Photon for SQL-heavy workloads. AQE for dynamic optimization."}
+      ]},
+     {id:"notebooks",label:"Notebooks",type:"mid",color:"#4f8ef7",path:"/notebooks/",priority:"exam",section:"Platform",desc:"Notebook features: magic commands, dbutils, multi-language cells, version history, Git integration, and collaboration.",
+      children:[
+        {id:"nb-code",label:"Develop\nCode",type:"leaf",color:"#4f8ef7",path:"/notebooks/notebooks-code",priority:"exam",section:"Notebooks",desc:"Magic commands: %python, %scala, %sql, %r, %sh, %fs, %md, %run, %pip. Cell-level language override. _sqldf implicit DataFrame from SQL cells."},
+        {id:"nb-dbutils",label:"dbutils\nReference",type:"leaf",color:"#4f8ef7",path:"/dev-tools/databricks-utils",priority:"exam",section:"Notebooks",desc:"dbutils.fs (ls, cp, mv, rm, mkdirs), dbutils.secrets (get, list), dbutils.widgets (text, dropdown, multiselect), dbutils.notebook (run, exit), dbutils.data (summarize)."},
+        {id:"nb-workflows",label:"Notebook\nWorkflows",type:"leaf",color:"#4f8ef7",path:"/notebooks/notebook-workflows",priority:"exam",section:"Notebooks",desc:"Chain notebooks: dbutils.notebook.run(path, timeout, args) returns a string. Pass data via temp views or DBFS paths. dbutils.notebook.exit() for return values."},
+        {id:"nb-widgets",label:"Widgets &\nParameters",type:"leaf",color:"#4f8ef7",path:"/notebooks/widgets",priority:"review",section:"Notebooks",desc:"Notebook widgets (text, dropdown, combobox, multiselect) for parameterization. Integrate with Jobs task parameters and dbutils.widgets.get()."},
+        {id:"nb-git",label:"Git\nFolders",type:"leaf",color:"#4f8ef7",path:"/repos/",priority:"review",section:"Notebooks",desc:"Databricks Git Folders: link GitHub/GitLab/Bitbucket repos, commit, push, pull, create branches, and track changes directly from the workspace."},
+        {id:"nb-debug",label:"Visualize &\nDebug",type:"leaf",color:"#4f8ef7",path:"/notebooks/visualizations/",priority:"review",section:"Notebooks",desc:"Built-in Python debugger, display() for rich DataFrame visualization (tables, charts), displayHTML() for custom HTML, and notebook-native chart editor."}
+      ]},
+     {id:"spark",label:"Apache\nSpark",type:"mid",color:"#4f8ef7",path:"/spark/",priority:"exam",section:"Platform",desc:"Core Spark on Databricks: DataFrames, Spark SQL, Structured Streaming, Spark Connect, language APIs, and performance configuration.",
+      children:[
+        {id:"sp-overview",label:"Spark on\nDatabricks",type:"leaf",color:"#4f8ef7",path:"/spark/faq",priority:"exam",section:"Apache Spark",desc:"Databricks extends Spark with Photon, Delta, and DBR. All operations are transformations (lazy, build the plan) or actions (eager, trigger execution)."},
+        {id:"sp-df",label:"DataFrames\nAPI",type:"leaf",color:"#4f8ef7",path:"/getting-started/dataframes",priority:"exam",section:"Apache Spark",desc:"DataFrame API: select, filter/where, join (inner/left/right/full/semi/anti), groupBy+agg, withColumn, union, unionByName, pivot, distinct, dropDuplicates, sort."},
+        {id:"sp-sql",label:"Spark\nSQL",type:"leaf",color:"#4f8ef7",path:"/sql/language-manual/",priority:"exam",section:"Apache Spark",desc:"Spark SQL: createOrReplaceTempView, createGlobalTempView, spark.sql(), CTEs, window functions, LATERAL VIEW EXPLODE, QUALIFY, MERGE INTO, subqueries."},
+        {id:"sp-stream",label:"Structured\nStreaming",type:"mid",color:"#4f8ef7",path:"/structured-streaming/",priority:"exam",section:"Apache Spark",desc:"Structured Streaming: readStream+writeStream, trigger modes (once, availableNow, processingTime), output modes (append/complete/update), checkpoints, watermarks.",
+         children:[
+           {id:"sp-str-tut",label:"First Streaming\nWorkload",type:"leaf",color:"#4f8ef7",path:"/structured-streaming/tutorial",priority:"exam",section:"Structured Streaming",desc:"Tutorial: Auto Loader (cloudFiles) read, transform with select/col/current_timestamp, write to Delta with checkpointLocation and trigger options."},
+           {id:"sp-str-prod",label:"Production\nConsiderations",type:"leaf",color:"#4f8ef7",path:"/structured-streaming/production",priority:"exam",section:"Structured Streaming",desc:"Production rules: job clusters only, continuous mode, avoid display(), set checkpoints, use scheduler pools for multiple concurrent streaming queries."},
+           {id:"sp-str-patterns",label:"Streaming\nPatterns",type:"leaf",color:"#4f8ef7",path:"/structured-streaming/examples",priority:"review",section:"Structured Streaming",desc:"Common streaming patterns: Kafka to Delta, foreachBatch for custom batch sinks, stream-stream joins, stateful aggregations with watermarks, DynamoDB writer."}
+         ]},
+        {id:"sp-connect",label:"Spark Connect\nvs Classic",type:"leaf",color:"#4f8ef7",path:"/spark/connect-vs-classic",priority:"review",section:"Apache Spark",desc:"Spark Connect: gRPC-based, defers analysis to execution time. Classic: eager schema resolution. Key difference: df.columns triggers server roundtrip in Connect."},
+        {id:"sp-conf",label:"Spark\nConfiguration",type:"leaf",color:"#4f8ef7",path:"/spark/conf",priority:"exam",section:"Apache Spark",desc:"Key Spark configs: spark.sql.shuffle.partitions (default 200), spark.sql.autoBroadcastJoinThreshold, AQE settings. Set via spark.conf.set() or cluster UI."},
+        {id:"sp-pyspark",label:"PySpark &\nPython",type:"leaf",color:"#4f8ef7",path:"/languages/python",priority:"exam",section:"Apache Spark",desc:"PySpark for distributed processing. Pandas API on Spark for pandas-compatible syntax. %pip install for package management. Single-node vs distributed workloads."},
+        {id:"sp-scala",label:"Scala on\nDatabricks",type:"leaf",color:"#4f8ef7",path:"/languages/scala",priority:"review",section:"Apache Spark",desc:"Databricks for Scala developers: Spark DataFrames, Dataset API, Scala REPL, SBT libraries, and Spark Submit tasks."}
+      ]},
+     {id:"apps",label:"Apps",type:"leaf",color:"#4f8ef7",path:"/dev-tools/databricks-apps/",priority:"skip",section:"Platform",desc:"Databricks Apps for deploying web applications inside the platform. Not exam-relevant for the Associate developer exam."}
+   ]},
+  {id:"integ",label:"Integrations",type:"section",color:"#7a8090",
+   children:[
+     {id:"devs",label:"Developers",type:"mid",color:"#7a8090",path:"/developers/",priority:"review",section:"Integrations",desc:"APIs, SDKs, CLI, and developer tooling for interacting with Databricks programmatically.",
+      children:[
+        {id:"devs-cli",label:"Databricks\nCLI",type:"leaf",color:"#7a8090",path:"/dev-tools/cli/",priority:"review",section:"Developers",desc:"Databricks CLI (v0.200+): authenticate, manage clusters, jobs, DBFS, secrets, and deploy bundles from the terminal. Uses OAuth or PAT authentication."},
+        {id:"devs-sdk",label:"Python\nSDK",type:"leaf",color:"#7a8090",path:"/dev-tools/sdk-python",priority:"review",section:"Developers",desc:"Databricks SDK for Python: typed Python interfaces to all REST API resources. Replaces raw API calls with Python clients and auth management."},
+        {id:"devs-connect",label:"Databricks\nConnect",type:"leaf",color:"#7a8090",path:"/dev-tools/databricks-connect/cluster-config",priority:"review",section:"Developers",desc:"Databricks Connect: run Spark code from local IDEs (VS Code, PyCharm) on remote Databricks clusters via gRPC. Requires DBR 13.3+. Supports serverless."},
+        {id:"devs-bundles",label:"Asset\nBundles",type:"leaf",color:"#7a8090",path:"/dev-tools/bundles/",priority:"review",section:"Developers",desc:"Databricks Asset Bundles (DABs): define jobs, pipelines, clusters, and permissions as YAML config files. Deploy with CLI for CI/CD and GitOps workflows."},
+        {id:"devs-api",label:"REST\nAPI",type:"leaf",color:"#7a8090",path:"/reference/api",priority:"review",section:"Developers",desc:"Databricks REST API for Clusters, Jobs, DBFS, Secrets, Permissions, Unity Catalog, MLflow, and more. Foundation for all SDK and CLI tooling."}
+      ]},
+     {id:"partners",label:"Tech\nPartners",type:"leaf",color:"#7a8090",path:"/integrations/",priority:"skip",section:"Integrations",desc:"Third-party integrations: dbt, Fivetran, Tableau, Power BI, Terraform, and more. Not exam-relevant."}
+   ]},
+  {id:"gov",label:"Governance",type:"section",color:"#d94f4f",
+   children:[
+     {id:"unity",label:"Unity\nCatalog",type:"mid",color:"#d94f4f",path:"/data-governance/unity-catalog/",priority:"new",section:"Governance",desc:"Unity Catalog: unified governance for data and AI. Three-level namespace, fine-grained access control, automated lineage, and auditing across workspaces.",
+      children:[
+        {id:"uc-ns",label:"3-Level\nNamespace",type:"leaf",color:"#d94f4f",path:"/data-governance/unity-catalog/",priority:"new",section:"Unity Catalog",desc:"catalog.schema.table three-level namespace. One metastore per cloud region. Catalogs are the isolation boundary — use dev/test/prod or domain-based catalogs."},
+        {id:"uc-access",label:"Access\nControl",type:"mid",color:"#d94f4f",path:"/data-governance/unity-catalog/access-control",priority:"new",section:"Unity Catalog",desc:"UC access control: privilege model (GRANT/REVOKE), workspace binding, ABAC tag-based policies, row filters, and column masks via UDFs.",
+         children:[
+           {id:"uc-privs",label:"Privileges &\nSecurables",type:"leaf",color:"#d94f4f",path:"/data-governance/unity-catalog/manage-privileges/privileges",priority:"new",section:"Access Control",desc:"Securable objects: CATALOG, SCHEMA, TABLE, VIEW, VOLUME, FUNCTION. Privileges: SELECT, MODIFY, CREATE TABLE, USE CATALOG, USE SCHEMA, BROWSE, APPLY TAG."},
+           {id:"uc-abac",label:"ABAC\nPolicies",type:"leaf",color:"#d94f4f",path:"/data-governance/unity-catalog/abac/",priority:"new",section:"Access Control",desc:"Attribute-Based Access Control: define governed tags, attach policies at catalog/schema/table level. Row filter and column mask UDFs for dynamic data governance."}
+         ]},
+        {id:"uc-lineage",label:"Data\nLineage",type:"leaf",color:"#d94f4f",path:"/data-governance/unity-catalog/data-lineage",priority:"new",section:"Unity Catalog",desc:"UC captures runtime lineage to column level across SQL, Python, notebooks, and jobs. View lineage graph in Catalog Explorer. Aggregated across all workspaces in metastore."},
+        {id:"uc-bp",label:"Best\nPractices",type:"leaf",color:"#d94f4f",path:"/data-governance/unity-catalog/best-practices",priority:"new",section:"Unity Catalog",desc:"Use managed tables over external. Grant BROWSE on catalogs for discoverability. Environment-based catalogs. Reserve direct MODIFY on production tables for service principals."}
+      ]},
+     {id:"admin",label:"Administration",type:"leaf",color:"#d94f4f",path:"/admin/",priority:"skip",section:"Governance",desc:"Workspace admin: user management, workspace policies, IP access lists, and account-level admin settings. Not exam-relevant for developers."},
+     {id:"security",label:"Security &\nCompliance",type:"leaf",color:"#d94f4f",path:"/security/",priority:"skip",section:"Governance",desc:"Data encryption, audit logs, private link, network security, and compliance certifications. Not exam-relevant for the Associate developer exam."}
+   ]},
+  {id:"ref",label:"Reference",type:"section",color:"#7a8090",
+   children:[
+     {id:"ref-api",label:"API\nReference",type:"mid",color:"#7a8090",path:"/reference/api",priority:"review",section:"Reference",desc:"Complete API and function reference: REST API, Spark SQL functions, PySpark API docs. Essential for exam syntax verification.",
+      children:[
+        {id:"ref-sqlfn",label:"SQL\nFunctions",type:"leaf",color:"#7a8090",path:"/sql/language-manual/sql-ref-functions-builtin",priority:"exam",section:"API Reference",desc:"Built-in Spark SQL function reference: string, date/time, array, map, struct, window (rank, dense_rank, row_number, lag, lead), aggregate, and higher-order functions."},
+        {id:"ref-pyspark",label:"PySpark\nFunctions",type:"leaf",color:"#7a8090",path:"/reference/python",priority:"exam",section:"API Reference",desc:"pyspark.sql.functions reference: all built-in column functions, pyspark.sql.types for schema definitions, pyspark.sql.Window for window specs."},
+        {id:"ref-delta",label:"Delta\nSQL Reference",type:"leaf",color:"#7a8090",path:"/delta/delta-batch",priority:"exam",section:"API Reference",desc:"Delta Lake SQL reference: DESCRIBE HISTORY, DESCRIBE DETAIL, RESTORE TABLE, OPTIMIZE, VACUUM, Z-ORDER BY, and CLONE commands."}
+      ]},
+     {id:"ref-rn",label:"Release\nNotes",type:"mid",color:"#7a8090",path:"/release-notes/",priority:"review",section:"Reference",desc:"Databricks Runtime release notes and compatibility matrix. Track Spark/Python versions and feature availability per DBR version.",
+      children:[
+        {id:"ref-rn-dbr",label:"DBR\nVersions",type:"leaf",color:"#7a8090",path:"/release-notes/runtime/",priority:"review",section:"Release Notes",desc:"DBR version matrix: Spark/Python/Scala versions per release, LTS support windows (2+ years), new features, and breaking changes across runtime versions."}
+      ]},
+     {id:"ref-res",label:"Resources &\nCertification",type:"leaf",color:"#7a8090",path:"/resources/",priority:"review",section:"Reference",desc:"Databricks whitepapers, certification exam guide, Databricks Academy free training, community forums, and migration guides."}
+   ]}
+]};
+
+function flatAll(n,par,list){
+  list=list||[];
+  var copy=Object.assign({},n);
+  copy.parentLabel=par?par.label.replace(/\n/,' '):null;
+  copy.parentId=par?par.id:null;
+  list.push(copy);
+  if(n.children)n.children.forEach(function(c){flatAll(c,n,list);});
+  return list;
+}
+function buildLinks(n,links){
+  links=links||[];
+  if(n.children)n.children.forEach(function(c){
+    links.push({source:n.id,target:c.id,srcType:n.type});
+    buildLinks(c,links);
+  });
+  return links;
+}
+
+var nodes=flatAll(DATA,null);
+var links=buildLinks(DATA);
+var nmap={};
+nodes.forEach(function(n){nmap[n.id]=n;});
+
+var SZ={root:26,section:18,mid:12,top:12,leaf:8};
+
+var w=window.innerWidth,h=window.innerHeight;
+var svg=d3.select("body").append("svg").attr("width",w).attr("height",h);
+var g=svg.append("g");
+
+var zoom=d3.zoom().scaleExtent([0.15,4]).on("zoom",function(e){g.attr("transform",e.transform);});
+svg.call(zoom);
+
+var linkSel=g.append("g").selectAll("line").data(links).enter().append("line")
+  .attr("class",function(d){
+    var s=nmap[typeof d.source==="object"?d.source.id:d.source];
+    var t=nmap[typeof d.target==="object"?d.target.id:d.target];
+    if(!s)return "link";
+    if(s.type==="root")return "link link-section";
+    if(t&&t.type==="leaf")return "link link-leaf";
+    return "link link-mid";
+  })
+  .style("stroke",function(d){
+    var s=nmap[typeof d.source==="object"?d.source.id:d.source];
+    return s?s.color+"22":"rgba(255,255,255,0.05)";
+  });
+
+var nodeSel=g.append("g").selectAll("g").data(nodes).enter().append("g")
+  .style("cursor","pointer")
+  .call(d3.drag()
+    .on("start",function(e,d){if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y;})
+    .on("drag",function(e,d){d.fx=e.x;d.fy=e.y;})
+    .on("end",function(e,d){if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null;}))
+  .on("click",function(e,d){e.stopPropagation();showPanel(d);});
+
+nodeSel.append("circle")
+  .attr("r",function(d){return SZ[d.type]||8;})
+  .style("fill",function(d){return d.color+(d.type==="root"?"2a":"15");})
+  .style("stroke",function(d){return d.color;})
+  .style("stroke-width",function(d){return d.type==="root"?2.5:d.type==="section"?1.8:1.2;})
+  .style("opacity",function(d){return d.type==="leaf"?0.78:0.95;});
+
+nodeSel.append("text")
+  .attr("text-anchor","middle")
+  .style("fill",function(d){
+    if(d.type==="root")return "#e2e4ee";
+    if(d.type==="section")return "#c8ccdc";
+    if(d.type==="mid"||d.type==="top")return "#9098b4";
+    return "#6a7090";
+  })
+  .style("font-size",function(d){return d.type==="root"?"11px":d.type==="section"?"9.5px":"8.5px";})
+  .style("font-weight",function(d){return (d.type==="root"||d.type==="section")?"500":"400";})
+  .style("pointer-events","none")
+  .each(function(d){
+    var r=SZ[d.type]||8;
+    var lines=d.label.split("\n");
+    var el=d3.select(this);
+    if(lines.length===1){
+      el.attr("dy",r+12).text(d.label);
+    }else{
+      el.attr("dy",r+10);
+      lines.forEach(function(ln,i){
+        el.append("tspan").attr("x",0).attr("dy",i===0?0:"1.1em").text(ln);
+      });
+    }
+  });
+
+function chargeStr(d){
+  if(d.type==="root")return -1200;
+  if(d.type==="section")return -500;
+  if(d.type==="mid"||d.type==="top")return -300;
+  return -150;
+}
+function linkDist(d){
+  var s=nmap[typeof d.source==="object"?d.source.id:d.source];
+  if(!s)return 100;
+  if(s.type==="root")return 210;
+  if(s.type==="section")return 155;
+  if(s.type==="mid"||s.type==="top")return 115;
+  return 88;
+}
+
+var sim=d3.forceSimulation(nodes)
+  .force("link",d3.forceLink(links).id(function(d){return d.id;}).distance(linkDist).strength(0.52))
+  .force("charge",d3.forceManyBody().strength(chargeStr))
+  .force("center",d3.forceCenter(w/2,h/2).strength(0.06))
+  .force("collide",d3.forceCollide().radius(function(d){return (SZ[d.type]||8)+22;}).strength(0.78))
+  .on("tick",function(){
+    linkSel
+      .attr("x1",function(d){return d.source.x;}).attr("y1",function(d){return d.source.y;})
+      .attr("x2",function(d){return d.target.x;}).attr("y2",function(d){return d.target.y;});
+    nodeSel.attr("transform",function(d){return "translate("+d.x+","+d.y+")";});
+  });
+
+svg.on("click",closePanel);
+document.getElementById("pcl").onclick=function(e){e.stopPropagation();closePanel();};
+
+function showPanel(d){
+  var prio=d.priority||"review";
+  document.getElementById("ph").textContent=d.section||"Databricks";
+  document.getElementById("pt").textContent=d.label.replace(/\n/,' ');
+  document.getElementById("pp").textContent=d.parentLabel?"→ "+d.parentLabel:"";
+  var pb=document.getElementById("pb");
+  pb.textContent=PL[prio]||"Review";
+  pb.className="p-badge "+(PC[prio]||"br");
+  document.getElementById("pd").textContent=d.desc||d.label.replace(/\n/,' ');
+  var btn=document.getElementById("pbtn");
+  if(d.path){btn.href=B+d.path;btn.style.display="inline-flex";}
+  else{btn.style.display="none";}
+  var cw=document.getElementById("pch");
+  var ce=document.getElementById("pchips");
+  if(d.children&&d.children.length){
+    ce.innerHTML="";
+    d.children.forEach(function(c){
+      var ch=document.createElement("span");
+      ch.className="chip";
+      ch.textContent=c.label.replace(/\n/,' ');
+      ch.onclick=function(){showPanel(c);};
+      ce.appendChild(ch);
+    });
+    cw.style.display="block";
+  }else{
+    cw.style.display="none";
+  }
+  document.getElementById("panel").classList.add("vis");
+  nodeSel.selectAll("circle")
+    .style("stroke-width",function(n2){return n2.id===d.id?3.5:(n2.type==="root"?2.5:n2.type==="section"?1.8:1.2);})
+    .style("fill",function(n2){return n2.id===d.id?n2.color+"55":n2.color+(n2.type==="root"?"2a":"15");});
+}
+
+function closePanel(){
+  document.getElementById("panel").classList.remove("vis");
+  nodeSel.selectAll("circle")
+    .style("stroke-width",function(d){return d.type==="root"?2.5:d.type==="section"?1.8:1.2;})
+    .style("fill",function(d){return d.color+(d.type==="root"?"2a":"15");});
+}
+
+setTimeout(function(){
+  var hint=document.getElementById("hint");
+  if(hint){hint.style.opacity="0";setTimeout(function(){if(hint.parentNode)hint.parentNode.removeChild(hint);},400);}
+},5000);
+
+window.addEventListener("resize",function(){
+  var nw=window.innerWidth,nh=window.innerHeight;
+  svg.attr("width",nw).attr("height",nh);
+  sim.force("center",d3.forceCenter(nw/2,nh/2).strength(0.06)).alpha(0.2).restart();
+});
+</script>
+</body>
+</html>

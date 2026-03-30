@@ -30,5 +30,17 @@ jobs:
       - name: Install MkDocs and Material theme
         run: pip install mkdocs-material
 
+      - name: Build with MkDocs
+        run: mkdocs build
+
+      - name: Copy static HTML files
+        run: |
+          mkdir -p site/databricks
+          cp docs/databricks/*.html site/databricks/ || true
+
       - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          force_orphan: true

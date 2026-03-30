@@ -33,14 +33,17 @@ jobs:
       - name: Build with MkDocs
         run: mkdocs build
 
-      - name: Copy static HTML files
+      - name: Copy HTML files to site
         run: |
-          mkdir -p site/databricks
-          cp docs/databricks/*.html site/databricks/ || true
+          cp docs/databricks/*.html site/databricks/ 2>/dev/null || true
+          echo "HTML files copied"
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          force_orphan: true
+        run: |
+          cd site
+          git init
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Deploy with HTML files"
+          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages

@@ -2,7 +2,7 @@
 
 A comprehensive course for data engineers familiar with Apache Spark and AWS Glue preparing for the Databricks Certified Data Engineer Associate exam.
 
-[Databricks Docs Mind Map](databricks-mindmap.html)
+[Databricks Docs Mind Map](../databricks-mindmap.html)
 
 ---
 

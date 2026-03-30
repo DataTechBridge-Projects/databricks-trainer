@@ -33,10 +33,26 @@ jobs:
       - name: Build with MkDocs
         run: mkdocs build
 
+      - name: Verify site structure
+        run: |
+          echo "=== Site directory contents ==="
+          find site -type f -name "*.html" | head -10
+          echo ""
+          echo "=== Checking databricks folder ==="
+          ls -la site/databricks/ || echo "databricks folder doesn't exist"
+
       - name: Copy static HTML files to built site
         run: |
+          echo "=== Source files ==="
+          find docs/databricks -name "*.html" -type f
+          echo ""
+          echo "=== Creating target directory ==="
           mkdir -p site/databricks
-          cp -v docs/databricks/*.html site/databricks/ || echo "No HTML files to copy"
+          echo ""
+          echo "=== Copying files ==="
+          cp -v docs/databricks/*.html site/databricks/ || echo "Copy command returned: $?"
+          echo ""
+          echo "=== Verifying copy ==="
           ls -la site/databricks/
 
       - name: Deploy to GitHub Pages

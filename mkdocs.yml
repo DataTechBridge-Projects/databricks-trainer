@@ -3,6 +3,7 @@ site_description: A multi-agent AI system that generates technical engineering c
 site_author: Data Engineer Hub
 
 docs_dir: docs
+site_dir: site
 
 theme:
   name: material
@@ -44,10 +45,10 @@ markdown_extensions:
 
 plugins:
   - search
+  - include_dir_to_nav:
+      enabled: true
 
-nav:
-  - Agent:
-    - Overview: agent/index.md
+extra:
     - Setup: agent/setup.md
     - Architecture: agent/architecture.md
   - Databricks:

@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Solutions Architect Mind Map</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #12151c;
+    --bg3: #1a1e28;
+    --border: #252a38;
+    --text: #e2e8f0;
+    --text-dim: #8892a4;
+    --text-muted: #4a5568;
+    --accent: #ff9900;
+
+    --c0: #ff9900; /* root - AWS orange */
+    --c1: #3b82f6; /* compute - blue */
+    --c2: #10b981; /* storage - green */
+    --c3: #f59e0b; /* database - amber */
+    --c4: #8b5cf6; /* networking - purple */
+    --c5: #ef4444; /* security - red */
+    --c6: #06b6d4; /* analytics - cyan */
+    --c7: #f97316; /* ML/AI - orange-red */
+    --c8: #84cc16; /* devops - lime */
+    --c9: #ec4899; /* containers - pink */
+    --c10: #14b8a6; /* serverless - teal */
+    --c11: #a78bfa; /* messaging - violet */
+
+    --p-critical: #ef4444;
+    --p-new: #3b82f6;
+    --p-quick: #f59e0b;
+    --p-skip: #6b7280;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #canvas { width: 100%; height: 100%; }
+
+  /* ── TOOLBAR ── */
+  #toolbar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+  }
+
+  .tb-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-right: 12px;
+    border-right: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .tb-title span { font-size: 18px; }
+
+  .tb-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  .tb-btn:hover {
+    background: var(--border);
+    color: var(--text);
+    border-color: #3a4155;
+  }
+
+  .tb-btn.active {
+    background: rgba(255,153,0,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .tb-sep { width: 1px; background: var(--border); margin: 2px 4px; }
+
+  /* ── LEGEND ── */
+  #legend {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    z-index: 100;
+    min-width: 200px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  #legend h4 {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .legend-section {
+    margin-bottom: 10px;
+  }
+
+  .legend-section h5 {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .legend-items { display: flex; flex-direction: column; gap: 4px; }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-badge {
+    width: 28px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── INFO PANEL ── */
+  #panel {
+    position: fixed;
+    top: 70px;
+    right: -380px;
+    width: 360px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0;
+    z-index: 200;
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -8px 0 48px rgba(0,0,0,0.5);
+    max-height: calc(100vh - 90px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #panel.open { right: 16px; }
+
+  #panel-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  #panel-category {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  #panel-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  #panel-parent {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  #panel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 28px;
+    height: 28px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-dim);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  #panel-close:hover { background: var(--border); color: var(--text); }
+
+  #panel-body {
+    padding: 16px 20px 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .panel-section { margin-bottom: 16px; }
+
+  .panel-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  #panel-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+
+  #panel-priority {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .chip {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 9px;
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  #panel-doc a {
+    color: var(--accent);
+    font-size: 12px;
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.15s;
+  }
+
+  #panel-doc a:hover { opacity: 0.75; }
+
+  /* ── SVG NODES ── */
+  .node { cursor: pointer; }
+  .node circle { transition: r 0.2s; }
+  .node text { pointer-events: none; user-select: none; }
+
+  .link {
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  /* ── HINT ── */
+  #hint {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'IBM Plex Mono', monospace;
+    text-align: right;
+    line-height: 1.7;
+    pointer-events: none;
+  }
+
+  /* ── PULSE ANIMATION ── */
+  @keyframes pulse-ring {
+    0% { r: 18; opacity: 0.8; }
+    100% { r: 38; opacity: 0; }
+  }
+
+  .pulse-ring {
+    animation: pulse-ring 0.5s ease-out forwards;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* Scrollbar */
+  #panel-body::-webkit-scrollbar { width: 4px; }
+  #panel-body::-webkit-scrollbar-track { background: transparent; }
+  #panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <div class="tb-title"><span>☁</span> AWS Mind Map</div>
+  <button class="tb-btn" id="btn-expand">Expand All</button>
+  <button class="tb-btn" id="btn-collapse">Collapse All</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="btn-reset">⊕ Reset View</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="btn-filter-critical" data-filter="critical">🔴 Critical</button>
+  <button class="tb-btn" id="btn-filter-new" data-filter="new">🔵 New Study</button>
+  <button class="tb-btn active" id="btn-filter-all" data-filter="all">All</button>
+</div>
+
+<div id="legend">
+  <h4>Legend</h4>
+  <div class="legend-section">
+    <h5>Domains</h5>
+    <div class="legend-items" id="legend-domains"></div>
+  </div>
+  <div class="legend-section">
+    <h5>Priority</h5>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-badge" style="background:var(--p-critical)">CR</div> Critical</div>
+      <div class="legend-item"><div class="legend-badge" style="background:var(--p-new)">NS</div> New Study</div>
+      <div class="legend-item"><div class="legend-badge" style="background:var(--p-quick)">QR</div> Quick Review</div>
+      <div class="legend-item"><div class="legend-badge" style="background:var(--p-skip)">SK</div> Skip</div>
+    </div>
+  </div>
+  <div class="legend-section">
+    <h5>Interaction</h5>
+    <div class="legend-items">
+      <div class="legend-item"><div style="font-family:monospace;font-size:11px;color:var(--accent)">Click</div> Open panel</div>
+      <div class="legend-item"><div style="font-family:monospace;font-size:11px;color:var(--accent)">Dbl-click</div> Expand/collapse</div>
+      <div class="legend-item"><div style="font-family:monospace;font-size:11px;color:var(--accent)">Drag</div> Pan / move node</div>
+    </div>
+  </div>
+</div>
+
+<svg id="canvas"></svg>
+
+<div id="panel">
+  <div id="panel-header">
+    <div id="panel-category"></div>
+    <div id="panel-title"></div>
+    <div id="panel-parent"></div>
+    <div id="panel-close">✕</div>
+  </div>
+  <div id="panel-body">
+    <div class="panel-section">
+      <div class="panel-label">Description</div>
+      <div id="panel-desc"></div>
+    </div>
+    <div class="panel-section">
+      <div class="panel-label">Priority</div>
+      <div id="panel-priority"></div>
+    </div>
+    <div class="panel-section" id="panel-subtopics-wrap">
+      <div class="panel-label">Subtopics</div>
+      <div class="chips" id="panel-chips"></div>
+    </div>
+    <div class="panel-section" id="panel-doc">
+      <div class="panel-label">Documentation</div>
+      <a id="panel-link" href="#" target="_blank">📄 AWS Documentation ↗</a>
+    </div>
+  </div>
+</div>
+
+<div id="hint">
+  Single click → details panel<br>
+  Double click → expand / collapse<br>
+  Scroll → zoom &nbsp;|&nbsp; Drag → pan
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════════════
+const COLORS = ['#ff9900','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#14b8a6','#a78bfa'];
+const DOMAINS = ['Root','Compute','Storage','Database','Networking','Security','Analytics','ML & AI','DevOps','Containers','Serverless','Messaging'];
+
+const PRIORITY = { critical:'critical', new:'new', quick:'quick', skip:'skip' };
+const P_LABELS = { critical:'CRITICAL', new:'NEW STUDY', quick:'QUICK REVIEW', skip:'SKIP' };
+const P_COLORS = { critical:'#ef4444', new:'#3b82f6', quick:'#f59e0b', skip:'#6b7280' };
+
+const raw = {
+  id:'aws', name:'Amazon Web Services', domain:0, priority:'critical',
+  desc:'Amazon Web Services is the world\'s most comprehensive and broadly adopted cloud platform, offering 200+ fully featured services from data centers globally.',
+  doc:'https://docs.aws.amazon.com',
+  chips:['Solutions Architect','Cloud Native','Global Infrastructure','Shared Responsibility'],
+  children:[
+    // ── 1. COMPUTE ──────────────────────────────────────────
+    { id:'compute', name:'Compute', domain:1, priority:'critical',
+      desc:'AWS Compute services provide scalable processing power for any workload, from bare-metal instances to fully managed container orchestration and serverless functions.',
+      doc:'https://aws.amazon.com/products/compute/',
+      chips:['EC2','Lambda','ECS','EKS','Elastic Beanstalk'],
+      children:[
+        { id:'ec2', name:'EC2', domain:1, priority:'critical',
+          desc:'Elastic Compute Cloud provides resizable virtual machines in the cloud with hundreds of instance types optimized for different use cases.',
+          doc:'https://docs.aws.amazon.com/ec2/',
+          chips:['Instance Types','AMIs','Security Groups','EBS','Placement Groups'],
+          children:[
+            { id:'ec2-types', name:'Instance Families', domain:1, priority:'critical',
+              desc:'EC2 offers instance families optimized for compute, memory, storage, GPU, and machine learning inference workloads.',
+              doc:'https://aws.amazon.com/ec2/instance-types/',
+              chips:['m7i General','c7g Compute','r7g Memory','p4 GPU','Inf2 Inferentia'],
+              children:[
+                { id:'ec2-spot', name:'Spot Instances', domain:1, priority:'critical', desc:'Up to 90% savings over On-Demand using spare EC2 capacity. Ideal for fault-tolerant, flexible workloads.', doc:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html', chips:['Spot Fleet','Spot Blocks','Interruption Handling'] },
+                { id:'ec2-savings', name:'Savings Plans', domain:1, priority:'quick', desc:'Flexible pricing model offering up to 66% savings vs On-Demand in exchange for a 1 or 3-year commitment.', doc:'https://docs.aws.amazon.com/savingsplans/', chips:['Compute SP','EC2 Instance SP','SageMaker SP'] }
+              ]
+            },
+            { id:'ec2-asg', name:'Auto Scaling Groups', domain:1, priority:'critical',
+              desc:'Automatically adjusts EC2 capacity to maintain performance and minimize cost using scaling policies, schedules, and predictive scaling.',
+              doc:'https://docs.aws.amazon.com/autoscaling/',
+              chips:['Target Tracking','Step Scaling','Predictive','Warm Pools'],
+              children:[
+                { id:'asg-launch', name:'Launch Templates', domain:1, priority:'quick', desc:'Versioned templates that specify instance configuration including AMI, instance type, security groups, and user data.', doc:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html', chips:['Versioning','Mixed Instances','Spot + On-Demand'] }
+              ]
+            },
+            { id:'ec2-elb', name:'Elastic Load Balancing', domain:1, priority:'critical',
+              desc:'Distributes incoming traffic across multiple targets across Availability Zones, ensuring high availability and fault tolerance.',
+              doc:'https://docs.aws.amazon.com/elasticloadbalancing/',
+              chips:['ALB','NLB','GWLB','Target Groups','Health Checks'],
+              children:[
+                { id:'alb', name:'ALB', domain:1, priority:'critical', desc:'Application Load Balancer operates at Layer 7, supporting path-based routing, host-based routing, and weighted target groups.', doc:'https://docs.aws.amazon.com/elasticloadbalancing/latest/application/', chips:['Path Routing','WebSockets','gRPC','mTLS'] },
+                { id:'nlb', name:'NLB', domain:1, priority:'quick', desc:'Network Load Balancer operates at Layer 4 with ultra-low latency, supporting static IPs and PrivateLink.', doc:'https://docs.aws.amazon.com/elasticloadbalancing/latest/network/', chips:['Static IP','TLS Termination','PrivateLink'] }
+              ]
+            }
+          ]
+        },
+        { id:'lambda', name:'Lambda', domain:1, priority:'critical',
+          desc:'Run code without provisioning servers. Lambda executes code in response to events and manages the underlying compute resources.',
+          doc:'https://docs.aws.amazon.com/lambda/',
+          chips:['Event Sources','Layers','Concurrency','SnapStart','ARM64'],
+          children:[
+            { id:'lambda-triggers', name:'Event Sources', domain:1, priority:'critical', desc:'Lambda integrates with 200+ AWS services as event sources including API Gateway, S3, DynamoDB Streams, SQS, and Kinesis.', doc:'https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html', chips:['API Gateway','S3','DynamoDB','SQS','Kinesis'],
+              children:[
+                { id:'lambda-concurrency', name:'Concurrency', domain:1, priority:'critical', desc:'Lambda scales automatically. Reserved concurrency guarantees capacity; provisioned concurrency eliminates cold starts.', doc:'https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html', chips:['Reserved','Provisioned','Burst Limits'] }
+              ]
+            },
+            { id:'lambda-layers', name:'Lambda Layers & Extensions', domain:1, priority:'quick', desc:'Package reusable code and dependencies as layers shared across functions. Extensions enable integration with monitoring and security tools.', doc:'https://docs.aws.amazon.com/lambda/latest/dg/chapter-layers.html', chips:['Dependency Management','Shared Libraries','Monitoring Extensions'] }
+          ]
+        },
+        { id:'beanstalk', name:'Elastic Beanstalk', domain:1, priority:'quick',
+          desc:'Deploy and manage applications without managing infrastructure. Supports Java, .NET, PHP, Node.js, Python, Ruby, Go, and Docker.',
+          doc:'https://docs.aws.amazon.com/elasticbeanstalk/',
+          chips:['PaaS','Auto Scaling','Health Monitoring','Blue/Green'],
+          children:[
+            { id:'beanstalk-env', name:'Environments', domain:1, priority:'skip', desc:'Web server environments handle HTTP requests; Worker environments process background tasks from SQS queues.', doc:'https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html', chips:['Web Server','Worker Tier','Multi-container'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 2. STORAGE ───────────────────────────────────────────
+    { id:'storage', name:'Storage', domain:2, priority:'critical',
+      desc:'AWS Storage services provide a complete portfolio of cloud storage services for compute, database, analytics, IoT, mobile, and enterprise workloads.',
+      doc:'https://aws.amazon.com/products/storage/',
+      chips:['S3','EBS','EFS','FSx','Storage Gateway'],
+      children:[
+        { id:'s3', name:'S3', domain:2, priority:'critical',
+          desc:'Amazon Simple Storage Service is object storage with industry-leading scalability, data availability, security, and performance for any amount of data.',
+          doc:'https://docs.aws.amazon.com/s3/',
+          chips:['Storage Classes','Lifecycle','Replication','Encryption','Intelligent-Tiering'],
+          children:[
+            { id:'s3-storage-classes', name:'Storage Classes', domain:2, priority:'critical',
+              desc:'Multiple storage classes designed for different access patterns, from frequently accessed data to long-term archive.',
+              doc:'https://aws.amazon.com/s3/storage-classes/',
+              chips:['Standard','Intelligent-Tiering','Standard-IA','Glacier','Glacier Deep Archive'],
+              children:[
+                { id:'s3-glacier', name:'Glacier Variants', domain:2, priority:'quick', desc:'Glacier Instant: ms retrieval. Glacier Flexible: minutes-hours. Glacier Deep Archive: cheapest, 12-48hr retrieval.', doc:'https://aws.amazon.com/s3/storage-classes/glacier/', chips:['Instant Retrieval','Flexible Retrieval','Deep Archive'] }
+              ]
+            },
+            { id:'s3-security', name:'S3 Security', domain:2, priority:'critical',
+              desc:'S3 offers layered security including bucket policies, ACLs, Block Public Access, S3 Object Lock, and server-side encryption.',
+              doc:'https://docs.aws.amazon.com/s3/latest/userguide/security.html',
+              chips:['Bucket Policies','Block Public Access','Object Lock','MFA Delete','Presigned URLs'],
+              children:[
+                { id:'s3-encryption', name:'Encryption', domain:2, priority:'critical', desc:'SSE-S3 (AWS managed), SSE-KMS (customer managed keys), SSE-C (customer provided keys), or client-side encryption.', doc:'https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html', chips:['SSE-S3','SSE-KMS','SSE-C','DSSE-KMS'] }
+              ]
+            },
+            { id:'s3-performance', name:'Performance & Features', domain:2, priority:'quick',
+              desc:'S3 Transfer Acceleration, multipart upload, byte-range fetches, S3 Select, and S3 Batch Operations for high-throughput workloads.',
+              doc:'https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html',
+              chips:['Transfer Acceleration','Multipart Upload','S3 Select','Batch Operations'],
+              children:[
+                { id:'s3-replication', name:'Replication', domain:2, priority:'quick', desc:'Cross-Region Replication (CRR) and Same-Region Replication (SRR) for compliance, lower latency, and aggregation.', doc:'https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html', chips:['CRR','SRR','Batch Replication'] }
+              ]
+            }
+          ]
+        },
+        { id:'ebs', name:'EBS', domain:2, priority:'critical',
+          desc:'Elastic Block Store provides high-performance block storage for EC2 instances with different volume types for various workload needs.',
+          doc:'https://docs.aws.amazon.com/ebs/',
+          chips:['gp3','io2 Block Express','Snapshots','Encryption','Multi-Attach'],
+          children:[
+            { id:'ebs-types', name:'Volume Types', domain:2, priority:'critical', desc:'gp3: general purpose SSD baseline 3000 IOPS; io2: up to 256,000 IOPS; st1: throughput HDD; sc1: cold HDD.', doc:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html', chips:['gp3','gp2','io2 BE','st1','sc1'],
+              children:[
+                { id:'ebs-snapshots', name:'EBS Snapshots', domain:2, priority:'quick', desc:'Point-in-time backups stored in S3 (managed), incremental after first snapshot. Can be used to create new volumes or AMIs.', doc:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html', chips:['Incremental','Fast Snapshot Restore','Snapshot Archive'] }
+              ]
+            }
+          ]
+        },
+        { id:'efs', name:'EFS', domain:2, priority:'quick',
+          desc:'Elastic File System provides fully managed NFS file storage for EC2 and Lambda, automatically scaling to petabytes.',
+          doc:'https://docs.aws.amazon.com/efs/',
+          chips:['NFS v4.1','Elastic Throughput','Intelligent-Tiering','Access Points'],
+          children:[
+            { id:'efs-modes', name:'Performance Modes', domain:2, priority:'quick', desc:'General Purpose mode for latency-sensitive apps; Max I/O for highly parallel big-data workloads. Bursting vs Elastic vs Provisioned throughput.', doc:'https://docs.aws.amazon.com/efs/latest/ug/performance.html', chips:['General Purpose','Max I/O','Elastic Throughput','Provisioned'] }
+          ]
+        },
+        { id:'fsx', name:'FSx Family', domain:2, priority:'new',
+          desc:'Fully managed third-party file systems: FSx for Windows (SMB/NTFS), Lustre (HPC), NetApp ONTAP, and OpenZFS.',
+          doc:'https://aws.amazon.com/fsx/',
+          chips:['FSx Windows','FSx Lustre','FSx ONTAP','FSx OpenZFS'],
+          children:[
+            { id:'fsx-lustre', name:'FSx for Lustre', domain:2, priority:'new', desc:'High-performance parallel file system for HPC, ML training, and analytics. Integrates directly with S3 for seamless data processing.', doc:'https://docs.aws.amazon.com/fsx/latest/LustreGuide/', chips:['HPC','ML Training','S3 Integration','POSIX'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 3. DATABASE ──────────────────────────────────────────
+    { id:'database', name:'Database', domain:3, priority:'critical',
+      desc:'Purpose-built databases for any use case: relational, NoSQL, in-memory, graph, time series, ledger, and wide-column stores.',
+      doc:'https://aws.amazon.com/products/databases/',
+      chips:['RDS','Aurora','DynamoDB','ElastiCache','Redshift','DocumentDB'],
+      children:[
+        { id:'rds', name:'RDS', domain:3, priority:'critical',
+          desc:'Managed relational database service supporting MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, and Db2 with automated backups and Multi-AZ.',
+          doc:'https://docs.aws.amazon.com/rds/',
+          chips:['Multi-AZ','Read Replicas','Automated Backups','RDS Proxy','Performance Insights'],
+          children:[
+            { id:'rds-ha', name:'High Availability', domain:3, priority:'critical',
+              desc:'Multi-AZ deployments provide synchronous standby replica in different AZ for automated failover typically within 60-120 seconds.',
+              doc:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html',
+              chips:['Multi-AZ','Read Replicas','Cross-Region','RDS Proxy'],
+              children:[
+                { id:'rds-proxy', name:'RDS Proxy', domain:3, priority:'new', desc:'Fully managed database proxy that pools connections, reduces failover time by 66%, and works with Lambda and secrets manager.', doc:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html', chips:['Connection Pooling','Failover','IAM Auth','Secrets Manager'] }
+              ]
+            },
+            { id:'rds-backup', name:'Backup & Recovery', domain:3, priority:'critical',
+              desc:'Automated backups (1-35 day retention) plus manual snapshots. Point-in-time restore to any second within the backup window.',
+              doc:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html',
+              chips:['Automated Backups','Manual Snapshots','PITR','Cross-Region Copy'],
+              children:[
+                { id:'rds-pitr', name:'Point-in-Time Recovery', domain:3, priority:'quick', desc:'Restore database to any second within the retention period using transaction logs captured every 5 minutes.', doc:'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIT.html', chips:['Transaction Logs','5-min Granularity','New Instance'] }
+              ]
+            }
+          ]
+        },
+        { id:'aurora', name:'Aurora', domain:3, priority:'critical',
+          desc:'MySQL and PostgreSQL-compatible relational database with up to 5x MySQL and 3x PostgreSQL performance, 99.99% availability across 3 AZs.',
+          doc:'https://docs.aws.amazon.com/aurora/',
+          chips:['Aurora Serverless v2','Global Database','Parallel Query','Auto Scaling','Backtrack'],
+          children:[
+            { id:'aurora-global', name:'Aurora Global Database', domain:3, priority:'critical', desc:'Up to 5 secondary read-only regions with < 1 second replication lag. Supports managed failover for DR within 1 minute RPO.', doc:'https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html', chips:['Cross-Region','< 1s Lag','Managed Failover','16 Read Replicas'],
+              children:[
+                { id:'aurora-serverless', name:'Aurora Serverless v2', domain:3, priority:'new', desc:'Instantly scales compute from 0.5 to 128 ACUs in fine-grained increments. Supports read replicas, Multi-AZ, and Global Database.', doc:'https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html', chips:['Auto Scaling','0.5-128 ACU','Fine-grained','Cost Optimize'] }
+              ]
+            }
+          ]
+        },
+        { id:'dynamodb', name:'DynamoDB', domain:3, priority:'critical',
+          desc:'Fully managed serverless NoSQL database with single-digit millisecond performance at any scale, used by millions of applications.',
+          doc:'https://docs.aws.amazon.com/dynamodb/',
+          chips:['On-Demand','Provisioned','Global Tables','DynamoDB Streams','DAX'],
+          children:[
+            { id:'dynamo-design', name:'Data Modeling', domain:3, priority:'critical',
+              desc:'Single-table design patterns with partition key, sort key, and GSIs. Access patterns drive the schema design.',
+              doc:'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html',
+              chips:['Partition Key','Sort Key','GSI','LSI','Single-Table Design'],
+              children:[
+                { id:'dynamo-gsi', name:'GSI & LSI', domain:3, priority:'critical', desc:'Global Secondary Indexes allow queries on non-key attributes. Local Secondary Indexes provide alternate sort key on same partition.', doc:'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SecondaryIndexes.html', chips:['GSI','LSI','Sparse Indexes','Projection'] }
+              ]
+            },
+            { id:'dynamo-streams', name:'DynamoDB Streams', domain:3, priority:'new', desc:'Captures item-level changes in a 24-hour ordered log stream, enabling event-driven architectures and cross-region replication.', doc:'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html', chips:['Change Data Capture','Lambda Triggers','Global Tables','24hr Retention'],
+              children:[
+                { id:'dynamo-dax', name:'DAX', domain:3, priority:'quick', desc:'DynamoDB Accelerator is a fully managed in-memory cache delivering microsecond response times for read-heavy workloads.', doc:'https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html', chips:['In-Memory Cache','Microseconds','Write-Through','Cluster'] }
+              ]
+            }
+          ]
+        },
+        { id:'elasticache', name:'ElastiCache', domain:3, priority:'quick',
+          desc:'Fully managed in-memory caching service supporting Redis and Memcached for sub-millisecond latency at scale.',
+          doc:'https://docs.aws.amazon.com/elasticache/',
+          chips:['Redis','Memcached','Cluster Mode','Global Datastore','Serverless'],
+          children:[
+            { id:'elasticache-redis', name:'Redis vs Memcached', domain:3, priority:'quick', desc:'Redis: persistence, pub/sub, sorted sets, cluster mode, replication, Multi-AZ. Memcached: simpler, multi-threaded, no persistence.', doc:'https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html', chips:['Redis Cluster','Multi-AZ','Pub/Sub','Sorted Sets'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 4. NETWORKING ────────────────────────────────────────
+    { id:'networking', name:'Networking', domain:4, priority:'critical',
+      desc:'Build isolated networks, connect on-premises environments, accelerate content delivery, and route traffic globally with AWS networking services.',
+      doc:'https://aws.amazon.com/products/networking/',
+      chips:['VPC','Route 53','CloudFront','Direct Connect','Transit Gateway'],
+      children:[
+        { id:'vpc', name:'VPC', domain:4, priority:'critical',
+          desc:'Virtual Private Cloud lets you provision a logically isolated section of AWS with complete control over networking, routing, and security.',
+          doc:'https://docs.aws.amazon.com/vpc/',
+          chips:['Subnets','Route Tables','Security Groups','NACLs','VPC Peering','PrivateLink'],
+          children:[
+            { id:'vpc-design', name:'VPC Design Patterns', domain:4, priority:'critical',
+              desc:'Multi-tier VPC design with public, private, and data subnets across multiple AZs, internet gateway, NAT gateways, and bastion hosts.',
+              doc:'https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html',
+              chips:['Public Subnet','Private Subnet','NAT Gateway','Internet Gateway','Bastion'],
+              children:[
+                { id:'vpc-endpoints', name:'VPC Endpoints', domain:4, priority:'critical', desc:'Interface endpoints (PrivateLink, ENI) and Gateway endpoints (S3, DynamoDB) enable private connectivity without internet gateway.', doc:'https://docs.aws.amazon.com/vpc/latest/privatelink/', chips:['Interface Endpoint','Gateway Endpoint','PrivateLink','Service Endpoint'] }
+              ]
+            },
+            { id:'vpc-connectivity', name:'Connectivity Options', domain:4, priority:'critical',
+              desc:'VPC Peering, Transit Gateway, Site-to-Site VPN, Client VPN, Direct Connect, and AWS PrivateLink for hybrid and multi-VPC connectivity.',
+              doc:'https://docs.aws.amazon.com/vpc/latest/userguide/extend-intro.html',
+              chips:['VPC Peering','Transit Gateway','Site-to-Site VPN','Direct Connect'],
+              children:[
+                { id:'tgw', name:'Transit Gateway', domain:4, priority:'critical', desc:'Hub-and-spoke model connecting thousands of VPCs, VPNs, and Direct Connect. Centralized routing with route tables per attachment.', doc:'https://docs.aws.amazon.com/vpc/latest/tgw/', chips:['Hub-and-Spoke','Route Tables','Multicast','Inter-Region Peering'] }
+              ]
+            }
+          ]
+        },
+        { id:'route53', name:'Route 53', domain:4, priority:'critical',
+          desc:'Highly available and scalable DNS web service with health checking, traffic flow policies, and domain registration.',
+          doc:'https://docs.aws.amazon.com/route53/',
+          chips:['Routing Policies','Health Checks','Private Hosted Zones','DNSSEC','Resolver'],
+          children:[
+            { id:'r53-routing', name:'Routing Policies', domain:4, priority:'critical', desc:'Simple, Weighted, Latency-based, Failover, Geolocation, Geoproximity, Multi-value Answer, and IP-based routing policies.', doc:'https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html', chips:['Weighted','Latency','Failover','Geolocation','Geoproximity'],
+              children:[
+                { id:'r53-failover', name:'Failover Routing', domain:4, priority:'critical', desc:'Active-passive failover using health checks. Primary record served when healthy; secondary (DR) record served when primary fails.', doc:'https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-failover.html', chips:['Health Checks','Active-Passive','Active-Active','DNS TTL'] }
+              ]
+            }
+          ]
+        },
+        { id:'cloudfront', name:'CloudFront', domain:4, priority:'critical',
+          desc:'Content delivery network with 450+ edge locations globally, integrating with WAF, Shield, Lambda@Edge, and CloudFront Functions.',
+          doc:'https://docs.aws.amazon.com/cloudfront/',
+          chips:['Edge Locations','Origins','Cache Behaviors','OAC','Lambda@Edge'],
+          children:[
+            { id:'cf-security', name:'CloudFront Security', domain:4, priority:'critical', desc:'Origin Access Control (OAC) restricts S3 access, WAF integration blocks threats, field-level encryption protects PII, and HTTPS enforcement.', doc:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/SecurityAndPrivateContent.html', chips:['OAC','WAF','Field-Level Encryption','Signed URLs','Signed Cookies'],
+              children:[
+                { id:'cf-functions', name:'Edge Computing', domain:4, priority:'new', desc:'Lambda@Edge runs Node.js/Python on CloudFront regional edge caches. CloudFront Functions run JS at 450+ edge locations with sub-ms latency.', doc:'https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/edge-functions.html', chips:['Lambda@Edge','CF Functions','Viewer/Origin Events','A/B Testing'] }
+              ]
+            }
+          ]
+        },
+        { id:'directconnect', name:'Direct Connect', domain:4, priority:'critical',
+          desc:'Dedicated network connection from on-premises to AWS, bypassing the internet for consistent bandwidth, reduced latency, and lower data transfer costs.',
+          doc:'https://docs.aws.amazon.com/directconnect/',
+          chips:['1/10/100 Gbps','Hosted Connection','LAG','MACsec','Virtual Interfaces'],
+          children:[
+            { id:'dx-vif', name:'Virtual Interfaces', domain:4, priority:'quick', desc:'Private VIF connects to a VPC via Virtual Private Gateway; Transit VIF connects to Transit Gateway; Public VIF connects to AWS public services.', doc:'https://docs.aws.amazon.com/directconnect/latest/UserGuide/WorkingWithVirtualInterfaces.html', chips:['Private VIF','Transit VIF','Public VIF','VLAN','BGP'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 5. SECURITY ──────────────────────────────────────────
+    { id:'security', name:'Security & IAM', domain:5, priority:'critical',
+      desc:'AWS Security services deliver defense-in-depth through identity, detection, infrastructure protection, data protection, and compliance services.',
+      doc:'https://aws.amazon.com/security/',
+      chips:['IAM','KMS','Shield','WAF','GuardDuty','Security Hub'],
+      children:[
+        { id:'iam', name:'IAM', domain:5, priority:'critical',
+          desc:'Identity and Access Management enables granular control of AWS service access using users, groups, roles, and policies with least privilege principle.',
+          doc:'https://docs.aws.amazon.com/iam/',
+          chips:['Policies','Roles','STS','Permission Boundaries','SCPs','Identity Center'],
+          children:[
+            { id:'iam-policies', name:'Policy Types', domain:5, priority:'critical',
+              desc:'Identity-based, resource-based, permissions boundaries, SCPs, session policies, and ACLs. Policy evaluation logic determines effective permissions.',
+              doc:'https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html',
+              chips:['Identity-based','Resource-based','SCPs','Permission Boundaries','Session Policies'],
+              children:[
+                { id:'iam-scp', name:'SCPs & Organizations', domain:5, priority:'critical', desc:'Service Control Policies define maximum permissions for member accounts in AWS Organizations OUs, creating guardrails across the entire org.', doc:'https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html', chips:['Allow List','Deny List','Inheritance','Root / OU / Account'] }
+              ]
+            },
+            { id:'iam-roles', name:'IAM Roles & STS', domain:5, priority:'critical',
+              desc:'Roles provide temporary credentials via STS AssumeRole. Used for EC2 instance profiles, Lambda execution roles, cross-account access, and federation.',
+              doc:'https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html',
+              chips:['AssumeRole','ExternalId','Cross-Account','Instance Profile','Web Identity'],
+              children:[
+                { id:'sts', name:'STS Concepts', domain:5, priority:'quick', desc:'Security Token Service issues short-lived credentials (15min-12hr). AssumeRoleWithWebIdentity supports OIDC; AssumeRoleWithSAML supports SAML 2.0.', doc:'https://docs.aws.amazon.com/STS/latest/APIReference/', chips:['Temporary Credentials','OIDC','SAML 2.0','Session Tags'] }
+              ]
+            }
+          ]
+        },
+        { id:'kms', name:'KMS', domain:5, priority:'critical',
+          desc:'Key Management Service creates and manages cryptographic keys used to encrypt AWS services, with FIPS 140-2 validated HSMs.',
+          doc:'https://docs.aws.amazon.com/kms/',
+          chips:['CMK','Automatic Rotation','Multi-Region Keys','Key Policies','CloudHSM'],
+          children:[
+            { id:'kms-types', name:'Key Types', domain:5, priority:'critical', desc:'AWS Managed Keys (free), Customer Managed Keys (more control), and AWS owned keys. Symmetric vs asymmetric. RSA, ECC, HMAC.', doc:'https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-type-concepts', chips:['AWS Managed','Customer Managed','Symmetric','Asymmetric','Multi-Region'],
+              children:[
+                { id:'kms-grants', name:'Key Policies & Grants', domain:5, priority:'quick', desc:'Key policies are the primary access control for CMKs. Grants delegate specific permissions programmatically for temporary access.', doc:'https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html', chips:['Key Policy','Grants','Resource Policy','IAM Combo'] }
+              ]
+            }
+          ]
+        },
+        { id:'guardduty', name:'GuardDuty & Detection', domain:5, priority:'critical',
+          desc:'Intelligent threat detection using ML, anomaly detection, and integrated threat intelligence to identify threats in AWS accounts and workloads.',
+          doc:'https://docs.aws.amazon.com/guardduty/',
+          chips:['GuardDuty','Security Hub','Macie','Inspector','Detective'],
+          children:[
+            { id:'security-hub', name:'Security Hub', domain:5, priority:'new', desc:'Centralized security findings aggregation, compliance checks against AWS Foundational Security Best Practices, CIS, and PCI DSS standards.', doc:'https://docs.aws.amazon.com/securityhub/', chips:['Findings Aggregation','CSPM','CIS Benchmarks','Automated Checks'],
+              children:[
+                { id:'macie', name:'Amazon Macie', domain:5, priority:'quick', desc:'ML-powered sensitive data discovery in S3, automatically identifying PII, financial data, and credentials across buckets.', doc:'https://docs.aws.amazon.com/macie/', chips:['PII Discovery','S3 Scanning','Sensitive Data','Automated Alerts'] }
+              ]
+            }
+          ]
+        },
+        { id:'waf-shield', name:'WAF & Shield', domain:5, priority:'critical',
+          desc:'WAF protects web applications from common exploits. Shield Standard (free, always-on) and Shield Advanced protect against DDoS attacks.',
+          doc:'https://docs.aws.amazon.com/waf/',
+          chips:['WAF Rules','Managed Rules','IP Sets','Rate Limiting','Shield Advanced'],
+          children:[
+            { id:'waf-rules', name:'WAF Rules & Firewall Manager', domain:5, priority:'critical', desc:'WebACLs with rule groups: rate-based rules, managed rule groups (AWS + Marketplace), regex pattern sets, geo-match, and IP set rules.', doc:'https://docs.aws.amazon.com/waf/latest/developerguide/waf-rules.html', chips:['WebACL','Rule Groups','Rate-Based','AWS Managed Rules','Firewall Manager'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 6. ANALYTICS ─────────────────────────────────────────
+    { id:'analytics', name:'Analytics', domain:6, priority:'critical',
+      desc:'AWS Analytics services enable you to analyze all your data at any scale, from streaming data and data lakes to data warehouses and BI dashboards.',
+      doc:'https://aws.amazon.com/big-data/datalakes-and-analytics/',
+      chips:['Redshift','Athena','Glue','Kinesis','EMR','QuickSight'],
+      children:[
+        { id:'redshift', name:'Redshift', domain:6, priority:'critical',
+          desc:'Fully managed petabyte-scale cloud data warehouse using columnar storage, massively parallel processing, and ML-driven query optimization.',
+          doc:'https://docs.aws.amazon.com/redshift/',
+          chips:['Serverless','RA3','Spectrum','Concurrency Scaling','Data Sharing'],
+          children:[
+            { id:'redshift-arch', name:'Architecture', domain:6, priority:'critical',
+              desc:'Leader node receives queries; compute nodes execute in parallel using slices. RA3 nodes separate compute/storage. Serverless auto-scales RPUs.',
+              doc:'https://docs.aws.amazon.com/redshift/latest/dg/c_high_level_system_architecture.html',
+              chips:['Leader Node','Compute Nodes','RA3','Serverless','RPU'],
+              children:[
+                { id:'redshift-spectrum', name:'Redshift Spectrum', domain:6, priority:'quick', desc:'Query exabytes of data directly in S3 without loading. Uses Glue Data Catalog as metastore. Pay per query scanned.', doc:'https://docs.aws.amazon.com/redshift/latest/dg/c-getting-started-using-spectrum.html', chips:['S3 Query','Glue Catalog','Columnar','Parquet/ORC'] }
+              ]
+            }
+          ]
+        },
+        { id:'kinesis', name:'Kinesis', domain:6, priority:'critical',
+          desc:'Real-time data streaming platform: Kinesis Data Streams for custom consumers, Firehose for delivery to destinations, Video Streams for video.',
+          doc:'https://aws.amazon.com/kinesis/',
+          chips:['Data Streams','Firehose','Analytics','Video Streams','Enhanced Fan-Out'],
+          children:[
+            { id:'kds', name:'Kinesis Data Streams', domain:6, priority:'critical', desc:'Durably capture and process streaming data in real-time. Shards provide 1MB/s write, 2MB/s read. Enhanced Fan-Out: 2MB/s per consumer per shard.', doc:'https://docs.aws.amazon.com/streams/latest/dev/', chips:['Shards','Retention 365d','Enhanced Fan-Out','KCL','On-Demand'],
+              children:[
+                { id:'kdf', name:'Kinesis Firehose', domain:6, priority:'critical', desc:'Fully managed delivery to S3, Redshift, OpenSearch, Splunk, HTTP endpoints with buffering, transformation via Lambda, and format conversion.', doc:'https://docs.aws.amazon.com/firehose/', chips:['S3 Delivery','Redshift','OpenSearch','Lambda Transform','Parquet Conversion'] }
+              ]
+            }
+          ]
+        },
+        { id:'glue', name:'AWS Glue', domain:6, priority:'critical',
+          desc:'Serverless data integration service with ETL, Data Catalog, crawlers, DataBrew visual transforms, and Glue Studio for visual job authoring.',
+          doc:'https://docs.aws.amazon.com/glue/',
+          chips:['ETL','Data Catalog','Crawlers','DynamicFrames','Glue Studio','DataBrew'],
+          children:[
+            { id:'glue-catalog', name:'Glue Data Catalog', domain:6, priority:'critical', desc:'Centralized metadata repository compatible with Apache Hive Metastore. Integrates with Athena, EMR, Redshift Spectrum, and Lake Formation.', doc:'https://docs.aws.amazon.com/glue/latest/dg/catalog-and-crawler.html', chips:['Tables','Databases','Crawlers','Schema Detection','LF Integration'],
+              children:[
+                { id:'lakeformation', name:'Lake Formation', domain:6, priority:'new', desc:'Build secure data lakes in days. Column-level and row-level security on top of Glue Data Catalog for fine-grained access control.', doc:'https://docs.aws.amazon.com/lake-formation/', chips:['Column Security','Row Filters','Tag-based Access','Data Sharing','Governed Tables'] }
+              ]
+            }
+          ]
+        },
+        { id:'athena', name:'Athena', domain:6, priority:'critical',
+          desc:'Serverless interactive query service to analyze data in S3 using standard SQL. Pay per query ($5/TB scanned), no infrastructure to manage.',
+          doc:'https://docs.aws.amazon.com/athena/',
+          chips:['Federated Query','Workgroups','Result Caching','Apache Spark','Iceberg'],
+          children:[
+            { id:'athena-optimization', name:'Athena Optimization', domain:6, priority:'quick', desc:'Partition pruning, columnar formats (Parquet/ORC), compression, S3 bucket organization, and result caching reduce cost and improve performance.', doc:'https://docs.aws.amazon.com/athena/latest/ug/performance-tuning.html', chips:['Partitioning','Parquet','Compression','Result Reuse','Iceberg Tables'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 7. ML & AI ───────────────────────────────────────────
+    { id:'ml', name:'ML & AI', domain:7, priority:'new',
+      desc:'AWS provides the broadest and deepest set of ML capabilities, from purpose-built AI services and foundation models to ML infrastructure and MLOps tools.',
+      doc:'https://aws.amazon.com/machine-learning/',
+      chips:['Bedrock','SageMaker','Rekognition','Comprehend','Textract','Q'],
+      children:[
+        { id:'bedrock', name:'Amazon Bedrock', domain:7, priority:'new',
+          desc:'Fully managed service for accessing foundation models from Anthropic, AI21, Cohere, Meta, Mistral, Stability AI, and Amazon via a single API.',
+          doc:'https://docs.aws.amazon.com/bedrock/',
+          chips:['Claude','Llama','Titan','Knowledge Bases','Agents','Guardrails'],
+          children:[
+            { id:'bedrock-kb', name:'Knowledge Bases', domain:7, priority:'new', desc:'RAG implementation that connects FMs to your data sources (S3, Confluence, Salesforce) using vector embeddings and semantic search.', doc:'https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html', chips:['RAG','Vector Embeddings','OpenSearch','Pinecone','Data Sources'],
+              children:[
+                { id:'bedrock-agents', name:'Bedrock Agents', domain:7, priority:'new', desc:'Fully managed agents that orchestrate multi-step tasks, invoke APIs, and access knowledge bases to complete complex, multi-turn interactions.', doc:'https://docs.aws.amazon.com/bedrock/latest/userguide/agents.html', chips:['Action Groups','Lambda','Tool Use','ReAct','Prompt Chaining'] }
+              ]
+            },
+            { id:'bedrock-guardrails', name:'Guardrails & Fine-tuning', domain:7, priority:'new', desc:'Guardrails enforce content safety policies, prevent hallucinations, and apply PII redaction. Fine-tuning and continued pre-training customize models.', doc:'https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html', chips:['Content Filtering','PII Redaction','Custom Models','Fine-tuning','RLHF'] }
+          ]
+        },
+        { id:'sagemaker', name:'SageMaker', domain:7, priority:'new',
+          desc:'End-to-end ML platform for building, training, and deploying ML models at scale with managed notebooks, pipelines, model registry, and monitoring.',
+          doc:'https://docs.aws.amazon.com/sagemaker/',
+          chips:['Studio','Pipelines','Feature Store','Model Monitor','Inference','JumpStart'],
+          children:[
+            { id:'sm-training', name:'Training & Inference', domain:7, priority:'new', desc:'Managed training with distributed strategies, Spot Training (90% savings), SageMaker Experiments, Model Registry, and real-time/batch/serverless inference.', doc:'https://docs.aws.amazon.com/sagemaker/latest/dg/train-model.html', chips:['Distributed Training','Spot Training','Real-time Endpoint','Batch Transform','Serverless'],
+              children:[
+                { id:'sm-pipelines', name:'SageMaker Pipelines', domain:7, priority:'quick', desc:'Native CI/CD for ML: define, automate, and manage ML workflows with steps for preprocessing, training, evaluation, and deployment.', doc:'https://docs.aws.amazon.com/sagemaker/latest/dg/pipelines.html', chips:['Steps','Conditions','Model Registry','GitOps','CI/CD'] }
+              ]
+            }
+          ]
+        },
+        { id:'q', name:'Amazon Q', domain:7, priority:'new',
+          desc:'AI assistant for business with Q Business (enterprise knowledge), Q Developer (code completion and transformation), and Q in QuickSight.',
+          doc:'https://aws.amazon.com/q/',
+          chips:['Q Business','Q Developer','Code Transformation','Q in QuickSight','IAM Identity Center'],
+          children:[
+            { id:'q-developer', name:'Q Developer', domain:7, priority:'new', desc:'AI coding companion with real-time code suggestions, security scanning, code reviews, inline chat, and Java code transformation to upgrade legacy apps.', doc:'https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/', chips:['Code Completion','Security Scan','Code Review','Transformation','IDE Plugin'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 8. DEVOPS ────────────────────────────────────────────
+    { id:'devops', name:'DevOps & IaC', domain:8, priority:'critical',
+      desc:'AWS DevOps services enable CI/CD pipelines, infrastructure as code, monitoring, and operational excellence for cloud-native development.',
+      doc:'https://aws.amazon.com/devops/',
+      chips:['CloudFormation','CDK','CodePipeline','CloudWatch','Systems Manager'],
+      children:[
+        { id:'cloudformation', name:'CloudFormation', domain:8, priority:'critical',
+          desc:'Model and provision AWS infrastructure as code using JSON/YAML templates with drift detection, stack sets, and change sets.',
+          doc:'https://docs.aws.amazon.com/cloudformation/',
+          chips:['Templates','Stacks','StackSets','Change Sets','Drift Detection','CDK'],
+          children:[
+            { id:'cfn-stacksets', name:'StackSets', domain:8, priority:'critical', desc:'Deploy CloudFormation stacks to multiple AWS accounts and regions simultaneously using service-managed or self-managed permissions.', doc:'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html', chips:['Multi-Account','Multi-Region','Service Managed','Org Integration'],
+              children:[
+                { id:'cdk', name:'AWS CDK', domain:8, priority:'new', desc:'Define AWS infrastructure using familiar programming languages (TypeScript, Python, Java, .NET). CDK synthesizes CloudFormation templates with built-in best practices.', doc:'https://docs.aws.amazon.com/cdk/', chips:['Constructs','L1/L2/L3','Stacks','App','CDK Nag'] }
+              ]
+            }
+          ]
+        },
+        { id:'codepipeline', name:'CI/CD Services', domain:8, priority:'critical',
+          desc:'AWS CodePipeline, CodeBuild, CodeDeploy, and CodeCommit form a complete CI/CD suite for automating software release processes.',
+          doc:'https://aws.amazon.com/products/developer-tools/',
+          chips:['CodePipeline','CodeBuild','CodeDeploy','CodeCommit','CodeArtifact'],
+          children:[
+            { id:'codedeploy', name:'CodeDeploy', domain:8, priority:'critical', desc:'Automate application deployments to EC2, Lambda, ECS, and on-premises. Supports In-Place, Blue/Green, and Canary/Linear deployment strategies.', doc:'https://docs.aws.amazon.com/codedeploy/', chips:['Blue/Green','Canary','Linear','AppSpec','Hooks'],
+              children:[
+                { id:'codebuild', name:'CodeBuild', domain:8, priority:'quick', desc:'Fully managed build service compiling source code, running tests, and producing deployable artifacts. Buildspec.yml defines build phases.', doc:'https://docs.aws.amazon.com/codebuild/', chips:['Buildspec.yml','Docker','ECR','Caching','Test Reports'] }
+              ]
+            }
+          ]
+        },
+        { id:'cloudwatch', name:'CloudWatch', domain:8, priority:'critical',
+          desc:'Monitoring and observability service collecting metrics, logs, and traces from AWS resources, applications, and on-premises servers.',
+          doc:'https://docs.aws.amazon.com/cloudwatch/',
+          chips:['Metrics','Logs','Alarms','Dashboards','Container Insights','X-Ray'],
+          children:[
+            { id:'cw-logs', name:'Logs & Insights', domain:8, priority:'critical', desc:'CloudWatch Logs Insights enables ad-hoc analysis with query language. Metric Filters extract metrics from logs. Log Groups with retention policies.', doc:'https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html', chips:['Log Groups','Metric Filters','Logs Insights','Live Tail','Anomaly Detection'],
+              children:[
+                { id:'xray', name:'X-Ray & Traces', domain:8, priority:'new', desc:'Distributed tracing service for debugging and analyzing microservices. Service maps, trace analysis, annotations, and sampling rules.', doc:'https://docs.aws.amazon.com/xray/', chips:['Service Map','Traces','Segments','Sampling','CloudWatch ServiceLens'] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    // ── 9. CONTAINERS ────────────────────────────────────────
+    { id:'containers', name:'Containers', domain:9, priority:'critical',
+      desc:'AWS offers the broadest container management options including Amazon ECS, EKS, ECR, Fargate, and App Runner for any containerized workload.',
+      doc:'https://aws.amazon.com/containers/',
+      chips:['ECS','EKS','ECR','Fargate','App Runner','EKS Anywhere'],
+      children:[
+        { id:'ecs', name:'ECS', domain:9, priority:'critical',
+          desc:'Elastic Container Service is a fully managed container orchestration service that runs Docker containers on a cluster of EC2 or Fargate.',
+          doc:'https://docs.aws.amazon.com/ecs/',
+          chips:['Task Definitions','Services','Clusters','Fargate','EC2','Capacity Providers'],
+          children:[
+            { id:'ecs-concepts', name:'ECS Core Concepts', domain:9, priority:'critical',
+              desc:'Clusters (logical grouping), Task Definitions (blueprint with CPU/memory/image), Tasks (running instances), Services (desired count + load balancing).',
+              doc:'https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html',
+              chips:['Task Definition','Service','Cluster','Capacity Provider','Launch Type'],
+              children:[
+                { id:'ecs-networking', name:'ECS Networking', domain:9, priority:'critical', desc:'awsvpc network mode assigns each task an ENI. Bridge mode: host port mapping. Host mode: shares host network. Service Connect for service discovery.', doc:'https://docs.aws.amazon.com/AmazonECS/latest/developerguide/networking.html', chips:['awsvpc','Bridge','Service Connect','Service Discovery','PrivateLink'] }
+              ]
+            }
+          ]
+        },
+        { id:'eks', name:'EKS', domain:9, priority:'critical',
+          desc:'Elastic Kubernetes Service provides managed Kubernetes control plane with automatic upgrades, multi-AZ, and integration with AWS services.',
+          doc:'https://docs.aws.amazon.com/eks/',
+          chips:['Managed Node Groups','Fargate Profiles','EKS Anywhere','Karpenter','EKS Blueprints'],
+          children:[
+            { id:'eks-networking', name:'EKS Networking', domain:9, priority:'critical', desc:'AWS VPC CNI assigns VPC IPs to pods. Karpenter for node auto-provisioning. Load Balancer Controller manages ALB/NLB. EKS-managed add-ons.', doc:'https://docs.aws.amazon.com/eks/latest/userguide/eks-networking.html', chips:['VPC CNI','Karpenter','LB Controller','CoreDNS','aws-auth'],
+              children:[
+                { id:'karpenter', name:'Karpenter', domain:9, priority:'new', desc:'Just-in-time node provisioning: directly provisions optimal EC2 instances based on pod requirements, replacing Cluster Autoscaler for better efficiency.', doc:'https://karpenter.sh', chips:['NodePool','EC2NodeClass','Spot Integration','Bin Packing','Consolidation'] }
+              ]
+            }
+          ]
+        },
+        { id:'ecr', name:'ECR & App Runner', domain:9, priority:'quick',
+          desc:'ECR is a fully managed container registry. App Runner deploys containerized web apps from ECR or source code without managing infrastructure.',
+          doc:'https://docs.aws.amazon.com/ecr/',
+          chips:['ECR','Image Scanning','Lifecycle Policies','App Runner','Public Gallery'],
+          children:[
+            { id:'ecr-security', name:'ECR Security', domain:9, priority:'quick', desc:'ECR Enhanced Scanning uses Amazon Inspector to detect OS and language package vulnerabilities. Image signing with Notary. Resource policies.', doc:'https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html', chips:['Enhanced Scanning','Inspector','Image Signing','SBOM','Replication'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 10. SERVERLESS ───────────────────────────────────────
+    { id:'serverless', name:'Serverless', domain:10, priority:'critical',
+      desc:'Build and run applications without managing infrastructure using Lambda, API Gateway, Step Functions, EventBridge, and SAM.',
+      doc:'https://aws.amazon.com/serverless/',
+      chips:['Lambda','API Gateway','Step Functions','EventBridge','SAM','DynamoDB'],
+      children:[
+        { id:'apigateway', name:'API Gateway', domain:10, priority:'critical',
+          desc:'Create, publish, maintain, monitor, and secure REST, HTTP, and WebSocket APIs at any scale with built-in authorization, throttling, and caching.',
+          doc:'https://docs.aws.amazon.com/apigateway/',
+          chips:['REST API','HTTP API','WebSocket','Lambda Proxy','Usage Plans','WAF'],
+          children:[
+            { id:'apigw-types', name:'REST vs HTTP API', domain:10, priority:'critical', desc:'HTTP API: 70% cheaper, lower latency, supports OIDC/OAuth2, Lambda proxy. REST API: more features (caching, usage plans, request validation, X-Ray, WAF).', doc:'https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html', chips:['REST API','HTTP API','WebSocket','OpenAPI Import','VPC Link'],
+              children:[
+                { id:'apigw-auth', name:'Authorization', domain:10, priority:'critical', desc:'Lambda authorizers (Token/Request), Cognito User Pool authorizers, IAM authorization with SigV4, API keys for usage plans, resource policies.', doc:'https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html', chips:['Lambda Authorizer','Cognito','IAM Auth','API Keys','Resource Policy'] }
+              ]
+            }
+          ]
+        },
+        { id:'stepfunctions', name:'Step Functions', domain:10, priority:'critical',
+          desc:'Orchestrate distributed applications and microservices using visual workflows (ASL) with state machines, error handling, and parallel execution.',
+          doc:'https://docs.aws.amazon.com/step-functions/',
+          chips:['Standard Workflows','Express Workflows','ASL','Activities','SDK Integrations'],
+          children:[
+            { id:'sf-express', name:'Standard vs Express', domain:10, priority:'critical', desc:'Standard: exactly-once, up to 1 year, auditable. Express: at-least-once, up to 5 min, high volume. Sync Express for synchronous patterns.', doc:'https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html', chips:['Exactly-Once','At-Least-Once','5 min Max','High Volume','Sync Express'],
+              children:[
+                { id:'sf-patterns', name:'Workflow Patterns', domain:10, priority:'new', desc:'Sequential, parallel, catch/retry, wait for callback with taskToken, wait for activity, map state for dynamic parallelism, and distributed map.', doc:'https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html', chips:['Catch/Retry','Parallel','Map State','Distributed Map','TaskToken'] }
+              ]
+            }
+          ]
+        },
+        { id:'eventbridge', name:'EventBridge', domain:10, priority:'critical',
+          desc:'Serverless event bus connecting AWS services, SaaS apps, and custom apps using rules, event patterns, schema registry, and pipes.',
+          doc:'https://docs.aws.amazon.com/eventbridge/',
+          chips:['Default Bus','Custom Bus','Rules','Pipes','Schema Registry','Scheduler'],
+          children:[
+            { id:'eb-pipes', name:'EventBridge Pipes', domain:10, priority:'new', desc:'Point-to-point integration connecting source (SQS, DynamoDB, Kinesis) to target with optional filtering, enrichment via Lambda/Step Functions, and transformation.', doc:'https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes.html', chips:['Filtering','Enrichment','Transformation','Source to Target','Reduced Boilerplate'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 11. MESSAGING ────────────────────────────────────────
+    { id:'messaging', name:'Messaging', domain:11, priority:'critical',
+      desc:'Decouple and scale microservices, distributed systems, and serverless applications using SQS, SNS, MSK, and Amazon MQ.',
+      doc:'https://aws.amazon.com/messaging/',
+      chips:['SQS','SNS','MSK','Amazon MQ','EventBridge'],
+      children:[
+        { id:'sqs', name:'SQS', domain:11, priority:'critical',
+          desc:'Fully managed message queuing for decoupling components. Standard queues offer maximum throughput; FIFO queues guarantee ordering and exactly-once processing.',
+          doc:'https://docs.aws.amazon.com/sqs/',
+          chips:['Standard','FIFO','DLQ','Visibility Timeout','Long Polling','Delay Queue'],
+          children:[
+            { id:'sqs-patterns', name:'SQS Patterns', domain:11, priority:'critical',
+              desc:'Fan-out (SNS→SQS), request-response, priority queue, competing consumers, dead-letter queues for poison pill isolation.',
+              doc:'https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html',
+              chips:['Fan-out','DLQ','Competing Consumers','Message Groups','Deduplication'],
+              children:[
+                { id:'sqs-dlq', name:'Dead Letter Queues', domain:11, priority:'critical', desc:'DLQ captures messages that fail processing after maxReceiveCount. Redrive policy allows replaying messages after fixing consumers.', doc:'https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html', chips:['maxReceiveCount','Redrive Policy','Alarm Integration','Async Processing'] }
+              ]
+            }
+          ]
+        },
+        { id:'sns', name:'SNS', domain:11, priority:'critical',
+          desc:'Fully managed pub/sub messaging service enabling fan-out to multiple subscribers including SQS, Lambda, HTTP, email, and mobile push.',
+          doc:'https://docs.aws.amazon.com/sns/',
+          chips:['Topics','Subscriptions','Message Filtering','FIFO Topics','Fan-out'],
+          children:[
+            { id:'sns-filtering', name:'Message Filtering', domain:11, priority:'quick', desc:'SNS message filtering allows each subscriber to receive only messages that match their filter policy, reducing unnecessary Lambda invocations.', doc:'https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html', chips:['Filter Policy','JSON Policy','String Match','Numeric Match'],
+              children:[
+                { id:'msk', name:'Amazon MSK', domain:11, priority:'new', desc:'Fully managed Apache Kafka service for real-time streaming. MSK Serverless scales automatically without managing brokers or capacity.', doc:'https://docs.aws.amazon.com/msk/', chips:['Kafka','MSK Serverless','Schema Registry','MSK Connect','Tiered Storage'] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ══════════════════════════════════════════════════════════════
+// BUILD FLAT NODE LIST & HIERARCHY
+// ══════════════════════════════════════════════════════════════
+const nodes = [], links = [];
+let nodeMap = {};
+
+function flatten(node, parentId, depth) {
+  const n = {
+    id: node.id,
+    name: node.name,
+    domain: node.domain,
+    priority: node.priority,
+    desc: node.desc,
+    doc: node.doc,
+    chips: node.chips || [],
+    depth,
+    parentId,
+    childIds: (node.children||[]).map(c=>c.id),
+    collapsed: depth >= 2,
+    color: COLORS[node.domain]
+  };
+  nodes.push(n);
+  nodeMap[n.id] = n;
+  if (parentId) links.push({ source: parentId, target: node.id, domain: node.domain });
+  (node.children||[]).forEach(c => flatten(c, node.id, depth+1));
+}
+flatten(raw, null, 0);
+
+// Legend domains
+const domLeg = document.getElementById('legend-domains');
+DOMAINS.slice(1).forEach((d,i) => {
+  const el = document.createElement('div');
+  el.className = 'legend-item';
+  el.innerHTML = `<div class="legend-dot" style="background:${COLORS[i+1]}"></div>${d}`;
+  domLeg.appendChild(el);
+});
+
+// ══════════════════════════════════════════════════════════════
+// FILTER STATE
+// ══════════════════════════════════════════════════════════════
+let activeFilter = 'all';
+
+// ══════════════════════════════════════════════════════════════
+// D3 SETUP
+// ══════════════════════════════════════════════════════════════
+const svg = d3.select('#canvas');
+const W = window.innerWidth, H = window.innerHeight;
+svg.attr('width', W).attr('height', H);
+
+const g = svg.append('g');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.08, 3])
+  .on('zoom', e => g.attr('transform', e.transform));
+
+svg.call(zoom);
+
+const defs = svg.append('defs');
+// Glow filter
+const filt = defs.append('filter').attr('id','glow');
+filt.append('feGaussianBlur').attr('stdDeviation','4').attr('result','coloredBlur');
+const feMerge = filt.append('feMerge');
+feMerge.append('feMergeNode').attr('in','coloredBlur');
+feMerge.append('feMergeNode').attr('in','SourceGraphic');
+
+// ══════════════════════════════════════════════════════════════
+// SIMULATION
+// ══════════════════════════════════════════════════════════════
+function getVisibleNodes() {
+  if (activeFilter === 'all') return nodes.filter(n => isVisible(n));
+  return nodes.filter(n => isVisible(n) && (n.priority === activeFilter || n.depth <= 1));
+}
+
+function getVisibleLinks() {
+  const vids = new Set(getVisibleNodes().map(n=>n.id));
+  return links.filter(l => vids.has(l.source.id||l.source) && vids.has(l.target.id||l.target));
+}
+
+function isVisible(n) {
+  if (n.depth === 0) return true;
+  const parent = nodeMap[n.parentId];
+  if (!parent) return false;
+  if (parent.collapsed) return false;
+  return isVisible(parent);
+}
+
+let sim, linkSel, nodeSel;
+
+function buildGraph() {
+  g.selectAll('*').remove();
+
+  const visNodes = getVisibleNodes().map(n => ({...n, _ref: n}));
+  const visIds = new Set(visNodes.map(n=>n.id));
+  const visLinks = links
+    .filter(l => {
+      const sid = l.source.id||l.source, tid = l.target.id||l.target;
+      return visIds.has(sid) && visIds.has(tid);
+    })
+    .map(l => ({
+      source: l.source.id||l.source,
+      target: l.target.id||l.target,
+      domain: l.domain
+    }));
+
+  // Radii
+  const radii = { 0:32, 1:22, 2:16, 3:12, 4:9 };
+  const getR = d => radii[Math.min(d.depth,4)] || 9;
+  const getFontSize = d => [13,11,10,9,8][Math.min(d.depth,4)];
+
+  // Link
+  linkSel = g.append('g').selectAll('line')
+    .data(visLinks)
+    .join('line')
+    .attr('class','link')
+    .attr('stroke', d => COLORS[d.domain])
+    .attr('stroke-opacity', 0.3)
+    .attr('stroke-width', d => [3,2,1.5,1,0.8][Math.min(nodeMap[d.target]?.depth||0,4)]);
+
+  // Node groups
+  nodeSel = g.append('g').selectAll('g.node')
+    .data(visNodes, d=>d.id)
+    .join('g')
+    .attr('class','node')
+    .call(d3.drag()
+      .on('start', (e,d) => { if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+      .on('drag', (e,d) => { d.fx=e.x; d.fy=e.y; })
+      .on('end', (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
+    )
+    .on('click', (e,d) => { e.stopPropagation(); openPanel(d); })
+    .on('dblclick', (e,d) => { e.stopPropagation(); toggleNode(d, e); });
+
+  // Circle
+  nodeSel.append('circle')
+    .attr('r', d => getR(d))
+    .attr('fill', d => d.depth===0 ? d.color : (d.depth===1 ? d.color+'33' : d.color+'1a'))
+    .attr('stroke', d => d.color)
+    .attr('stroke-width', d => d.depth<2 ? 2 : 1.5)
+    .attr('filter', d => d.depth<2 ? 'url(#glow)' : null)
+    .on('mouseover', function(e,d) {
+      d3.select(this).transition().duration(150).attr('r', getR(d)*1.2);
+    })
+    .on('mouseout', function(e,d) {
+      d3.select(this).transition().duration(150).attr('r', getR(d));
+    });
+
+  // Label
+  nodeSel.append('text')
+    .attr('dy', d => d.depth<2 ? getR(d)+13 : getR(d)+11)
+    .attr('text-anchor','middle')
+    .attr('fill', d => d.depth<2 ? d.color : '#8892a4')
+    .attr('font-family', "'IBM Plex Sans', sans-serif")
+    .attr('font-size', d => getFontSize(d))
+    .attr('font-weight', d => d.depth<2 ? 600 : 400)
+    .text(d => d.name.length > 18 ? d.name.slice(0,16)+'…' : d.name);
+
+  // +/− badge
+  nodeSel.each(function(d) {
+    if (d.childIds.length === 0) return;
+    const grp = d3.select(this);
+    const r = getR(d);
+    const badge = grp.append('g').attr('class','badge').attr('transform',`translate(${r*0.7},${-r*0.7})`);
+    badge.append('circle').attr('r',5.5).attr('fill','#1a1e28').attr('stroke',d.color).attr('stroke-width',1);
+    badge.append('text')
+      .attr('text-anchor','middle').attr('dominant-baseline','central')
+      .attr('fill',d.color).attr('font-size',8).attr('font-weight',700)
+      .attr('font-family',"'IBM Plex Mono',monospace")
+      .text(d.collapsed ? '+' : '−');
+  });
+
+  // Priority badge (depth > 1)
+  nodeSel.each(function(d) {
+    if (d.depth < 2) return;
+    const codes = { critical:'●', new:'◆', quick:'▲', skip:'○' };
+    d3.select(this).append('text')
+      .attr('dy', -getR(d)-3)
+      .attr('text-anchor','middle')
+      .attr('fill', P_COLORS[d.priority]||'#6b7280')
+      .attr('font-size',7)
+      .text(codes[d.priority]||'');
+  });
+
+  // Simulation
+  if (sim) sim.stop();
+  sim = d3.forceSimulation(visNodes)
+    .force('link', d3.forceLink(visLinks).id(d=>d.id).distance(d => {
+      const td = nodeMap[d.target]?.depth||0;
+      return [120, 90, 65, 50, 40][Math.min(td,4)];
+    }).strength(0.8))
+    .force('charge', d3.forceManyBody().strength(d => {
+      return [-400,-250,-150,-100,-70][Math.min(d.depth,4)];
+    }))
+    .force('center', d3.forceCenter(0, 0))
+    .force('collision', d3.forceCollide().radius(d => getR(d)+28))
+    .on('tick', () => {
+      linkSel
+        .attr('x1', d=>d.source.x).attr('y1', d=>d.source.y)
+        .attr('x2', d=>d.target.x).attr('y2', d=>d.target.y);
+      nodeSel.attr('transform', d=>`translate(${d.x},${d.y})`);
+    });
+
+  // Initial centered view
+  setTimeout(() => {
+    const bounds = g.node().getBBox();
+    if (!bounds.width) return;
+    const scale = Math.min(W/bounds.width, H/bounds.height) * 0.8;
+    const tx = W/2 - (bounds.x + bounds.width/2)*scale;
+    const ty = H/2 - (bounds.y + bounds.height/2)*scale;
+    svg.call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(scale));
+  }, 1000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// TOGGLE
+// ══════════════════════════════════════════════════════════════
+function toggleNode(d, event) {
+  if (d.childIds.length === 0) return;
+  nodeMap[d.id].collapsed = !nodeMap[d.id].collapsed;
+
+  // Pulse animation
+  const domNode = d3.select(event.currentTarget).select('circle').node();
+  if (domNode) {
+    const pSvg = d3.select(domNode.ownerSVGElement).select('g');
+    const pulse = pSvg.append('circle')
+      .attr('class','pulse-ring')
+      .attr('cx', d.x).attr('cy', d.y)
+      .attr('r', 18)
+      .attr('stroke', d.color)
+      .attr('fill','none');
+    setTimeout(() => pulse.remove(), 500);
+  }
+
+  buildGraph();
+}
+
+// ══════════════════════════════════════════════════════════════
+// PANEL
+// ══════════════════════════════════════════════════════════════
+function openPanel(d) {
+  const panel = document.getElementById('panel');
+  const parent = d.parentId ? nodeMap[d.parentId] : null;
+
+  document.getElementById('panel-category').textContent = DOMAINS[d.domain];
+  document.getElementById('panel-category').style.color = d.color;
+  document.getElementById('panel-title').textContent = d.name;
+  document.getElementById('panel-parent').textContent = parent ? `↳ ${parent.name}` : 'Root service';
+  document.getElementById('panel-desc').textContent = d.desc || 'No description available.';
+
+  const pEl = document.getElementById('panel-priority');
+  pEl.textContent = P_LABELS[d.priority] || d.priority;
+  pEl.style.background = (P_COLORS[d.priority]||'#6b7280')+'22';
+  pEl.style.color = P_COLORS[d.priority]||'#6b7280';
+  pEl.style.border = `1px solid ${(P_COLORS[d.priority]||'#6b7280')}55`;
+
+  const chips = document.getElementById('panel-chips');
+  chips.innerHTML = '';
+  (d.chips||[]).forEach(c => {
+    const span = document.createElement('span');
+    span.className = 'chip';
+    span.textContent = c;
+    chips.appendChild(span);
+  });
+
+  const link = document.getElementById('panel-link');
+  link.href = d.doc || 'https://docs.aws.amazon.com';
+
+  panel.classList.add('open');
+}
+
+document.getElementById('panel-close').addEventListener('click', () => {
+  document.getElementById('panel').classList.remove('open');
+});
+
+svg.on('click', () => document.getElementById('panel').classList.remove('open'));
+
+// ══════════════════════════════════════════════════════════════
+// TOOLBAR ACTIONS
+// ══════════════════════════════════════════════════════════════
+document.getElementById('btn-expand').addEventListener('click', () => {
+  nodes.forEach(n => { n.collapsed = false; });
+  buildGraph();
+});
+
+document.getElementById('btn-collapse').addEventListener('click', () => {
+  nodes.forEach(n => { if (n.depth > 0) n.collapsed = true; });
+  buildGraph();
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+  svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(W/2, H/2).scale(0.7));
+});
+
+['btn-filter-critical','btn-filter-new','btn-filter-all'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function() {
+    document.querySelectorAll('.tb-btn[data-filter]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    buildGraph();
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+buildGraph();
+
+window.addEventListener('resize', () => {
+  svg.attr('width', window.innerWidth).attr('height', window.innerHeight);
+});
+</script>
+</body>
+</html>

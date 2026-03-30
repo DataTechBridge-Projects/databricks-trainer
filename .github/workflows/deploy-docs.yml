@@ -33,10 +33,11 @@ jobs:
       - name: Build with MkDocs
         run: mkdocs build
 
-      - name: Copy HTML files to site
+      - name: Copy static HTML files to built site
         run: |
-          cp docs/databricks/*.html site/databricks/ 2>/dev/null || true
-          echo "HTML files copied"
+          mkdir -p site/databricks
+          cp -v docs/databricks/*.html site/databricks/ || echo "No HTML files to copy"
+          ls -la site/databricks/
 
       - name: Deploy to GitHub Pages
         run: |

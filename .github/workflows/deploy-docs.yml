@@ -43,17 +43,21 @@ jobs:
 
       - name: Copy static HTML files to built site
         run: |
-          echo "=== Source files ==="
+          echo "=== Root HTML files ==="
+          find docs -maxdepth 1 -name "*.html" -type f
+          echo ""
+          echo "=== Databricks HTML files ==="
           find docs/databricks -name "*.html" -type f
           echo ""
-          echo "=== Creating target directory ==="
+          echo "=== Copying root HTML files ==="
+          cp -v docs/*.html site/ 2>/dev/null || echo "No root HTML files to copy"
+          echo ""
+          echo "=== Copying databricks HTML files ==="
           mkdir -p site/databricks
+          cp -v docs/databricks/*.html site/databricks/ 2>/dev/null || echo "No databricks HTML files to copy"
           echo ""
-          echo "=== Copying files ==="
-          cp -v docs/databricks/*.html site/databricks/ || echo "Copy command returned: $?"
-          echo ""
-          echo "=== Verifying copy ==="
-          ls -la site/databricks/
+          echo "=== Verifying deployed files ==="
+          find site -name "*.html" -type f | grep -E "(mindmap|^site/.*\.html$)"
 
       - name: Deploy to GitHub Pages
         run: |

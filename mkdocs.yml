@@ -45,10 +45,10 @@ markdown_extensions:
 
 plugins:
   - search
-  - include_dir_to_nav:
-      enabled: true
 
-extra:
+nav:
+  - Agent:
+    - Overview: agent/index.md
     - Setup: agent/setup.md
     - Architecture: agent/architecture.md
   - Databricks:

@@ -308,7 +308,7 @@ function prepareTree(raw, depth){
   node._children = null;
   /* root and sections start expanded; everything else collapsed */
   if(node._rawChildren){
-    if(depth<=1){ node.children = node._rawChildren; }
+    if(depth<=0){ node.children = node._rawChildren; }
     else { node._children = node._rawChildren; }
   }
   return node;

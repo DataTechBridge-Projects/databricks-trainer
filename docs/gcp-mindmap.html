@@ -1409,7 +1409,7 @@ function flattenTree(node, parent = null, depth = 0) {
     ...node,
     parent,
     depth,
-    collapsed: depth >= 2, // root & sections start expanded
+    collapsed: depth >= 1, // root expanded; sections start collapsed
     x: 0,
     y: 0,
     vx: 0,

@@ -1057,7 +1057,7 @@ function flatten(node, parentId, depth) {
     depth,
     parentId,
     childIds: (node.children||[]).map(c=>c.id),
-    collapsed: depth >= 2,
+    collapsed: depth >= 1,
     color: COLORS[node.domain]
   };
   nodes.push(n);

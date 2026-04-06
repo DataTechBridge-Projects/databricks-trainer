@@ -1303,10 +1303,10 @@ function buildTree(data, parent = null) {
   };
   if (data.children) {
     const kids = data.children.map(c => buildTree(c, node));
-    if (data.level <= 2) {
-      node.children = kids;  // root + L2 expanded
+    if (data.level <= 1) {
+      node.children = kids;  // root expanded; L2+ collapsed
     } else {
-      node._children = kids; // deeper collapsed
+      node._children = kids;
     }
   }
   return node;
@@ -1480,7 +1480,7 @@ function expandAll(node) {
   (node.children || []).forEach(expandAll);
 }
 function collapseAll(node, keepL2 = false) {
-  if (node.children && node.level > (keepL2 ? 2 : 1)) {
+  if (node.children && node.level > (keepL2 ? 1 : 0)) {
     node._children = node.children; node.children = null;
   }
   (node.children || []).forEach(c => collapseAll(c, keepL2));

@@ -140,7 +140,7 @@ Edit `config.py` to change:
 
 ## GitHub Pages
 
-Site: `https://datatechbridge-projects.github.io/databricks-trainer/`
+Site: `https://datatechbridge-projects.github.io/sa-ramp-up/`
 
 Tabs:
 - **Agent** — pipeline documentation

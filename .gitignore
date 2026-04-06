@@ -6,3 +6,6 @@ venv/
 site/
 output/
 SESSION_NOTES.md
+
+.claude/*
+CLAUDE.md

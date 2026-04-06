@@ -1,6 +1,6 @@
-site_name: Data Engineer Hub
+site_name: Tech Ramp Up
 site_description: A multi-agent AI system that generates technical engineering courses — powered by LangGraph and local LLM inference
-site_author: Data Engineer Hub
+site_author: Tech Ramp Up
 site_url: https://datechbridge-projects.github.io/databricks-trainer/
 
 docs_dir: docs

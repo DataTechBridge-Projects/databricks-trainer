@@ -1,4 +1,4 @@
-# Data Engineer Hub
+# Tech Ramp Up
 
 A multi-agent AI system that autonomously generates technical engineering courses using LangGraph and local LLM inference via Ollama. Each course is a dedicated tab — add a new topic, get a new tab.
 
@@ -9,15 +9,15 @@ A multi-agent AI system that autonomously generates technical engineering course
 | | |
 |---|---|
 | [**Agent**](agent/index.md) | How the multi-agent pipeline works — architecture, setup, and configuration |
-| [**Databricks**](databricks/index.md) | AWS Databricks Data Engineer Certification course |
-| [**AWS**](aws/index.md) | AWS Certified Data Engineer Associate (DEA-C01) course |
-| [**Azure**](azure/index.md) | Azure Data Engineer Associate (DP-203) course |
+| [**Databricks**](databricks/index.md) | Databricks on AWS — core concepts, Delta Lake, and the Lakehouse platform |
+| [**AWS**](aws/index.md) | AWS data services — S3, Glue, Redshift, Kinesis, and the data engineering ecosystem |
+| [**Azure**](azure/index.md) | Azure data platform — Synapse, Data Factory, Databricks on Azure, and more |
 
 ---
 
-## Study Mind Maps
+## Tech Mind Maps
 
-Interactive mind maps for quick reference and study. Click to open in a new tab.
+Interactive visual overviews of each platform's key concepts. Click to open in a new tab.
 
 === "Databricks"
 

@@ -1,4 +1,4 @@
-# Data Engineer Hub — Multi-Agent Course Generator
+# Tech Ramp Up — Multi-Agent Course Generator
 
 A three-agent LangGraph pipeline that autonomously generates complete technical courses from a topic and audience description. Databricks is the first course — any engineering topic can be added as a new tab.
 

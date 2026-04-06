@@ -1,6 +1,6 @@
 # Agent — Overview
 
-The Data Engineer Hub agent is a three-agent LangGraph pipeline that autonomously generates a complete course from a single topic and audience description. No human input required after the initial run.
+The Tech Ramp Up agent is a three-agent LangGraph pipeline that autonomously generates a complete course from a single topic and audience description. No human input required after the initial run.
 
 ---
 

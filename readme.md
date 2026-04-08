@@ -4,6 +4,70 @@ A three-agent LangGraph pipeline that autonomously generates complete technical 
 
 ---
 
+## Pre-Sales SA Competency Framework
+
+This framework defines what a pre-sales Solution Architect should be able to **do and say** after ramping up on any technology. It is technology-agnostic — use it to measure readiness before a customer engagement or as a rubric when reviewing generated course content.
+
+### Level 1 — Awareness *(Can explain the basics)*
+- Describe what the technology is and the core problem it solves in 2–3 sentences
+- Name the primary use cases and which industries or personas care about it
+- Explain the key components or building blocks at a conceptual level
+- Avoid common misconceptions customers have when they first hear about it
+
+### Level 2 — Positioning *(Can place it in the market)*
+- Compare it to 2–3 direct competitors — where it wins, where it doesn't
+- Articulate the vendor's differentiators without reading from a slide
+- Map it to the customer's existing stack (what it replaces, what it complements)
+- Explain the licensing / consumption model at a high level (how customers pay)
+
+### Level 3 — Discovery *(Can lead a customer conversation)*
+- Ask qualifying questions that uncover whether the technology is a fit
+- Identify common pain points that signal a good opportunity
+- Recognize red flags or anti-patterns where the tech is a poor fit
+- Translate customer requirements into technology capabilities
+
+### Level 4 — Solution Framing *(Can shape a solution)*
+- Whiteboard a reference architecture for a common use case
+- Explain integration points with adjacent technologies in the customer's environment
+- Describe the typical adoption journey (crawl / walk / run)
+- Speak to security, compliance, and governance considerations at a high level
+
+### Level 5 — Objection Handling *(Can hold the room)*
+- Address the top 5 objections confidently with data or customer proof points
+- Navigate pricing and TCO conversations without getting stuck
+- Know when to escalate to a specialist and how to set that up cleanly
+- Leave the customer with a clear next step tied to their business outcome
+
+---
+
+> **How this maps to the course generator:** Each generated course targets **Levels 1–3**. Levels 4–5 require product-specific enablement, customer-facing practice, and deal experience.
+
+---
+
+## Technology Topic Checklist
+
+For any technology, a ramped SA should be able to speak to each of these areas. Use this as a content checklist when reviewing generated courses or preparing for a customer call.
+
+| # | Topic Area | What to Know |
+|---|---|---|
+| 1 | **What & Why** | What problem does it solve? Why does it exist? What's the origin story? |
+| 2 | **Core Architecture** | Key components, how data/requests flow, what runs where |
+| 3 | **Primary Use Cases** | Top 3–5 scenarios customers actually use it for |
+| 4 | **Key Personas** | Who buys it, who uses it, who operates it |
+| 5 | **Deployment Models** | Cloud, on-prem, hybrid, SaaS — what's available and what's common |
+| 6 | **Integration Landscape** | What it connects to natively; what requires custom work |
+| 7 | **Security & Compliance** | Auth/authz model, data encryption, common certifications (SOC 2, HIPAA, etc.) |
+| 8 | **Pricing & Licensing** | Unit of consumption, pricing tiers, what drives cost up |
+| 9 | **Competitive Landscape** | Top 2–3 alternatives; where this wins and where it doesn't |
+| 10 | **Adoption Journey** | How customers typically start, expand, and scale |
+| 11 | **Common Objections** | Price, complexity, lock-in, incumbent — and how to respond |
+| 12 | **Proof Points** | 2–3 customer stories or industry references worth knowing |
+| 13 | **Limitations & Anti-Patterns** | When *not* to recommend it; known gaps or constraints |
+| 14 | **Roadmap Awareness** | What's coming next; any known GA dates or public announcements |
+| 15 | **Demo / Whiteboard Narrative** | A 5-minute verbal walkthrough of the technology without slides |
+
+---
+
 ## Architecture
 
 ```

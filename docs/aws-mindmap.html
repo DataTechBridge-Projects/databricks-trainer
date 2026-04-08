@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AWS Solutions Architect Mind Map</title>
+<title>AWS Pre-Sales SA Ramp-Up Mind Map</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
@@ -29,6 +29,8 @@
     --c9: #ec4899; /* containers - pink */
     --c10: #14b8a6; /* serverless - teal */
     --c11: #a78bfa; /* messaging - violet */
+    --c12: #e879f9; /* cost - fuchsia */
+    --c13: #34d399; /* migration - emerald */
 
     --p-critical: #ef4444;
     --p-new: #3b82f6;
@@ -429,8 +431,8 @@
 // ══════════════════════════════════════════════════════════════
 // DATA
 // ══════════════════════════════════════════════════════════════
-const COLORS = ['#ff9900','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#14b8a6','#a78bfa'];
-const DOMAINS = ['Root','Compute','Storage','Database','Networking','Security','Analytics','ML & AI','DevOps','Containers','Serverless','Messaging'];
+const COLORS = ['#ff9900','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#84cc16','#ec4899','#14b8a6','#a78bfa','#e879f9','#34d399'];
+const DOMAINS = ['Root','Compute','Storage','Database','Networking','Security','Analytics','ML & AI','DevOps','Containers','Serverless','Messaging','Cost & Billing','Migration'];
 
 const PRIORITY = { critical:'critical', new:'new', quick:'quick', skip:'skip' };
 const P_LABELS = { critical:'CRITICAL', new:'NEW STUDY', quick:'QUICK REVIEW', skip:'SKIP' };
@@ -830,12 +832,12 @@ const raw = {
     },
 
     // ── 7. ML & AI ───────────────────────────────────────────
-    { id:'ml', name:'ML & AI', domain:7, priority:'new',
+    { id:'ml', name:'ML & AI', domain:7, priority:'critical',
       desc:'AWS provides the broadest and deepest set of ML capabilities, from purpose-built AI services and foundation models to ML infrastructure and MLOps tools.',
       doc:'https://aws.amazon.com/machine-learning/',
       chips:['Bedrock','SageMaker','Rekognition','Comprehend','Textract','Q'],
       children:[
-        { id:'bedrock', name:'Amazon Bedrock', domain:7, priority:'new',
+        { id:'bedrock', name:'Amazon Bedrock', domain:7, priority:'critical',
           desc:'Fully managed service for accessing foundation models from Anthropic, AI21, Cohere, Meta, Mistral, Stability AI, and Amazon via a single API.',
           doc:'https://docs.aws.amazon.com/bedrock/',
           chips:['Claude','Llama','Titan','Knowledge Bases','Agents','Guardrails'],
@@ -848,7 +850,7 @@ const raw = {
             { id:'bedrock-guardrails', name:'Guardrails & Fine-tuning', domain:7, priority:'new', desc:'Guardrails enforce content safety policies, prevent hallucinations, and apply PII redaction. Fine-tuning and continued pre-training customize models.', doc:'https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html', chips:['Content Filtering','PII Redaction','Custom Models','Fine-tuning','RLHF'] }
           ]
         },
-        { id:'sagemaker', name:'SageMaker', domain:7, priority:'new',
+        { id:'sagemaker', name:'SageMaker', domain:7, priority:'critical',
           desc:'End-to-end ML platform for building, training, and deploying ML models at scale with managed notebooks, pipelines, model registry, and monitoring.',
           doc:'https://docs.aws.amazon.com/sagemaker/',
           chips:['Studio','Pipelines','Feature Store','Model Monitor','Inference','JumpStart'],
@@ -1032,6 +1034,100 @@ const raw = {
                 { id:'msk', name:'Amazon MSK', domain:11, priority:'new', desc:'Fully managed Apache Kafka service for real-time streaming. MSK Serverless scales automatically without managing brokers or capacity.', doc:'https://docs.aws.amazon.com/msk/', chips:['Kafka','MSK Serverless','Schema Registry','MSK Connect','Tiered Storage'] }
               ]
             }
+          ]
+        }
+      ]
+    },
+
+    // ── 12. COST & BILLING ───────────────────────────────────
+    { id:'cost', name:'Cost & Billing', domain:12, priority:'critical',
+      desc:'Understanding AWS pricing and cost management is essential for every SA — customers always ask "what will this cost?" before they sign.',
+      doc:'https://aws.amazon.com/aws-cost-management/',
+      chips:['Cost Explorer','Budgets','Savings Plans','Reserved Instances','Pricing Calculator','Trusted Advisor'],
+      children:[
+        { id:'pricing-models', name:'Pricing Models', domain:12, priority:'critical',
+          desc:'AWS offers four core pricing models: On-Demand (pay per use), Savings Plans (commit to $/hr for 1-3yr), Reserved Instances (commit to instance for 1-3yr), and Spot (bid on spare capacity).',
+          doc:'https://aws.amazon.com/pricing/',
+          chips:['On-Demand','Savings Plans','Reserved Instances','Spot','Free Tier'],
+          children:[
+            { id:'savings-plans', name:'Savings Plans vs RIs', domain:12, priority:'critical',
+              desc:'Savings Plans (Compute, EC2, SageMaker) offer flexibility across instance families and regions. Reserved Instances lock to a specific instance type but can offer slightly deeper discounts on EC2.',
+              doc:'https://aws.amazon.com/savingsplans/',
+              chips:['Compute SP','EC2 Instance SP','Convertible RI','Standard RI','Zonal RI'],
+              children:[
+                { id:'spot-strategy', name:'Spot Strategy', domain:12, priority:'quick', desc:'Spot Instances offer up to 90% savings for fault-tolerant workloads. Use Spot Fleet or EC2 Auto Scaling with mixed instances to handle interruptions gracefully.', doc:'https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html', chips:['Spot Fleet','Mixed Instances','Interruption Handling','Capacity Pools','Diversification'] }
+              ]
+            }
+          ]
+        },
+        { id:'cost-visibility', name:'Cost Visibility Tools', domain:12, priority:'critical',
+          desc:'Cost Explorer provides historical spend analysis and forecasting. AWS Budgets alerts when spend or usage crosses thresholds. Cost Allocation Tags group spend by team, project, or environment.',
+          doc:'https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html',
+          chips:['Cost Explorer','Budgets','Cost Allocation Tags','Resource Groups','Cost Categories'],
+          children:[
+            { id:'cost-explorer', name:'Cost Explorer & Forecasting', domain:12, priority:'critical', desc:'Visualize spend by service, region, account, or tag. 12-month forecasting, rightsizing recommendations, and RI/SP utilization reports help customers optimize continuously.', doc:'https://docs.aws.amazon.com/cost-management/latest/userguide/ce-exploring-data.html', chips:['Forecasting','Rightsizing','RI Utilization','Savings Plans Utilization','Anomaly Detection'],
+              children:[
+                { id:'budgets', name:'AWS Budgets & Alerts', domain:12, priority:'quick', desc:'Set cost, usage, RI, or Savings Plans budgets with SNS/email alerts. Budget Actions can automatically apply SCPs or stop EC2/RDS when thresholds are breached.', doc:'https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html', chips:['Cost Budget','Usage Budget','RI Budget','Budget Actions','SNS Alerts'] }
+              ]
+            }
+          ]
+        },
+        { id:'pricing-tools', name:'Pricing & TCO Tools', domain:12, priority:'critical',
+          desc:'Use the AWS Pricing Calculator to estimate costs before a customer commits. Migration Evaluator and Cloud Economics tools help build the business case with TCO comparisons.',
+          doc:'https://calculator.aws/',
+          chips:['Pricing Calculator','Migration Evaluator','Cloud Economics','TCO Calculator','Trusted Advisor'],
+          children:[
+            { id:'trusted-advisor', name:'Trusted Advisor', domain:12, priority:'quick', desc:'Automated best practice checks across cost optimization, performance, security, fault tolerance, and service limits. Business/Enterprise Support unlocks all checks.', doc:'https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html', chips:['Cost Optimization','Security','Fault Tolerance','Performance','Service Limits'] },
+            { id:'compute-optimizer', name:'Compute Optimizer', domain:12, priority:'quick', desc:'ML-driven rightsizing recommendations for EC2, Auto Scaling, Lambda, ECS, EBS, and RDS. Identifies over-provisioned resources and potential savings.', doc:'https://docs.aws.amazon.com/compute-optimizer/', chips:['Rightsizing','EC2','Lambda','EBS','Savings Potential'] }
+          ]
+        }
+      ]
+    },
+
+    // ── 13. MIGRATION ────────────────────────────────────────
+    { id:'migration', name:'Migration', domain:13, priority:'critical',
+      desc:'Every new AWS customer is migrating something. SAs need to know the migration strategies, tools, and how to frame the journey from on-prem or another cloud.',
+      doc:'https://aws.amazon.com/cloud-migration/',
+      chips:['7 Rs','MGN','DMS','Snow Family','Migration Hub','VMware Cloud on AWS'],
+      children:[
+        { id:'migration-strategies', name:'7 Rs Migration Strategies', domain:13, priority:'critical',
+          desc:'The 7 Rs are the go-to framework for classifying workloads: Retire, Retain, Rehost (lift-and-shift), Relocate, Replatform, Repurchase, and Refactor/Re-architect.',
+          doc:'https://aws.amazon.com/blogs/enterprise-strategy/6-strategies-for-migrating-applications-to-the-cloud/',
+          chips:['Retire','Retain','Rehost','Relocate','Replatform','Repurchase','Refactor'],
+          children:[
+            { id:'migration-waves', name:'Migration Phases', domain:13, priority:'critical', desc:'Assess (discovery & business case) → Mobilize (pilot, landing zone, skills) → Migrate & Modernize (wave-based execution). Use Migration Evaluator for the assess phase TCO.', doc:'https://aws.amazon.com/migration-acceleration-program/', chips:['Assess','Mobilize','Migrate','Modernize','MAP Program'],
+              children:[
+                { id:'map-program', name:'Migration Acceleration Program', domain:13, priority:'quick', desc:'AWS MAP provides funding, training, and tooling to reduce migration risk and cost for qualified customers. SAs should know how to position MAP in deals.', doc:'https://aws.amazon.com/migration-acceleration-program/', chips:['Funding Credits','Partner Support','Discover Tool','Business Case','Qualified Workloads'] }
+              ]
+            }
+          ]
+        },
+        { id:'migration-tools', name:'Migration Tools', domain:13, priority:'critical',
+          desc:'AWS provides purpose-built tools for server migration, database migration, large-scale data transfer, and portfolio discovery.',
+          doc:'https://aws.amazon.com/migration-hub/',
+          chips:['MGN','DMS','Snow Family','DataSync','Migration Hub','Application Discovery'],
+          children:[
+            { id:'mgn', name:'Application Migration Service (MGN)', domain:13, priority:'critical', desc:'Rehost (lift-and-shift) servers from on-prem or other clouds to AWS with continuous block-level replication and automated conversion — the primary tool for server migration.', doc:'https://docs.aws.amazon.com/mgn/', chips:['Rehost','Agent-based','Continuous Replication','Cutover','CloudEndure Replacement'],
+              children:[
+                { id:'dms', name:'Database Migration Service', domain:13, priority:'critical', desc:'Migrate databases to AWS with minimal downtime. Supports homogeneous (Oracle→Oracle) and heterogeneous (Oracle→Aurora) migrations. Schema Conversion Tool (SCT) handles DDL conversion.', doc:'https://docs.aws.amazon.com/dms/', chips:['Homogeneous','Heterogeneous','SCT','CDC','Full Load + CDC'] }
+              ]
+            },
+            { id:'snow-family', name:'Snow Family', domain:13, priority:'critical',
+              desc:'Physical devices for offline data transfer when network bandwidth is the bottleneck: Snowcone (8TB), Snowball Edge (80TB), Snowmobile (100PB truck).',
+              doc:'https://aws.amazon.com/snow/',
+              chips:['Snowcone','Snowball Edge','Snowmobile','Edge Compute','Offline Transfer'],
+              children:[
+                { id:'datasync', name:'DataSync & Transfer Family', domain:13, priority:'quick', desc:'DataSync automates online data transfer from on-prem NFS/SMB/HDFS/S3-compatible to AWS at up to 10 Gbps. Transfer Family provides managed SFTP/FTPS/FTP endpoints backed by S3 or EFS.', doc:'https://docs.aws.amazon.com/datasync/', chips:['NFS','SMB','HDFS','S3 Compatible','Scheduled Transfers'] }
+              ]
+            }
+          ]
+        },
+        { id:'vmware-cloud', name:'VMware Cloud on AWS', domain:13, priority:'quick',
+          desc:'Run VMware workloads natively on AWS without re-platforming. Ideal for customers with large VMware investments who want cloud economics without changing their operational model.',
+          doc:'https://aws.amazon.com/vmware/',
+          chips:['vSphere','vSAN','NSX','HCX','Stretched Clusters','SDDC'],
+          children:[
+            { id:'outposts', name:'AWS Outposts', domain:13, priority:'quick', desc:'Fully managed AWS infrastructure delivered on-prem for workloads requiring low latency or local data residency. Same AWS APIs, tools, and hardware as in the cloud.', doc:'https://docs.aws.amazon.com/outposts/', chips:['Outposts Rack','Outposts Servers','Local Data','Low Latency','Hybrid'] }
           ]
         }
       ]

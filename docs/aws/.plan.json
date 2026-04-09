@@ -1,0 +1,95 @@
+{
+  "course_topic": "AWS Certified Data Engineer Associate (DEA-C01)",
+  "sections": [
+    {
+      "index": 0,
+      "title": "Course Introduction",
+      "status": "completed",
+      "filename": "section_01_course_introduction.md"
+    },
+    {
+      "index": 1,
+      "title": "Exam Overview and Strategy",
+      "status": "completed",
+      "filename": "section_02_exam_overview_and_strategy.md"
+    },
+    {
+      "index": 2,
+      "title": "AWS Data Architecture Foundations",
+      "status": "completed",
+      "filename": "section_03_aws_data_architecture_foundations.md"
+    },
+    {
+      "index": 3,
+      "title": "Data Ingestion",
+      "status": "completed",
+      "filename": "section_04_data_ingestion.md"
+    },
+    {
+      "index": 4,
+      "title": "AWS Glue Deep Dive",
+      "status": "completed",
+      "filename": "section_05_aws_glue_deep_dive.md"
+    },
+    {
+      "index": 5,
+      "title": "Amazon S3 and Data Lake Design",
+      "status": "completed",
+      "filename": "section_06_amazon_s3_and_data_lake_design.md"
+    },
+    {
+      "index": 6,
+      "title": "Amazon Athena",
+      "status": "completed",
+      "filename": "section_07_amazon_athena.md"
+    },
+    {
+      "index": 7,
+      "title": "Amazon Redshift",
+      "status": "completed",
+      "filename": "section_08_amazon_redshift.md"
+    },
+    {
+      "index": 8,
+      "title": "Streaming Data with Kinesis and MSK",
+      "status": "completed",
+      "filename": "section_09_streaming_data_with_kinesis_and_msk.md"
+    },
+    {
+      "index": 9,
+      "title": "NoSQL and Purpose-Built Databases",
+      "status": "completed",
+      "filename": "section_10_nosql_and_purposebuilt_databases.md"
+    },
+    {
+      "index": 10,
+      "title": "AWS Lake Formation and Data Governance",
+      "status": "completed",
+      "filename": "section_11_aws_lake_formation_and_data_governance.md"
+    },
+    {
+      "index": 11,
+      "title": "Data Orchestration and Pipelines",
+      "status": "completed",
+      "filename": "section_12_data_orchestration_and_pipelines.md"
+    },
+    {
+      "index": 12,
+      "title": "Performance, Cost Optimization, and Monitoring",
+      "status": "completed",
+      "filename": "section_13_performance_cost_optimization_and_monitoring.md"
+    },
+    {
+      "index": 13,
+      "title": "Security, Compliance, and Networking",
+      "status": "completed",
+      "filename": "section_14_security_compliance_and_networking.md"
+    },
+    {
+      "index": 14,
+      "title": "Capstone and Exam Readiness",
+      "status": "completed",
+      "filename": "section_15_capstone_and_exam_readiness.md"
+    }
+  ]
+}

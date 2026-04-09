@@ -1,33 +1,48 @@
 import json
 import re
-import importlib
-from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from state import OverallState
-from config import MODEL_NAME, OLLAMA_BASE_URL, PROMPT_MODULE
+from config import make_llm
+from agents.logger import log
+from agents.tracker import load_plan, save_plan, get_pending_sections
 
-_llm = ChatOllama(
-    model=MODEL_NAME,
-    base_url=OLLAMA_BASE_URL,
-)
-
-_SYSTEM = """You are a senior technical curriculum designer specializing in cloud data engineering.
-Your task is to create a comprehensive, well-structured course outline."""
-
+_llm = make_llm()
 
 def supervisor(state: OverallState) -> dict:
     """
-    Creates the course outline using the prompt from the active PROMPT_MODULE.
+    Creates (or resumes) the course outline.
+
+    - If a .plan.json exists in output_dir, loads the previous plan and
+      skips the LLM call — the pipeline will only run pending sections.
+    - Otherwise, calls the LLM to create a fresh outline and persists it.
+
     Returns: {'sections': list[str]}
     """
-    prompts = importlib.import_module(PROMPT_MODULE)
-    user_prompt = prompts.SUPERVISOR_PROMPT.format(
+    output_dir = state["output_dir"]
+    existing_plan = load_plan(output_dir)
+
+    if existing_plan:
+        sections = [s["title"] for s in sorted(existing_plan["sections"], key=lambda s: s["index"])]
+        pending = get_pending_sections(output_dir)
+        log.info(
+            f"[Supervisor] Resuming plan for '{state['course_topic']}': "
+            f"{len(sections)} total sections, {len(pending)} pending."
+        )
+        for s in existing_plan["sections"]:
+            status = "✓" if s["status"] == "completed" else "○"
+            log.info(f"  {status} {s['index'] + 1:02d}. {s['title']}")
+        return {"sections": sections}
+
+    # No plan exists — ask the LLM to build one
+    user_prompt = state["supervisor_prompt"].format(
         course_topic=state["course_topic"],
         course_audience=state["course_audience"],
     )
 
+    start = log.agent_start("Supervisor", state["course_topic"])
+
     response = _llm.invoke([
-        SystemMessage(content=_SYSTEM),
+        SystemMessage(content=state["supervisor_system"]),
         HumanMessage(content=user_prompt),
     ])
 
@@ -37,8 +52,12 @@ def supervisor(state: OverallState) -> dict:
 
     sections: list[str] = json.loads(raw)
 
-    print(f"\n[Supervisor] Created outline with {len(sections)} sections:")
+    log.agent_end("Supervisor", state["course_topic"], start=start)
+    log.info(f"[Supervisor] Created outline with {len(sections)} sections:")
     for i, s in enumerate(sections):
-        print(f"  {i + 1:02d}. {s}")
+        log.info(f"  {i + 1:02d}. {s}")
+
+    save_plan(output_dir, state["course_topic"], sections)
+    log.info(f"[Supervisor] Plan saved to {output_dir}/.plan.json")
 
     return {"sections": sections}

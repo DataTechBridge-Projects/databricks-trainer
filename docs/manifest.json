@@ -1,0 +1,86 @@
+{
+  "courses": [
+    {
+      "key": "aws",
+      "title": "AWS Certified Data Engineer Associate (DEA-C01)",
+      "audience": "cloud engineers and developers familiar with AWS core services who want to pass the AWS Certified Data Engineer Associate exam",
+      "sections": [
+        {
+          "index": 0,
+          "title": "Course Introduction",
+          "file": "aws/section_01_course_introduction.md"
+        },
+        {
+          "index": 1,
+          "title": "Exam Overview and Strategy",
+          "file": "aws/section_02_exam_overview_and_strategy.md"
+        },
+        {
+          "index": 2,
+          "title": "AWS Data Architecture Foundations",
+          "file": "aws/section_03_aws_data_architecture_foundations.md"
+        },
+        {
+          "index": 3,
+          "title": "Data Ingestion",
+          "file": "aws/section_04_data_ingestion.md"
+        },
+        {
+          "index": 4,
+          "title": "AWS Glue Deep Dive",
+          "file": "aws/section_05_aws_glue_deep_dive.md"
+        },
+        {
+          "index": 5,
+          "title": "Amazon S3 and Data Lake Design",
+          "file": "aws/section_06_amazon_s3_and_data_lake_design.md"
+        },
+        {
+          "index": 6,
+          "title": "Amazon Athena",
+          "file": "aws/section_07_amazon_athena.md"
+        },
+        {
+          "index": 7,
+          "title": "Amazon Redshift",
+          "file": "aws/section_08_amazon_redshift.md"
+        },
+        {
+          "index": 8,
+          "title": "Streaming Data with Kinesis and MSK",
+          "file": "aws/section_09_streaming_data_with_kinesis_and_msk.md"
+        },
+        {
+          "index": 9,
+          "title": "NoSQL and Purpose-Built Databases",
+          "file": "aws/section_10_nosql_and_purposebuilt_databases.md"
+        },
+        {
+          "index": 10,
+          "title": "AWS Lake Formation and Data Governance",
+          "file": "aws/section_11_aws_lake_formation_and_data_governance.md"
+        },
+        {
+          "index": 11,
+          "title": "Data Orchestration and Pipelines",
+          "file": "aws/section_12_data_orchestration_and_pipelines.md"
+        },
+        {
+          "index": 12,
+          "title": "Performance, Cost Optimization, and Monitoring",
+          "file": "aws/section_13_performance_cost_optimization_and_monitoring.md"
+        },
+        {
+          "index": 13,
+          "title": "Security, Compliance, and Networking",
+          "file": "aws/section_14_security_compliance_and_networking.md"
+        },
+        {
+          "index": 14,
+          "title": "Capstone and Exam Readiness",
+          "file": "aws/section_15_capstone_and_exam_readiness.md"
+        }
+      ]
+    }
+  ]
+}

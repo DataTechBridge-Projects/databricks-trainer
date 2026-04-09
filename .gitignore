@@ -9,3 +9,16 @@ SESSION_NOTES.md
 
 .claude/*
 CLAUDE.md
+
+*docs-bkp/*
+
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+.idea/
+.vscode/
+*.iml
+*.zip
+*.tar.gz

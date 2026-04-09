@@ -1,17 +1,11 @@
 import re
 from datetime import datetime
-from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from state import OverallState
-from config import MODEL_NAME, OLLAMA_BASE_URL
+from config import make_llm
+from agents.logger import log
 
-_llm = ChatOllama(
-    model=MODEL_NAME,
-    base_url=OLLAMA_BASE_URL,
-)
-
-_SYSTEM = "You are a senior Databricks instructor writing a compelling course introduction."
-
+_llm = make_llm()
 
 def summarizer(state: OverallState) -> dict:
     """
@@ -21,6 +15,7 @@ def summarizer(state: OverallState) -> dict:
     Returns: {'final_document': str}
     """
     ordered = sorted(state["completed_sections"], key=lambda x: x["section_index"])
+    start = log.agent_start("Summarizer", f"{len(ordered)} sections")
 
     # Table of contents
     toc_lines = ["## Table of Contents\n"]
@@ -31,17 +26,15 @@ def summarizer(state: OverallState) -> dict:
     toc = "\n".join(toc_lines)
 
     # Course introduction
+    sections_list = [s["section_title"] for s in ordered]
+    intro_prompt = state["summarizer_intro"].format(
+        course_topic=state["course_topic"],
+        course_audience=state["course_audience"],
+        sections=sections_list,
+    )
     intro_response = _llm.invoke([
-        SystemMessage(content=_SYSTEM),
-        HumanMessage(content=f"""Write a compelling course introduction (400-600 words) for:
-
-Course: {state['course_topic']}
-Audience: {state['course_audience']}
-Sections: {[s['section_title'] for s in ordered]}
-
-Include: what the student will learn, prerequisites assumed, how to use this material,
-and a brief overview of the Databricks Certified Data Engineer Associate exam.
-Use markdown formatting."""),
+        SystemMessage(content=state["summarizer_system"]),
+        HumanMessage(content=intro_prompt),
     ])
 
     introduction = intro_response.content
@@ -67,6 +60,7 @@ Use markdown formatting."""),
         + sections_content
     )
 
-    print(f"[Summarizer] Assembled {len(ordered)} sections — {len(final_document):,} total chars")
+    log.agent_end("Summarizer", f"{len(ordered)} sections", start=start)
+    log.info(f"[Summarizer] Assembled {len(ordered)} sections — {len(final_document):,} total chars")
 
     return {"final_document": final_document}

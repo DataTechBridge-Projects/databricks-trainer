@@ -1,15 +1,17 @@
 import re
-import importlib
-from langchain_ollama import ChatOllama
+import threading
+from datetime import datetime
+from agents.logger import log
+from pathlib import Path
 from langchain_core.messages import HumanMessage, SystemMessage
 from state import WorkerState, SectionResult
-from config import MODEL_NAME, OLLAMA_BASE_URL, OUTPUT_DIR, NUM_PREDICT, PROMPT_MODULE
+from config import make_llm, NUM_PREDICT, MAX_WORKERS
+from agents.tracker import mark_completed
 
-_llm = ChatOllama(
-    model=MODEL_NAME,
-    base_url=OLLAMA_BASE_URL,
-    num_predict=NUM_PREDICT,
-)
+_llm = make_llm(num_predict=NUM_PREDICT, timeout=900)
+
+# Limits how many workers call Ollama simultaneously so the local model isn't overwhelmed.
+_semaphore = threading.Semaphore(MAX_WORKERS)
 
 
 def _safe_filename(index: int, title: str) -> str:
@@ -22,12 +24,11 @@ def _safe_filename(index: int, title: str) -> str:
 def worker(state: WorkerState) -> dict:
     """
     Generates full markdown content for one course section.
-    Loads WORKER_PROMPT and WORKER_SYSTEM from the active PROMPT_MODULE.
+    Reads worker_system, worker_prompt, and output_dir from state.
     Runs in parallel — one instance per section.
     Returns: {'completed_sections': [SectionResult]}
     """
-    prompts = importlib.import_module(PROMPT_MODULE)
-    user_prompt = prompts.WORKER_PROMPT.format(
+    user_prompt = state["worker_prompt"].format(
         section=state["section"],
         section_index=state["section_index"] + 1,
         total_sections=state["total_sections"],
@@ -35,19 +36,31 @@ def worker(state: WorkerState) -> dict:
         course_audience=state["course_audience"],
     )
 
-    response = _llm.invoke([
-        SystemMessage(content=prompts.WORKER_SYSTEM),
-        HumanMessage(content=user_prompt),
-    ])
-
-    content = response.content
+    idx = state['section_index'] + 1
+    label = f"section {idx} — {state['section']}"
+    log.info(f"[Worker] Queued {label}")
     filename = _safe_filename(state["section_index"], state["section"])
+    output_dir = Path(state["output_dir"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+    out_path = output_dir / filename
 
-    # Write to disk immediately — don't wait for the full graph to finish
-    OUTPUT_DIR.mkdir(exist_ok=True)
-    (OUTPUT_DIR / filename).write_text(content, encoding="utf-8")
+    with _semaphore:
+        start = log.agent_start("Worker", label)
+        chunks = []
+        with out_path.open("w", encoding="utf-8") as f:
+            for chunk in _llm.stream([
+                SystemMessage(content=state["worker_system"]),
+                HumanMessage(content=user_prompt),
+            ]):
+                token = chunk.content
+                f.write(token)
+                f.flush()
+                chunks.append(token)
+        content = "".join(chunks)
+        log.agent_end("Worker", label, start=start)
 
-    print(f"[Worker] Saved: section {state['section_index'] + 1} — {state['section']} ({len(content):,} chars) → output/{filename}")
+    log.info(f"[Worker] Saved: {label} ({len(content):,} chars) → {output_dir / filename}")
+    mark_completed(state["output_dir"], state["section_index"], filename)
 
     result: SectionResult = {
         "section_index": state["section_index"],

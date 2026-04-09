@@ -1,5 +1,5 @@
 site_name: Tech Ramp Up
-site_description: A multi-agent AI system that generates technical engineering courses — powered by LangGraph and local LLM inference
+site_description: A multi-agent AI system that generates technical training courses for pre-sales Solution Architects — powered by LangGraph and local LLM inference
 site_author: Tech Ramp Up
 site_url: https://datechbridge-projects.github.io/databricks-trainer/
 
@@ -48,37 +48,35 @@ plugins:
   - search
 
 nav:
-  - Agent:
-    - Overview: agent/index.md
-    - Setup: agent/setup.md
-    - Architecture: agent/architecture.md
-  - Databricks:
-    - Home: databricks/index.md
-    # DATABRICKS_SECTIONS_START
-    - "1. Course Introduction": databricks/section_01_course_introduction.md
-    - "2. Exam Overview and Strategy": databricks/section_02_exam_overview_and_strategy.md
-    - "3. AWS Setup": databricks/section_03_aws_setup.md
-    - "4. Databricks Platform": databricks/section_04_databricks_platform.md
-    - "5. Spark on Databricks": databricks/section_05_spark_on_databricks.md
-    - "6. Delta Lake Core Concepts": databricks/section_06_delta_lake_core_concepts.md
-    - "7. Lakehouse Architecture": databricks/section_07_lakehouse_architecture.md
-    - "8. Data Ingestion with Auto Loader": databricks/section_08_data_ingestion_with_auto_loader.md
-    - "9. Data Transformation and ETL Pipelines": databricks/section_09_data_transformation_and_etl_pipelines.md
-    - "10. Unity Catalog and Governance": databricks/section_10_unity_catalog_governance.md
-    - "11. Workflows and Orchestration": databricks/section_11_workflows_and_orchestration.md
-    - "12. Performance Tuning": databricks/section_12_performance_tuning.md
-    - "13. Advanced Delta Optimization": databricks/section_13_advanced_delta_optimization.md
-    - "14. Testing, Debugging, and Monitoring": databricks/section_14_testing_debugging_and_monitoring.md
-    - "15. Capstone and Exam Readiness": databricks/section_15_capstone_and_exam_readiness.md
-    # DATABRICKS_SECTIONS_END
+  - Home: index.md
   - AWS:
     - Home: aws/index.md
     # AWS_SECTIONS_START
+    - "1. Course Introduction": aws/section_01_course_introduction.md
+    - "2. Exam Overview and Strategy": aws/section_02_exam_overview_and_strategy.md
+    - "3. AWS Data Architecture Foundations": aws/section_03_aws_data_architecture_foundations.md
+    - "4. Data Ingestion": aws/section_04_data_ingestion.md
+    - "5. AWS Glue Deep Dive": aws/section_05_aws_glue_deep_dive.md
+    - "6. Amazon S3 and Data Lake Design": aws/section_06_amazon_s3_and_data_lake_design.md
+    - "7. Amazon Athena": aws/section_07_amazon_athena.md
+    - "8. Amazon Redshift": aws/section_08_amazon_redshift.md
+    - "9. Streaming Data with Kinesis and MSK": aws/section_09_streaming_data_with_kinesis_and_msk.md
+    - "10. NoSQL and Purpose-Built Databases": aws/section_10_nosql_and_purposebuilt_databases.md
+    - "11. AWS Lake Formation and Data Governance": aws/section_11_aws_lake_formation_and_data_governance.md
+    - "12. Data Orchestration and Pipelines": aws/section_12_data_orchestration_and_pipelines.md
+    - "13. Performance, Cost Optimization, and Monitoring": aws/section_13_performance_cost_optimization_and_monitoring.md
+    - "14. Security, Compliance, and Networking": aws/section_14_security_compliance_and_networking.md
+    - "15. Capstone and Exam Readiness": aws/section_15_capstone_and_exam_readiness.md
     # AWS_SECTIONS_END
-  - Azure:
-    - Home: azure/index.md
-    # AZURE_SECTIONS_START
-    # AZURE_SECTIONS_END
+    - SA Quick Reference:
+      # AWS_NOTES_START
+      - "1. Course Introduction": aws/notes/notes_section_01_course_introduction.md
+      - "2. Exam Overview and Strategy": aws/notes/notes_section_02_exam_overview_and_strategy.md
+      - "3. AWS Data Architecture Foundations": aws/notes/notes_section_03_aws_data_architecture_foundations.md
+      - "4. Data Ingestion": aws/notes/notes_section_04_data_ingestion.md
+      - "5. AWS Glue Deep Dive": aws/notes/notes_section_05_aws_glue_deep_dive.md
+      - "6. Amazon S3 and Data Lake Design": aws/notes/notes_section_06_amazon_s3_and_data_lake_design.md
+      # AWS_NOTES_END
 
 extra:
   social:

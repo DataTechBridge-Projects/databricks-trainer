@@ -20,6 +20,13 @@ class OverallState(TypedDict):
     """
     course_topic: str
     course_audience: str
+    output_dir: str                                                    # e.g. "docs/aws"
+    supervisor_system: str
+    supervisor_prompt: str
+    worker_system: str
+    worker_prompt: str
+    summarizer_system: str
+    summarizer_intro: str
     sections: list[str]                                               # written by supervisor
     completed_sections: Annotated[list[SectionResult], operator.add]  # written by workers
     final_document: str                                               # written by summarizer
@@ -28,10 +35,13 @@ class OverallState(TypedDict):
 class WorkerState(TypedDict):
     """
     Private state passed to each parallel Worker instance via Send.
-    Minimal — carries only what the worker needs.
+    Carries everything the worker needs — prompts included.
     """
     section: str
     section_index: int
     total_sections: int
     course_topic: str
     course_audience: str
+    output_dir: str
+    worker_system: str
+    worker_prompt: str

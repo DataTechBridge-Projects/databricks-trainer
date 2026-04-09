@@ -30,41 +30,8 @@ jobs:
       - name: Install MkDocs and Material theme
         run: pip install mkdocs-material
 
-      - name: Build with MkDocs
-        run: mkdocs build
-
-      - name: Verify site structure
+      - name: Build and deploy to GitHub Pages
         run: |
-          echo "=== Site directory contents ==="
-          find site -type f -name "*.html" | head -10
-          echo ""
-          echo "=== Checking databricks folder ==="
-          ls -la site/databricks/ || echo "databricks folder doesn't exist"
-
-      - name: Copy static HTML files to built site
-        run: |
-          echo "=== Root HTML files ==="
-          find docs -maxdepth 1 -name "*.html" -type f
-          echo ""
-          echo "=== Databricks HTML files ==="
-          find docs/databricks -name "*.html" -type f
-          echo ""
-          echo "=== Copying root HTML files ==="
-          cp -v docs/*.html site/ 2>/dev/null || echo "No root HTML files to copy"
-          echo ""
-          echo "=== Copying databricks HTML files ==="
-          mkdir -p site/databricks
-          cp -v docs/databricks/*.html site/databricks/ 2>/dev/null || echo "No databricks HTML files to copy"
-          echo ""
-          echo "=== Verifying deployed files ==="
-          find site -name "*.html" -type f | grep -E "(mindmap|^site/.*\.html$)"
-
-      - name: Deploy to GitHub Pages
-        run: |
-          cd site
-          git init
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add .
-          git commit -m "Deploy with HTML files"
-          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git HEAD:gh-pages
+          mkdocs gh-deploy --force

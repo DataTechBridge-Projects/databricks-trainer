@@ -118,19 +118,45 @@ START
 ├── graph.py                  # StateGraph + Send fan-out routing
 ├── state.py                  # OverallState, WorkerState, SectionResult
 ├── config.py                 # model, paths, course topic/audience
+├── courses.py                # all course definitions (topic, audience, output dir)
 ├── agents/
 │   ├── supervisor.py         # outline generation
 │   ├── worker.py             # section content generation (parallel, incremental save)
-│   └── summarizer.py         # final document assembly
+│   ├── summarizer.py         # final document assembly
+│   ├── notes_writer.py       # SA Quick Reference card generation (post-graph)
+│   ├── tracker.py            # .plan.json persistence — resume interrupted runs
+│   └── logger.py             # centralised timestamped logger (console + file)
+├── prompts/
+│   └── common.json           # shared LLM prompt templates for all courses
 ├── docs/
-│   ├── index.md              # site homepage
-│   ├── agent/                # Agent tab — pipeline documentation
-│   └── databricks/           # Databricks tab — generated course content
+│   ├── aws/                  # AWS Data Engineer course content
+│   ├── databricks/           # Databricks course content
+│   └── azure/                # Azure course content
 ├── mkdocs.yml                # MkDocs Material site config
 ├── .github/workflows/
 │   └── deploy-docs.yml       # auto-deploy to GitHub Pages on push
 └── requirements.txt
 ```
+
+### File Usage Reference
+
+| File | Status | Used By | Purpose |
+|---|---|---|---|
+| `main.py` | active | — | Entry point; orchestrates graph run, saves output, generates notes |
+| `graph.py` | active | `main.py` | Builds the LangGraph `StateGraph` with Supervisor → Workers → Summarizer |
+| `state.py` | active | `graph.py`, agents | `OverallState`, `WorkerState`, `SectionResult` type definitions |
+| `config.py` | active | all modules | LLM config (`MODEL_NAME`, `make_llm()`), `ACTIVE_COURSE`, `MAX_WORKERS` |
+| `courses.py` | active | `main.py` | Course registry — topic, audience, output dir; loads prompts from `common.json` |
+| `agents/supervisor.py` | active | `graph.py` | First graph node — generates section outline as JSON |
+| `agents/worker.py` | active | `graph.py` | Parallel graph nodes — generates markdown content for one section each |
+| `agents/summarizer.py` | active | `graph.py` | Final graph node — sorts sections, assembles complete document |
+| `agents/notes_writer.py` | active | `main.py` | Post-graph — generates 1-page SA Quick Reference cards per section |
+| `agents/tracker.py` | active | `main.py` | Persists `.plan.json` so interrupted runs resume from where they left off |
+| `agents/logger.py` | active | `main.py`, agents | Centralised logger — timestamped output to console and `logs/` directory |
+| `prompts/common.json` | active | `courses.py` | Shared prompt templates (`WORKER_SYSTEM`, `WORKER_PROMPT`, `NOTES_PROMPT`, etc.) |
+| `prompts/aws_data_engineer.py` | **dead** | nobody | Legacy — superseded by `common.json`; safe to delete |
+| `prompts/databricks.py` | **dead** | nobody | Legacy — superseded by `common.json`; safe to delete |
+| `prompts/azure_data_engineer.py` | **dead** | nobody | Legacy — superseded by `common.json`; safe to delete |
 
 ---
 
@@ -151,7 +177,7 @@ ollama pull nemotron-cascade-2
 ### 3. Run
 
 ```bash
-python main.py
+python main.py --course aws --course aws --num-workers 4 --poll-interval 10
 ```
 
 The pipeline will:

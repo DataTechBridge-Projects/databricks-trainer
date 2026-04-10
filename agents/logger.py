@@ -23,7 +23,7 @@ _LOG_FILE = _LOG_DIR / f"run_{_run_ts}.log"
 
 # ── internal logger ────────────────────────────────────────────────────────────
 _logger = logging.getLogger("trainer")
-_logger.setLevel(logging.DEBUG)
+_logger.setLevel(logging.WARNING)
 
 _fmt = logging.Formatter("%(asctime)s  %(levelname)-7s  %(message)s", datefmt="%H:%M:%S")
 

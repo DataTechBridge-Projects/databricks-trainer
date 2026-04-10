@@ -2,6 +2,9 @@
 
 **Target audience:** cloud engineers and developers familiar with AWS core services who want to pass the AWS Certified Data Engineer Associate exam
 
+
+[🗺 Open Interactive Mind Map](../aws-mindmap.html){.md-button}
+
 ---
 
 ## Course Sections

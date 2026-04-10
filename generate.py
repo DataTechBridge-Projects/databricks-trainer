@@ -15,6 +15,7 @@ from config import ACTIVE_COURSE
 from graph import build_graph
 from state import OverallState
 from agents.notes_writer import write_notes, NOTES_SUBDIR
+from agents.mindmap_writer import write_mindmap
 from agents.logger import log
 
 
@@ -78,15 +79,20 @@ def resolve_course(key: str) -> dict:
 
 # ── Output helpers ─────────────────────────────────────────────────────────────
 
-def _write_course_index(final_state: OverallState, output_dir: Path, topic: str, audience: str) -> None:
+def _write_course_index(final_state: OverallState, output_dir: Path, topic: str, audience: str, course_key: str = "") -> None:
     """Write docs/<course>/index.md with a section TOC."""
     ordered = sorted(final_state["completed_sections"], key=lambda x: x["section_index"])
     toc_lines = [f"- [{s['section_title']}]({s['filename']})" for s in ordered]
 
+    mindmap_link = ""
+    if course_key:
+        mindmap_link = f"\n[🗺 Open Interactive Mind Map](../{course_key}-mindmap.html){{.md-button}}\n"
+
     index = (
         f"# {topic}\n\n"
         f"**Target audience:** {audience}\n\n"
-        f"---\n\n"
+        f"{mindmap_link}"
+        f"\n---\n\n"
         f"## Course Sections\n\n"
         + "\n".join(toc_lines)
     )
@@ -169,9 +175,12 @@ def main() -> None:
     combined_path.write_text(final_state["final_document"], encoding="utf-8")
     print(f"  Saved: {combined_path}")
 
-    _write_course_index(final_state, output_dir, topic, audience)
+    _write_course_index(final_state, output_dir, topic, audience, course_key)
 
     generate_notes(final_state, output_dir, course["notes_system"], course["notes_prompt"])
+
+    print("\n[Mindmap] Generating mind map...")
+    write_mindmap(final_state, course_key, topic, audience)
 
     sections_count = len(final_state["completed_sections"])
     doc_size = len(final_state["final_document"])

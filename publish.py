@@ -145,14 +145,12 @@ def _patch_notes_nav(course_key: str, output_dir: Path, plan: dict) -> None:
 
 def _patch_mindmap_notes(course_key: str, output_dir: Path, plan: dict) -> None:
     """Patch NOTES_MAP in the course mind map HTML."""
-    mindmap_candidates = {
-        "docs/aws":        Path("docs/aws-mindmap.html"),
-        "docs/aws-sa":     Path("docs/aws-mindmap.html"),
-        "docs/databricks": Path("docs/databricks-mindmap.html"),
-        "docs/azure":      Path("docs/azure-mindmap.html"),
-    }
-    mindmap_path = mindmap_candidates.get(output_dir.as_posix())
-    if not mindmap_path or not mindmap_path.exists():
+    # Derive mindmap path from course key; fall back to output_dir name
+    mindmap_path = Path("docs") / f"{course_key}-mindmap.html"
+    if not mindmap_path.exists():
+        # Try output_dir folder name as fallback (e.g. docs/aws-sa -> aws-sa-mindmap.html)
+        mindmap_path = Path("docs") / f"{output_dir.name}-mindmap.html"
+    if not mindmap_path.exists():
         return
 
     course_folder = output_dir.name

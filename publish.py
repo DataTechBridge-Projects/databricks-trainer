@@ -49,7 +49,7 @@ def _ensure_course_registered(folder: str, course_key: str, topic: str) -> None:
         return  # already registered
 
     course_name = topic.split()[0] if topic else course_key.title()
-    rel_folder  = re.sub(r"^docs/", "", folder)
+    rel_folder  = Path(folder).name
     nav_block = (
         f"  - {course_name}:\n"
         f"    - Home: {rel_folder}/index.md\n"
@@ -86,7 +86,7 @@ def _patch_sections_nav(course_key: str, output_dir: Path, plan: dict) -> None:
         [s for s in plan["sections"] if s["status"] == "completed" and s.get("filename")],
         key=lambda s: s["index"],
     )
-    rel_folder = re.sub(r"^docs/", "", folder)
+    rel_folder = output_dir.name
 
     lines = []
     for s in completed:

@@ -50,44 +50,44 @@ plugins:
 nav:
   - Home: index.md
   - Azure:
-    - Home: C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/index.md
-        # AZURE_SECTIONS_START
-    - "1. Course Introduction and DP-203 Exam Overview": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_01_course_introduction_and_dp203_exam_overview.md
-    - "2. Designing and Implementing Azure Storage Solutions": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_02_designing_and_implementing_azure_storage_solutions.md
-    - "3. Implementing Relational Data Stores with Azure SQL": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_03_implementing_relational_data_stores_with_azure_sql.md
-    - "4. Implementing NoSQL Solutions with Azure Cosmos DB": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_04_implementing_nosql_solutions_with_azure_cosmos_db.md
-    - "5. Data Integration and Orchestration with Azure Data Factory": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_05_data_integration_and_orchestration_with_azure_data.md
-    - "6. Large-Scale Data Processing with Azure Synapse Analytics": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_06_largescale_data_processing_with_azure_synapse_anal.md
-    - "7. Stream Processing with Azure Stream Analytics and Event Hubs": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_07_stream_processing_with_azure_stream_analytics_and_.md
-    - "8. Distributed Data Processing with Azure Databricks": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_08_distributed_data_processing_with_azure_databricks.md
-    - "9. Implementing Security, Identity, and Access Control": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_09_implementing_security_identity_and_access_control.md
-    - "10. Monitoring, Logging, and Operations for Data Pipelines": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_10_monitoring_logging_and_operations_for_data_pipelin.md
-    - "11. Data Migration and Cloud Adoption Strategies": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_11_data_migration_and_cloud_adoption_strategies.md
-    - "12. Managing Cost, Performance, and Billing for Azure Data Services": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_12_managing_cost_performance_and_billing_for_azure_da.md
-    - "13. Data Governance and Metadata Management with Azure Purview": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_13_data_governance_and_metadata_management_with_azure.md
-    - "14. Exam Readiness: Final Review and Practice Scenarios": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/section_14_exam_readiness_final_review_and_practice_scenarios.md
+    - Home: azure/index.md
+    # AZURE_SECTIONS_START
+    - "1. Course Introduction and DP-203 Exam Overview": azure/section_01_course_introduction_and_dp203_exam_overview.md
+    - "2. Designing and Implementing Azure Storage Solutions": azure/section_02_designing_and_implementing_azure_storage_solutions.md
+    - "3. Implementing Relational Data Stores with Azure SQL": azure/section_03_implementing_relational_data_stores_with_azure_sql.md
+    - "4. Implementing NoSQL Solutions with Azure Cosmos DB": azure/section_04_implementing_nosql_solutions_with_azure_cosmos_db.md
+    - "5. Data Integration and Orchestration with Azure Data Factory": azure/section_05_data_integration_and_orchestration_with_azure_data.md
+    - "6. Large-Scale Data Processing with Azure Synapse Analytics": azure/section_06_largescale_data_processing_with_azure_synapse_anal.md
+    - "7. Stream Processing with Azure Stream Analytics and Event Hubs": azure/section_07_stream_processing_with_azure_stream_analytics_and_.md
+    - "8. Distributed Data Processing with Azure Databricks": azure/section_08_distributed_data_processing_with_azure_databricks.md
+    - "9. Implementing Security, Identity, and Access Control": azure/section_09_implementing_security_identity_and_access_control.md
+    - "10. Monitoring, Logging, and Operations for Data Pipelines": azure/section_10_monitoring_logging_and_operations_for_data_pipelin.md
+    - "11. Data Migration and Cloud Adoption Strategies": azure/section_11_data_migration_and_cloud_adoption_strategies.md
+    - "12. Managing Cost, Performance, and Billing for Azure Data Services": azure/section_12_managing_cost_performance_and_billing_for_azure_da.md
+    - "13. Data Governance and Metadata Management with Azure Purview": azure/section_13_data_governance_and_metadata_management_with_azure.md
+    - "14. Exam Readiness: Final Review and Practice Scenarios": azure/section_14_exam_readiness_final_review_and_practice_scenarios.md
     # AZURE_SECTIONS_END
     - SA Quick Reference:
-            # AZURE_NOTES_START
-      - "Notes": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/azure/index.md
-            # AZURE_NOTES_END
+      # AZURE_NOTES_START
+      - "Notes": azure/index.md
+      # AZURE_NOTES_END
   - Databricks:
     - Home: databricks/index.md
     # DATABRICKS_SECTIONS_START
-    - "1. Introduction to Databricks Architecture on AWS": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_01_introduction_to_databricks_architecture_on_aws.md
-    - "2. Databricks Compute and Cluster Configuration": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_02_databricks_compute_and_cluster_configuration.md
-    - "3. Deep Dive into Delta Lake: ACID, Versioning, and Optimization": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_03_deep_dive_into_delta_lake_acid_versioning_and_opti.md
-    - "4. Implementing Medallion Architecture: Bronze, Silver, and Gold Layers": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_04_implementing_medallion_architecture_bronze_silver_.md
-    - "5. Efficient Data Ingestion with Auto Loader and COPY INTO": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_05_efficient_data_ingestion_with_auto_loader_and_copy.md
-    - "6. Data Transformation with Spark SQL and PySpark": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_06_data_transformation_with_spark_sql_and_pyspark.md
-    - "7. Stream Processing with Structured Streaming": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_07_stream_processing_with_structured_streaming.md
-    - "8. Building Declarable Pipelines with Delta Live Tables (DLT)": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_08_building_declarable_pipelines_with_delta_live_tabl.md
-    - "9. Data Governance and Security with Unity Catalog": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_09_data_governance_and_security_with_unity_catalog.md
-    - "10. Monitoring, Logging, and Observability in Databricks": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_10_monitoring_logging_and_observability_in_databricks.md
-    - "11. Cost Management and AWS Resource Optimization": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_11_cost_management_and_aws_resource_optimization.md
-    - "12. Migration Strategies: Transitioning from AWS Glue to Databricks": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_12_migration_strategies_transitioning_from_aws_glue_t.md
-    - "13. Orchestration and Automation with Databricks Workflows": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_13_orchestration_and_automation_with_databricks_workf.md
-    - "14. Exam Readiness and Final Review": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/databricks/section_14_exam_readiness_and_final_review.md
+    - "1. Introduction to Databricks Architecture on AWS": databricks/section_01_introduction_to_databricks_architecture_on_aws.md
+    - "2. Databricks Compute and Cluster Configuration": databricks/section_02_databricks_compute_and_cluster_configuration.md
+    - "3. Deep Dive into Delta Lake: ACID, Versioning, and Optimization": databricks/section_03_deep_dive_into_delta_lake_acid_versioning_and_opti.md
+    - "4. Implementing Medallion Architecture: Bronze, Silver, and Gold Layers": databricks/section_04_implementing_medallion_architecture_bronze_silver_.md
+    - "5. Efficient Data Ingestion with Auto Loader and COPY INTO": databricks/section_05_efficient_data_ingestion_with_auto_loader_and_copy.md
+    - "6. Data Transformation with Spark SQL and PySpark": databricks/section_06_data_transformation_with_spark_sql_and_pyspark.md
+    - "7. Stream Processing with Structured Streaming": databricks/section_07_stream_processing_with_structured_streaming.md
+    - "8. Building Declarable Pipelines with Delta Live Tables (DLT)": databricks/section_08_building_declarable_pipelines_with_delta_live_tabl.md
+    - "9. Data Governance and Security with Unity Catalog": databricks/section_09_data_governance_and_security_with_unity_catalog.md
+    - "10. Monitoring, Logging, and Observability in Databricks": databricks/section_10_monitoring_logging_and_observability_in_databricks.md
+    - "11. Cost Management and AWS Resource Optimization": databricks/section_11_cost_management_and_aws_resource_optimization.md
+    - "12. Migration Strategies: Transitioning from AWS Glue to Databricks": databricks/section_12_migration_strategies_transitioning_from_aws_glue_t.md
+    - "13. Orchestration and Automation with Databricks Workflows": databricks/section_13_orchestration_and_automation_with_databricks_workf.md
+    - "14. Exam Readiness and Final Review": databricks/section_14_exam_readiness_and_final_review.md
     # DATABRICKS_SECTIONS_END
     - SA Quick Reference:
       # DATABRICKS_NOTES_START
@@ -109,21 +109,21 @@ nav:
   - AWS:
     - Home: aws/index.md
     # AWS_SECTIONS_START
-    - "1. Course Introduction": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_01_course_introduction.md
-    - "2. Exam Overview and Strategy": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_02_exam_overview_and_strategy.md
-    - "3. AWS Data Architecture Foundations": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_03_aws_data_architecture_foundations.md
-    - "4. Data Ingestion": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_04_data_ingestion.md
-    - "5. AWS Glue Deep Dive": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_05_aws_glue_deep_dive.md
-    - "6. Amazon S3 and Data Lake Design": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_06_amazon_s3_and_data_lake_design.md
-    - "7. Amazon Athena": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_07_amazon_athena.md
-    - "8. Amazon Redshift": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_08_amazon_redshift.md
-    - "9. Streaming Data with Kinesis and MSK": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_09_streaming_data_with_kinesis_and_msk.md
-    - "10. NoSQL and Purpose-Built Databases": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_10_nosql_and_purposebuilt_databases.md
-    - "11. AWS Lake Formation and Data Governance": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_11_aws_lake_formation_and_data_governance.md
-    - "12. Data Orchestration and Pipelines": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_12_data_orchestration_and_pipelines.md
-    - "13. Performance, Cost Optimization, and Monitoring": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_13_performance_cost_optimization_and_monitoring.md
-    - "14. Security, Compliance, and Networking": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_14_security_compliance_and_networking.md
-    - "15. Capstone and Exam Readiness": C:/Projects/2026-03-Tech-RampUp-Trainer/docs/aws/section_15_capstone_and_exam_readiness.md
+    - "1. Course Introduction": aws/section_01_course_introduction.md
+    - "2. Exam Overview and Strategy": aws/section_02_exam_overview_and_strategy.md
+    - "3. AWS Data Architecture Foundations": aws/section_03_aws_data_architecture_foundations.md
+    - "4. Data Ingestion": aws/section_04_data_ingestion.md
+    - "5. AWS Glue Deep Dive": aws/section_05_aws_glue_deep_dive.md
+    - "6. Amazon S3 and Data Lake Design": aws/section_06_amazon_s3_and_data_lake_design.md
+    - "7. Amazon Athena": aws/section_07_amazon_athena.md
+    - "8. Amazon Redshift": aws/section_08_amazon_redshift.md
+    - "9. Streaming Data with Kinesis and MSK": aws/section_09_streaming_data_with_kinesis_and_msk.md
+    - "10. NoSQL and Purpose-Built Databases": aws/section_10_nosql_and_purposebuilt_databases.md
+    - "11. AWS Lake Formation and Data Governance": aws/section_11_aws_lake_formation_and_data_governance.md
+    - "12. Data Orchestration and Pipelines": aws/section_12_data_orchestration_and_pipelines.md
+    - "13. Performance, Cost Optimization, and Monitoring": aws/section_13_performance_cost_optimization_and_monitoring.md
+    - "14. Security, Compliance, and Networking": aws/section_14_security_compliance_and_networking.md
+    - "15. Capstone and Exam Readiness": aws/section_15_capstone_and_exam_readiness.md
     # AWS_SECTIONS_END
     - SA Quick Reference:
       # AWS_NOTES_START

@@ -127,7 +127,8 @@ def _update_mkdocs_nav(final_state: OverallState, output_dir: Path) -> None:
     for s in ordered:
         num = s["section_index"] + 1
         title = re.sub(r"^section\s+\d+[\s:\-–]+", "", s["section_title"], flags=re.IGNORECASE).strip()
-        lines.append(f'    - "{num}. {title}": {folder}/{s["filename"]}')
+        rel_folder = re.sub(r"^docs/", "", folder)
+        lines.append(f'    - "{num}. {title}": {rel_folder}/{s["filename"]}')
 
     new_block = "\n".join([nav_start] + lines + [nav_end])
     content = MKDOCS_FILE.read_text(encoding="utf-8")

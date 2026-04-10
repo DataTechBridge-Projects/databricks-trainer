@@ -14,4 +14,4 @@ def make_llm(**kwargs):
 MAX_WORKERS     = 1
 
 # Default course when no --course arg is passed
-ACTIVE_COURSE = "aws"
+ACTIVE_COURSE = "azure"

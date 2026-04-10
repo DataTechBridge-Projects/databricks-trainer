@@ -1,0 +1,22 @@
+{
+  "databricks": {
+    "output_dir": "docs/databricks",
+    "topic": "AWS Databricks Data Engineer Certification",
+    "audience": "data engineers familiar with Apache Spark and AWS Glue who want to prepare for the Databricks Certified Data Engineer Associate exam on AWS"
+  },
+  "aws-sa": {
+    "output_dir": "docs/aws-sa",
+    "topic": "AWS —  SA Enablement (Full Portfolio)",
+    "audience": " Solution Architects with a general IT background who need to hold credible customer conversations across the full AWS portfolio — compute, storage, networking, databases, security, analytics, AI/ML and more — no hands-on engineering depth required"
+  },
+  "aws": {
+    "output_dir": "docs/aws",
+    "topic": "AWS Certified Data Engineer Associate (DEA-C01)",
+    "audience": "cloud engineers and developers familiar with AWS core services who want to pass the AWS Certified Data Engineer Associate exam"
+  },
+  "azure": {
+    "output_dir": "docs/azure",
+    "topic": "Azure Data Engineer Associate (DP-203)",
+    "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam"
+  }
+}

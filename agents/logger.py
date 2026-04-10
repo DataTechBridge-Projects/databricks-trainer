@@ -29,7 +29,7 @@ _fmt = logging.Formatter("%(asctime)s  %(levelname)-7s  %(message)s", datefmt="%
 
 # file handler — full detail
 _fh = logging.FileHandler(_LOG_FILE, encoding="utf-8")
-_fh.setLevel(logging.DEBUG)
+_fh.setLevel(logging.WARNING)
 _fh.setFormatter(_fmt)
 _logger.addHandler(_fh)
 

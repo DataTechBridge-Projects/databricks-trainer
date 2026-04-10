@@ -158,6 +158,83 @@
           "file": "aws/section_15_capstone_and_exam_readiness.md"
         }
       ]
+    },
+    {
+      "key": "azure",
+      "title": "Azure Data Engineer Associate (DP-203)",
+      "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam",
+      "sections": [
+        {
+          "index": 0,
+          "title": "Course Introduction and DP-203 Exam Overview",
+          "file": "azure/section_01_course_introduction_and_dp203_exam_overview.md"
+        },
+        {
+          "index": 1,
+          "title": "Designing and Implementing Azure Storage Solutions",
+          "file": "azure/section_02_designing_and_implementing_azure_storage_solutions.md"
+        },
+        {
+          "index": 2,
+          "title": "Implementing Relational Data Stores with Azure SQL",
+          "file": "azure/section_03_implementing_relational_data_stores_with_azure_sql.md"
+        },
+        {
+          "index": 3,
+          "title": "Implementing NoSQL Solutions with Azure Cosmos DB",
+          "file": "azure/section_04_implementing_nosql_solutions_with_azure_cosmos_db.md"
+        },
+        {
+          "index": 4,
+          "title": "Data Integration and Orchestration with Azure Data Factory",
+          "file": "azure/section_05_data_integration_and_orchestration_with_azure_data.md"
+        },
+        {
+          "index": 5,
+          "title": "Large-Scale Data Processing with Azure Synapse Analytics",
+          "file": "azure/section_06_largescale_data_processing_with_azure_synapse_anal.md"
+        },
+        {
+          "index": 6,
+          "title": "Stream Processing with Azure Stream Analytics and Event Hubs",
+          "file": "azure/section_07_stream_processing_with_azure_stream_analytics_and_.md"
+        },
+        {
+          "index": 7,
+          "title": "Distributed Data Processing with Azure Databricks",
+          "file": "azure/section_08_distributed_data_processing_with_azure_databricks.md"
+        },
+        {
+          "index": 8,
+          "title": "Implementing Security, Identity, and Access Control",
+          "file": "azure/section_09_implementing_security_identity_and_access_control.md"
+        },
+        {
+          "index": 9,
+          "title": "Monitoring, Logging, and Operations for Data Pipelines",
+          "file": "azure/section_10_monitoring_logging_and_operations_for_data_pipelin.md"
+        },
+        {
+          "index": 10,
+          "title": "Data Migration and Cloud Adoption Strategies",
+          "file": "azure/section_11_data_migration_and_cloud_adoption_strategies.md"
+        },
+        {
+          "index": 11,
+          "title": "Managing Cost, Performance, and Billing for Azure Data Services",
+          "file": "azure/section_12_managing_cost_performance_and_billing_for_azure_da.md"
+        },
+        {
+          "index": 12,
+          "title": "Data Governance and Metadata Management with Azure Purview",
+          "file": "azure/section_13_data_governance_and_metadata_management_with_azure.md"
+        },
+        {
+          "index": 13,
+          "title": "Exam Readiness: Final Review and Practice Scenarios",
+          "file": "azure/section_14_exam_readiness_final_review_and_practice_scenarios.md"
+        }
+      ]
     }
   ]
 }

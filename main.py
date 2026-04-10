@@ -14,19 +14,49 @@ from agents.logger import log
 
 MKDOCS_FILE = Path("mkdocs.yml")
 
-# Nav markers for known courses — custom courses won't have these and will skip nav patching
-_NAV_MARKERS = {
-    "docs/databricks": ("    # DATABRICKS_SECTIONS_START", "    # DATABRICKS_SECTIONS_END"),
-    "docs/aws":        ("    # AWS_SECTIONS_START",        "    # AWS_SECTIONS_END"),
-    "docs/aws-sa":     ("    # AWS_SA_SECTIONS_START",     "    # AWS_SA_SECTIONS_END"),
-    "docs/azure":      ("    # AZURE_SECTIONS_START",      "    # AZURE_SECTIONS_END"),
-}
-_NOTES_NAV_MARKERS = {
-    "docs/databricks": ("      # DATABRICKS_NOTES_START", "      # DATABRICKS_NOTES_END"),
-    "docs/aws":        ("      # AWS_NOTES_START",        "      # AWS_NOTES_END"),
-    "docs/aws-sa":     ("      # AWS_SA_NOTES_START",     "      # AWS_SA_NOTES_END"),
-    "docs/azure":      ("      # AZURE_NOTES_START",      "      # AZURE_NOTES_END"),
-}
+# Nav markers for known courses — auto-populated at runtime by _ensure_course_registered()
+_NAV_MARKERS: dict[str, tuple[str, str]] = {}
+_NOTES_NAV_MARKERS: dict[str, tuple[str, str]] = {}
+
+
+def _ensure_course_registered(folder: str, course_key: str, topic: str) -> None:
+    """Auto-register a course in _NAV_MARKERS, _NOTES_NAV_MARKERS, and mkdocs.yml nav
+    if it isn't already present. Safe to call on every run — skips if already registered."""
+    tag = course_key.upper().replace("-", "_")
+    sec_start  = f"    # {tag}_SECTIONS_START"
+    sec_end    = f"    # {tag}_SECTIONS_END"
+    notes_start = f"      # {tag}_NOTES_START"
+    notes_end   = f"      # {tag}_NOTES_END"
+
+    _NAV_MARKERS[folder]       = (sec_start, sec_end)
+    _NOTES_NAV_MARKERS[folder] = (notes_start, notes_end)
+
+    content = MKDOCS_FILE.read_text(encoding="utf-8")
+    if sec_start in content:
+        return  # already in mkdocs.yml
+
+    course_name = topic.split()[0] if topic else course_key.title()
+    rel_folder  = re.sub(r"^docs/", "", folder)
+    nav_block = (
+        f"  - {course_name}:\n"
+        f"    - Home: {rel_folder}/index.md\n"
+        f"    {sec_start}\n"
+        f"    {sec_end}\n"
+        f"    - SA Quick Reference:\n"
+        f"      {notes_start}\n"
+        f'      - "Notes": {rel_folder}/index.md\n'
+        f"      {notes_end}\n"
+    )
+
+    # Insert before the first top-level nav entry that isn't Home
+    insert_pattern = r"(nav:\n  - Home: index\.md\n)"
+    if re.search(insert_pattern, content):
+        content = re.sub(insert_pattern, r"\1" + nav_block, content, count=1)
+    else:
+        content += "\n" + nav_block
+
+    MKDOCS_FILE.write_text(content, encoding="utf-8")
+    print(f"  [Nav] Auto-registered '{course_key}' in {MKDOCS_FILE}")
 
 
 # ── Course resolution ──────────────────────────────────────────────────────────
@@ -302,6 +332,8 @@ def main() -> None:
     output_dir: Path = course["output_dir"]
     topic: str       = course["topic"]
     audience: str    = course["audience"]
+
+    _ensure_course_registered(output_dir.as_posix(), course_key, topic)
 
     log.info(f"Log file: {log.log_file}")
     print("=" * 60)

@@ -69,6 +69,7 @@ nav:
     # DATABRICKS_SECTIONS_END
     - SA Quick Reference:
       # DATABRICKS_NOTES_START
+      - "Notes": databricks/index.md
       # DATABRICKS_NOTES_END
   - AWS:
     - Home: aws/index.md

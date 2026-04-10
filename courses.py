@@ -3,7 +3,7 @@ All course definitions in one place.
 Each entry contains course metadata only — topic, audience, and output directory.
 All LLM prompts are loaded from prompts/common.json and are shared across courses.
 
-To add a new course, add a new key here and add the matching nav markers to mkdocs.yml.
+To add a new course, just add a new key here. The pipeline auto-registers it in mkdocs.yml on first run.
 """
 
 import json

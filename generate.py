@@ -86,7 +86,7 @@ def _write_course_index(final_state: OverallState, output_dir: Path, topic: str,
 
     mindmap_link = ""
     if course_key:
-        mindmap_link = f"\n[🗺 Open Interactive Mind Map](../{course_key}-mindmap.html){{.md-button}}\n"
+        mindmap_link = f"\n[🗺 Open Interactive Mind Map](../{course_key}-mindmap.html){{ .md-button }}\n"
 
     index = (
         f"# {topic}\n\n"

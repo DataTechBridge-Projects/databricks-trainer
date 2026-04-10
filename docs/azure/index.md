@@ -1,6 +1,9 @@
-# Azure Data Engineer (DP-203) Training
+# Azure Data Engineer Associate (DP-203)
 
-**Target audience:** Solution Architects who want to understand Azure data engineering services and prepare for the DP-203 exam
+**Target audience:** data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam
+
+
+[🗺 Open Interactive Mind Map](../azure-mindmap.html){ .md-button }
 
 ---
 

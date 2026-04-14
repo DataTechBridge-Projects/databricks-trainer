@@ -1,0 +1,89 @@
+{
+  "course_topic": "Snowflake",
+  "sections": [
+    {
+      "index": 0,
+      "title": "Snowflake Architecture and Core Components",
+      "status": "completed",
+      "filename": "section_01_snowflake_architecture_and_core_components.md"
+    },
+    {
+      "index": 1,
+      "title": "Data Storage and Semi-Structured Data Handling",
+      "status": "completed",
+      "filename": "section_02_data_storage_and_semistructured_data_handling.md"
+    },
+    {
+      "index": 2,
+      "title": "Virtual Warehouse Management and Scaling",
+      "status": "completed",
+      "filename": "section_03_virtual_warehouse_management_and_scaling.md"
+    },
+    {
+      "index": 3,
+      "title": "Data Ingestion Techniques and Snowpipe",
+      "status": "completed",
+      "filename": "section_04_data_ingestion_techniques_and_snowpipe.md"
+    },
+    {
+      "index": 4,
+      "title": "Time Travel, Fail-safe, and Zero-Copy Cloning",
+      "status": "completed",
+      "filename": "section_05_time_travel_failsafe_and_zerocopy_cloning.md"
+    },
+    {
+      "index": 5,
+      "title": "Security, Identity, and Access Control",
+      "status": "completed",
+      "filename": "section_06_security_identity_and_access_control.md"
+    },
+    {
+      "index": 6,
+      "title": "Data Sharing and the Snowflake Marketplace",
+      "status": "completed",
+      "filename": "section_07_data_sharing_and_the_snowflake_marketplace.md"
+    },
+    {
+      "index": 7,
+      "title": "Snowpark and Programmable Data Engineering",
+      "status": "completed",
+      "filename": "section_08_snowpark_and_programmable_data_engineering.md"
+    },
+    {
+      "index": 8,
+      "title": "Query Optimization and Performance Tuning",
+      "status": "completed",
+      "filename": "section_09_query_optimization_and_performance_tuning.md"
+    },
+    {
+      "index": 9,
+      "title": "Monitoring, Auditing, and Operations",
+      "status": "completed",
+      "filename": "section_10_monitoring_auditing_and_operations.md"
+    },
+    {
+      "index": 10,
+      "title": "Cost Management and Billing Optimization",
+      "status": "completed",
+      "filename": "section_11_cost_management_and_billing_optimization.md"
+    },
+    {
+      "index": 11,
+      "title": "Migration and Adoption Strategies",
+      "status": "completed",
+      "filename": "section_12_migration_and_adoption_strategies.md"
+    },
+    {
+      "index": 12,
+      "title": "Snowflake Use Cases and Competitive Positioning",
+      "status": "completed",
+      "filename": "section_13_snowflake_use_cases_and_competitive_positioning.md"
+    },
+    {
+      "index": 13,
+      "title": "Certification Exam Preparation",
+      "status": "completed",
+      "filename": "section_14_certification_exam_preparation.md"
+    }
+  ]
+}

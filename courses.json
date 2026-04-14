@@ -18,5 +18,15 @@
     "output_dir": "docs/azure",
     "topic": "Azure Data Engineer Associate (DP-203)",
     "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam"
+  },
+  "snowflake": {
+    "output_dir": "docs/snowflake",
+    "topic": "Snowflake",
+    "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Snowflake certification exam"
+  },
+  "gcp": {
+    "output_dir": "docs/gcp",
+    "topic": "Google Cloud Platform",
+    "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Google Cloud Platform certification exam"
   }
 }

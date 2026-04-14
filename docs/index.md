@@ -13,5 +13,6 @@ Courses are designed for breadth over depth — enough to hold a credible custom
 | [AWS Databricks Data Engineer Certification](databricks/index.md) | data engineers familiar with Apache Spark and AWS Glue who want to prepare for the Databricks Certified Data Engineer Associate exam on AWS |
 | [AWS Certified Data Engineer Associate (DEA-C01)](aws/index.md) | cloud engineers and developers familiar with AWS core services who want to pass the AWS Certified Data Engineer Associate exam |
 | [Azure Data Engineer Associate (DP-203)](azure/index.md) | data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam |
+| [Snowflake](snowflake/index.md) | data engineers familiar with SQL and cloud fundamentals who want to pass the Snowflake certification exam |
 
 ---

@@ -50,6 +50,41 @@ plugins:
 
 nav:
   - Home: index.md
+  - Snowflake:
+    - Home: snowflake/index.md
+        # SNOWFLAKE_SECTIONS_START
+    - "1. Snowflake Architecture and Core Components": snowflake/section_01_snowflake_architecture_and_core_components.md
+    - "2. Data Storage and Semi-Structured Data Handling": snowflake/section_02_data_storage_and_semistructured_data_handling.md
+    - "3. Virtual Warehouse Management and Scaling": snowflake/section_03_virtual_warehouse_management_and_scaling.md
+    - "4. Data Ingestion Techniques and Snowpipe": snowflake/section_04_data_ingestion_techniques_and_snowpipe.md
+    - "5. Time Travel, Fail-safe, and Zero-Copy Cloning": snowflake/section_05_time_travel_failsafe_and_zerocopy_cloning.md
+    - "6. Security, Identity, and Access Control": snowflake/section_06_security_identity_and_access_control.md
+    - "7. Data Sharing and the Snowflake Marketplace": snowflake/section_07_data_sharing_and_the_snowflake_marketplace.md
+    - "8. Snowpark and Programmable Data Engineering": snowflake/section_08_snowpark_and_programmable_data_engineering.md
+    - "9. Query Optimization and Performance Tuning": snowflake/section_09_query_optimization_and_performance_tuning.md
+    - "10. Monitoring, Auditing, and Operations": snowflake/section_10_monitoring_auditing_and_operations.md
+    - "11. Cost Management and Billing Optimization": snowflake/section_11_cost_management_and_billing_optimization.md
+    - "12. Migration and Adoption Strategies": snowflake/section_12_migration_and_adoption_strategies.md
+    - "13. Snowflake Use Cases and Competitive Positioning": snowflake/section_13_snowflake_use_cases_and_competitive_positioning.md
+    - "14. Certification Exam Preparation": snowflake/section_14_certification_exam_preparation.md
+    # SNOWFLAKE_SECTIONS_END
+    - SA Quick Reference:
+            # SNOWFLAKE_NOTES_START
+      - "Snowflake Architecture and Core Components": snowflake/notes/notes_section_01_snowflake_architecture_and_core_components.md
+      - "Data Storage and Semi-Structured Data Handling": snowflake/notes/notes_section_02_data_storage_and_semistructured_data_handling.md
+      - "Virtual Warehouse Management and Scaling": snowflake/notes/notes_section_03_virtual_warehouse_management_and_scaling.md
+      - "Data Ingestion Techniques and Snowpipe": snowflake/notes/notes_section_04_data_ingestion_techniques_and_snowpipe.md
+      - "Time Travel, Fail-safe, and Zero-Copy Cloning": snowflake/notes/notes_section_05_time_travel_failsafe_and_zerocopy_cloning.md
+      - "Security, Identity, and Access Control": snowflake/notes/notes_section_06_security_identity_and_access_control.md
+      - "Data Sharing and the Snowflake Marketplace": snowflake/notes/notes_section_07_data_sharing_and_the_snowflake_marketplace.md
+      - "Snowpark and Programmable Data Engineering": snowflake/notes/notes_section_08_snowpark_and_programmable_data_engineering.md
+      - "Query Optimization and Performance Tuning": snowflake/notes/notes_section_09_query_optimization_and_performance_tuning.md
+      - "Monitoring, Auditing, and Operations": snowflake/notes/notes_section_10_monitoring_auditing_and_operations.md
+      - "Cost Management and Billing Optimization": snowflake/notes/notes_section_11_cost_management_and_billing_optimization.md
+      - "Migration and Adoption Strategies": snowflake/notes/notes_section_12_migration_and_adoption_strategies.md
+      - "Snowflake Use Cases and Competitive Positioning": snowflake/notes/notes_section_13_snowflake_use_cases_and_competitive_positioning.md
+      - "Certification Exam Preparation": snowflake/notes/notes_section_14_certification_exam_preparation.md
+      # SNOWFLAKE_NOTES_END
   - Azure:
     - Home: azure/index.md
     # AZURE_SECTIONS_START

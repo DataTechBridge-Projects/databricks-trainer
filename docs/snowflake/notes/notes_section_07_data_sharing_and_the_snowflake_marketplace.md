@@ -1,43 +1,44 @@
 # Data Sharing and the Snowflake Marketplace — SA Quick Reference
 
 ## What It Is
-A way to grant real-time access to live data across different organizations without ever moving or copying a single file. It replaces the old "copy-and-send" method with instant, secure access to a single source of truth.
+Snowflake enables real-time, zero-copy data access between different Snowflake accounts without the need to move or duplicate files. It allows providers to grant secure, read-only access to specific datasets, effectively turning data into a live service.
 
 ## Why Customers Care
-- **Eliminates Data Latency:** Partners see updates the second they happen, removing the "stale data" gap.
-- **Massive Cost Savings:** Removes expensive data egress fees and the need for redundant storage.
-- **Reduced Operational Risk:** Eliminates the need to build, manage, and secure complex ETL pipelines for every partner.
+- **Eliminate Data Latency:** Move from "stale" periodic data exports to instant, real-time access to the single source of truth.
+- **Slash Operational Costs:** Remove the heavy lifting of building, managing, and monitoring expensive ETL pipelines and egress fees.
+- **Strengthen Security & Governance:** Replace risky, unmonitored "copy-and-send" workflows with centralized, controlled access.
 
 ## Key Differentiators vs Alternatives
-- **Zero-Copy Architecture:** Unlike traditional methods, no data is physically duplicated or re-ingested.
-- **Live Metadata Access:** Consumers query the provider's live data via metadata pointers, ensuring instant synchronization.
-- **Decoupled Economics:** The Provider manages the storage, while the Consumer pays only for the compute they use to run queries.
+- **Zero-Copy Architecture:** Unlike traditional methods, no data is physically moved or duplicated, ensuring the provider maintains total control.
+- **Elimination of the "Latency Gap":** Unlike S3-to-S3 or FTP transfers, there is no time lag between data being updated and the consumer seeing it.
+able to access third-party datasets (weather, financial, etc.) as if they were their own internal tables.
+- **Zero Egress/Zero Duplication:** Significant reduction in TCO by eliminating data transfer fees and redundant storage costs.
 
 ## When to Recommend It
-Recommend this to customers managing partner ecosystems (e.g., supply chains, banking consortiums) or those struggling with "stale" vendor data. It is a "must-have" for mature cloud organizations looking to enrich their internal datasets with external signals—like weather, finance, or demographics—without the overhead of building new ingestion pipelines.
+Recommend this for customers managing B2B partnerships, supply chain ecosystems, or any workflow involving third-party data enrichment. It is ideal for organizations moving from manual, fragmented data silos toward a modern, automated, and interconnected data ecosystem.
 
 ## Top 3 Objections & Responses
-**"How do I know my sensitive data and business logic stay private?"**
-→ We use **Secure Views** to mask PII and hide the underlying SQL logic, ensuring consumers only see exactly what you authorize.
+**"If we share data, aren't we exposing our entire database and proprietary logic?"**
+→ No. You use Secure Views to share only specific rows/columns and to hide the underlying SQL logic from the consumer.
 
-**"Won't sharing data with so many partners drive up my egress and storage costs?"**
-→ Actually, it eliminates egress fees entirely because no data is physically moved across the network, and there is zero data duplication.
+**"Won't sharing massive datasets significantly drive up our storage and egress costs?"**
+→ No. Because it is zero-copy, there is no data duplication (saving storage) and no data movement (eliminating egress fees).
 
-**"Is it a management nightmare to handle dozens of different partners?"**
-→ Not if you use a **Private Data Exchange**, which allows you to automate and curate a single, controlled ecosystem for a specific group of organizations.
+**"Can the consumer accidentally modify or delete our original data?"**
+→ No. The consumer mounts the share as a read-only database; they have zero write or delete permissions on your objects.
 
 ## 5 Things to Know Before the Call
-1. The **Consumer** must have an active Virtual Warehouse running to query the shared data.
-2. The **Provider** is responsible for the storage costs; the **Consumer** pays for the compute.
-3. **Direct Sharing** is the manual, 1-to-1 approach for known partners.
-4. **Marketplace** is a public, searchable hub for discovering third-party datasets.
-5. **Secure Views** are the industry standard for protecting sensitive logic during a share.
+1. The Provider pays for storage; the Consumer pays for the compute (Warehouse) used to query it.
+2. "Zero-copy" is the magic word—it means the data never actually leaves the provider's account.
+3. Use "Secure Views" as your primary talking point for PII and sensitive logic protection.
+4. The Marketplace is for public, searchable data; Private Data Exchanges are for controlled, closed ecosystems.
+5. If the Consumer’s warehouse is suspended, they cannot query the shared data.
 
 ## Competitive Snapshot
 | vs | Advantage |
 |---|---|
-| Traditional ETL (S3/FTP/Pipelines) | Eliminates data latency and the manual "copy-and-send" workflow. |
-| Manual Data Ingestion | Zero-copy architecture removes the need to ingest, store, and manage duplicate datasets. |
+| Traditional ETL (S3/FTP/SFTP) | Eliminates data latency and costly egress fees via real-time access. |
+| Manual Data Pipelines | Reduces operational overhead and eliminates error-prone, "copy-and-send" workflows. |
 
 ---
 *Source: Data Sharing and the Snowflake Marketplace course section*

@@ -312,6 +312,93 @@
           "file": "snowflake/section_14_certification_exam_preparation.md"
         }
       ]
+    },
+    {
+      "key": "gcp",
+      "title": "Google Cloud Platform",
+      "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Google Cloud Platform certification exam",
+      "sections": [
+        {
+          "index": 0,
+          "title": "GCP Fundamentals and Resource Hierarchy",
+          "file": "gcp/section_01_gcp_fundamentals_and_resource_hierarchy.md"
+        },
+        {
+          "index": 1,
+          "title": "Security, Identity, and Access Management (IAM)",
+          "file": "gcp/section_02_security_identity_and_access_management_iam.md"
+        },
+        {
+          "index": 2,
+          "title": "Cloud Storage and Data Lake Architectures",
+          "file": "gcp/section_03_cloud_storage_and_data_lake_architectures.md"
+        },
+        {
+          "index": 3,
+          "title": "Relational Databases: Cloud SQL and Spanner",
+          "file": "gcp/section_04_relational_databases_cloud_sql_and_spanner.md"
+        },
+        {
+          "index": 4,
+          "title": "NoSQL and Wide-Column Stores: Bigtable and Firestore",
+          "file": "gcp/section_05_nosql_and_widecolumn_stores_bigtable_and_firestore.md"
+        },
+        {
+          "index": 5,
+          "title": "BigQuery: Scalable Data Warehousing and Analytics",
+          "file": "gcp/section_06_bigquery_scalable_data_warehousing_and_analytics.md"
+        },
+        {
+          "index": 6,
+          "title": "Real-time Data Ingestion with Pub/Sub",
+          "file": "gcp/section_07_realtime_data_ingestion_with_pubsub.md"
+        },
+        {
+          "index": 7,
+          "title": "Stream and Batch Processing with Dataflow",
+          "file": "gcp/section_08_stream_and_batch_processing_with_dataflow.md"
+        },
+        {
+          "index": 8,
+          "title": "Managed Hadoop and Spark with Cloud Dataproc",
+          "file": "gcp/section_09_managed_hadoop_and_spark_with_cloud_dataproc.md"
+        },
+        {
+          "index": 9,
+          "title": "Workflow Orchestration with Cloud Composer",
+          "file": "gcp/section_10_workflow_orchestration_with_cloud_composer.md"
+        },
+        {
+          "index": 10,
+          "title": "Data Migration and Modernization Strategies",
+          "file": "gcp/section_11_data_migration_and_modernization_strategies.md"
+        },
+        {
+          "index": 11,
+          "title": "Monitoring, Logging, and Observability",
+          "file": "gcp/section_12_monitoring_logging_and_observability.md"
+        },
+        {
+          "index": 12,
+          "title": "Cost Management and Billing Optimization",
+          "file": "gcp/section_13_cost_management_and_billing_optimization.md"
+        },
+        {
+          "index": 13,
+          "title": "Machine Learning Integration with Vertex AI",
+          "file": "gcp/section_14_machine_learning_integration_with_vertex_ai.md"
+        },
+        {
+          "index": 14,
+          "title": "Competitive Positioning and Industry Use Cases",
+          "file": "gcp/section_15_competitive_positioning_and_industry_use_cases.md"
+        },
+        {
+          "index": 15,
+          "title": "Certification Exam Readiness and Capstone Project",
+          "file": "gcp/section_16_certification_exam_readiness_and_capstone_project.md"
+        }
+      ]
     }
   ]
 }

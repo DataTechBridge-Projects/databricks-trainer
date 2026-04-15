@@ -50,6 +50,45 @@ plugins:
 
 nav:
   - Home: index.md
+  - Google:
+    - Home: gcp/index.md
+        # GCP_SECTIONS_START
+    - "1. GCP Fundamentals and Resource Hierarchy": gcp/section_01_gcp_fundamentals_and_resource_hierarchy.md
+    - "2. Security, Identity, and Access Management (IAM)": gcp/section_02_security_identity_and_access_management_iam.md
+    - "3. Cloud Storage and Data Lake Architectures": gcp/section_03_cloud_storage_and_data_lake_architectures.md
+    - "4. Relational Databases: Cloud SQL and Spanner": gcp/section_04_relational_databases_cloud_sql_and_spanner.md
+    - "5. NoSQL and Wide-Column Stores: Bigtable and Firestore": gcp/section_05_nosql_and_widecolumn_stores_bigtable_and_firestore.md
+    - "6. BigQuery: Scalable Data Warehousing and Analytics": gcp/section_06_bigquery_scalable_data_warehousing_and_analytics.md
+    - "7. Real-time Data Ingestion with Pub/Sub": gcp/section_07_realtime_data_ingestion_with_pubsub.md
+    - "8. Stream and Batch Processing with Dataflow": gcp/section_08_stream_and_batch_processing_with_dataflow.md
+    - "9. Managed Hadoop and Spark with Cloud Dataproc": gcp/section_09_managed_hadoop_and_spark_with_cloud_dataproc.md
+    - "10. Workflow Orchestration with Cloud Composer": gcp/section_10_workflow_orchestration_with_cloud_composer.md
+    - "11. Data Migration and Modernization Strategies": gcp/section_11_data_migration_and_modernization_strategies.md
+    - "12. Monitoring, Logging, and Observability": gcp/section_12_monitoring_logging_and_observability.md
+    - "13. Cost Management and Billing Optimization": gcp/section_13_cost_management_and_billing_optimization.md
+    - "14. Machine Learning Integration with Vertex AI": gcp/section_14_machine_learning_integration_with_vertex_ai.md
+    - "15. Competitive Positioning and Industry Use Cases": gcp/section_15_competitive_positioning_and_industry_use_cases.md
+    - "16. Certification Exam Readiness and Capstone Project": gcp/section_16_certification_exam_readiness_and_capstone_project.md
+    # GCP_SECTIONS_END
+    - SA Quick Reference:
+            # GCP_NOTES_START
+      - "GCP Fundamentals and Resource Hierarchy": gcp/notes/notes_section_01_gcp_fundamentals_and_resource_hierarchy.md
+      - "Security, Identity, and Access Management (IAM)": gcp/notes/notes_section_02_security_identity_and_access_management_iam.md
+      - "Cloud Storage and Data Lake Architectures": gcp/notes/notes_section_03_cloud_storage_and_data_lake_architectures.md
+      - "Relational Databases: Cloud SQL and Spanner": gcp/notes/notes_section_04_relational_databases_cloud_sql_and_spanner.md
+      - "NoSQL and Wide-Column Stores: Bigtable and Firestore": gcp/notes/notes_section_05_nosql_and_widecolumn_stores_bigtable_and_firestore.md
+      - "BigQuery: Scalable Data Warehousing and Analytics": gcp/notes/notes_section_06_bigquery_scalable_data_warehousing_and_analytics.md
+      - "Real-time Data Ingestion with Pub/Sub": gcp/notes/notes_section_07_realtime_data_ingestion_with_pubsub.md
+      - "Stream and Batch Processing with Dataflow": gcp/notes/notes_section_08_stream_and_batch_processing_with_dataflow.md
+      - "Managed Hadoop and Spark with Cloud Dataproc": gcp/notes/notes_section_09_managed_hadoop_and_spark_with_cloud_dataproc.md
+      - "Workflow Orchestration with Cloud Composer": gcp/notes/notes_section_10_workflow_orchestration_with_cloud_composer.md
+      - "Data Migration and Modernization Strategies": gcp/notes/notes_section_11_data_migration_and_modernization_strategies.md
+      - "Monitoring, Logging, and Observability": gcp/notes/notes_section_12_monitoring_logging_and_observability.md
+      - "Cost Management and Billing Optimization": gcp/notes/notes_section_13_cost_management_and_billing_optimization.md
+      - "Machine Learning Integration with Vertex AI": gcp/notes/notes_section_14_machine_learning_integration_with_vertex_ai.md
+      - "Competitive Positioning and Industry Use Cases": gcp/notes/notes_section_15_competitive_positioning_and_industry_use_cases.md
+      - "Certification Exam Readiness and Capstone Project": gcp/notes/notes_section_16_certification_exam_readiness_and_capstone_project.md
+      # GCP_NOTES_END
   - Snowflake:
     - Home: snowflake/index.md
         # SNOWFLAKE_SECTIONS_START

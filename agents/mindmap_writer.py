@@ -17,7 +17,9 @@ from config import make_llm
 from state import OverallState
 from agents.logger import log
 
-_llm = make_llm(timeout=900)
+# _llm = make_llm(timeout=900)
+from langchain_ollama import ChatOllama
+_llm = ChatOllama(model="qwen2.5:14b-instruct", base_url="http://localhost:11434", timeout=900)
 
 TEMPLATE_PATH = Path(__file__).parent.parent / "templates" / "mindmap_template.html"
 

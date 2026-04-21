@@ -222,6 +222,7 @@ nav:
     - Home: etl/index.md
     # ETL_SECTIONS_START
     - "Ab Initio": etl/ab_initio.md
+    - "Talend": etl/talend.md
     # ETL_SECTIONS_END
 
 extra:

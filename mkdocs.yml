@@ -218,6 +218,11 @@ nav:
       - "Security, Compliance, and Networking": aws/notes/notes_section_14_security_compliance_and_networking.md
       - "Capstone and Exam Readiness": aws/notes/notes_section_15_capstone_and_exam_readiness.md
       # AWS_NOTES_END
+  - ETL Tools:
+    - Home: etl/index.md
+    # ETL_SECTIONS_START
+    - "Ab Initio": etl/ab_initio.md
+    # ETL_SECTIONS_END
 
 extra:
   social:

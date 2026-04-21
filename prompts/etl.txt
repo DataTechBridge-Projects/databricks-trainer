@@ -1,0 +1,29 @@
+You are writing a single-page SA migration guide for [TOOL NAME] in the style of docs/etl/ab_initio.md.                                              
+                                                                                                                                                     
+  The audience is a Solution Architect who needs to quickly learn the tool, analyze a customer's existing estate, and map it to Databricks for
+  migration. This is not a developer guide — no hands-on lab content. Focus on understanding, not building.
+
+  The page must cover these 10 sections in one markdown file:
+
+  1. Ecosystem Overview — what the tool is, its product suite (if applicable), why customers use it, key discovery questions to ask
+  2. Core Building Block — the primary unit of work (equivalent of Ab Initio's graph), how it's defined and organized
+  3. Data Formats and Schema — how the tool describes and moves data, proprietary formats that matter for migration
+  4. Parallelism and Scaling Model — how the tool achieves performance, what the customer has likely configured
+  5. Project Structure and Version Control — how artifacts are organized, versioned, and promoted across environments
+  6. Orchestration — how jobs are scheduled, chained, and monitored; any external scheduler dependencies
+  7. Metadata, Lineage, and Impact Analysis — what metadata exists, how to use it for inventory and dependency mapping
+  8. Data Quality — how quality checks are embedded in pipelines, what artifacts represent them
+  9. Migration Assessment and Artifact Inventory — how to inventory the estate, complexity scoring, risk areas specific to this tool
+  10. Migration Mapping to Databricks — side-by-side tables: building blocks, components/transforms, orchestration, governance, data quality; include a
+   "What Doesn't Map Cleanly" section
+
+  Additional requirements:
+  - Include two Mermaid diagrams: one showing the tool's internal platform architecture (products and how they connect), one showing how it sits as ETL
+   between source systems and targets
+  - Use > **SA Tip:** callouts for non-obvious insight an SA would need in a customer conversation
+  - Use tables wherever concepts are being compared or listed
+  - Do NOT include a migration approach or phased plan — only mapping and analysis content
+  - Tone: conversational, business-aware, migration-focused
+  - Save as: docs/etl/[tool_name].md
+  - Register in mkdocs.yml under the ETL Tools tab between # ETL_SECTIONS_START and # ETL_SECTIONS_END
+  - Add a row to the ETL Tools table in docs/etl/index.md and docs/index.md

@@ -112,8 +112,9 @@ flowchart LR
 6. [Orchestration: Conduct>It and Control>Center](#6-orchestration-conductit-and-controlcenter)
 7. [Metadata, Lineage, and Impact Analysis](#7-metadata-lineage-and-impact-analysis)
 8. [Data Quality with Analyze](#8-data-quality-with-analyze)
-9. [Migration Assessment and Artifact Inventory](#9-migration-assessment-and-artifact-inventory)
-10. [Migration Mapping to Databricks](#10-migration-mapping-to-databricks)
+9. [Ab Initio File Formats Reference](#9-ab-initio-file-formats-reference)
+10. [Migration Assessment and Artifact Inventory](#10-migration-assessment-and-artifact-inventory)
+11. [Migration Mapping to Databricks](#11-migration-mapping-to-databricks)
 
 ---
 
@@ -490,7 +491,172 @@ Analyze produces HTML or flat-file quality reports that summarize dataset health
 
 ---
 
-## 9. Migration Assessment and Artifact Inventory
+## 9. Ab Initio File Formats Reference
+
+When you walk into a customer's Ab Initio environment, you will encounter a specific set of file types in every project directory. Knowing what each file is, what it contains, and what it means for migration is essential for artifact inventory.
+
+---
+
+### `.mp` — Graph (Main Program)
+
+The `.mp` file is the **core artifact** — it defines a single ETL graph. It is a binary or XML-encoded file that GDE reads and renders as the visual dataflow canvas. Every component on the canvas, every connection between them, every expression and parameter reference is stored in this file.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | GDE — developers build and save graphs visually |
+| **Stored in** | EME (versioned) and deployed to environment directories |
+| **Contains** | Component definitions, port connections, layout references, DML references, parameter references |
+| **Human-readable?** | Partially — newer versions are XML-based but verbose and not meant to be edited by hand |
+| **Migration target** | Each `.mp` is a migration unit — maps to a Databricks notebook, Python script, or DLT pipeline |
+
+> **SA Tip:** The count of `.mp` files in active production is your primary migration scope number. Always filter by last-run date — large estates commonly have 30–40% dead graphs that were never cleaned up.
+
+---
+
+### `.dml` — Data Manipulation Language (Schema Definition)
+
+The `.dml` file defines the **record structure** of a dataset — field names, types, lengths, and nested structures. Every input, output, and intermediate dataset in Ab Initio has a DML file associated with it. Components reference DML files to know how to parse and emit records.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | Developers manually, or auto-generated from database introspection |
+| **Stored in** | EME project directory, typically under a `dml/` or `schema/` subfolder |
+| **Contains** | Field definitions (`integer`, `string`, `decimal`, `date`), nested `subrec` blocks, `vector[]` arrays, computed fields |
+| **Human-readable?** | Yes — plain text, similar to a struct definition |
+| **Migration target** | Maps to a Delta table schema / PySpark `StructType` definition |
+
+**Example DML:**
+```
+record
+  integer(4)    customer_id;
+  string(100)   customer_name;
+  decimal(15,2) balance;
+  date("%Y-%m-%d") open_date;
+  subrec address
+    string(100) street;
+    string(50)  city;
+    string(2)   state;
+  end
+end
+```
+
+> **SA Tip:** DML files with `subrec` (nested structs) or `vector[]` (arrays) signal schema complexity — these require explicit mapping to PySpark `StructType` and `ArrayType`. Count how many DML files have nested structures during inventory; it directly impacts migration effort.
+
+---
+
+### `.xfr` — Transform (Reusable Expression / UDF)
+
+The `.xfr` file defines a **reusable transform function** — a named expression or computation that can be called from within graph components. Think of it as Ab Initio's equivalent of a SQL UDF or a Python helper function.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | Developers — extracted from graph logic when reuse is needed |
+| **Stored in** | EME project directory, typically under a `transforms/` subfolder |
+| **Contains** | Named functions written in Ab Initio's expression language (Ab Initio PDL) — string manipulation, date arithmetic, conditional logic, type casting |
+| **Human-readable?** | Yes — text-based PDL syntax |
+| **Migration target** | Maps to a PySpark UDF, a SQL function registered in Unity Catalog, or an inline `withColumn` expression |
+
+> **SA Tip:** Run an EME impact analysis on each `.xfr` to find out how many graphs use it. A transform used by 50+ graphs is a shared dependency — it must be migrated before any of those graphs, and the Databricks equivalent must be registered in Unity Catalog so all migrated pipelines can reference it the same way.
+
+---
+
+### `.pln` — Plan (Conduct>It Orchestration Plan)
+
+The `.pln` file defines a **Conduct>It orchestration plan** — the job dependency graph that controls the sequence, conditions, and parameters under which graphs are executed. It is the Ab Initio equivalent of an Airflow DAG or a Databricks Workflow definition.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | Developers / pipeline engineers in the Conduct>It UI or GDE |
+| **Stored in** | EME, typically under a `plans/` subfolder |
+| **Contains** | Steps (each step runs a graph), step dependencies, success/failure conditions, parameter set references, start events (time trigger or upstream plan completion) |
+| **Human-readable?** | Partially — XML or proprietary format depending on version |
+| **Migration target** | Maps 1:1 to a Databricks Workflow — steps become tasks, dependencies become task dependencies |
+
+**Typical plan structure:**
+```
+Plan: NIGHTLY_ACCOUNT_LOAD
+  Step 1: extract_accounts        → runs extract_accounts.mp
+  Step 2: validate_accounts       → runs validate_accounts.mp  (depends on Step 1)
+  Step 3: load_warehouse          → runs load_warehouse.mp     (depends on Step 2)
+  Step 4: notify_failure          → runs alert.mp              (on Step 2 or Step 3 failure)
+```
+
+> **SA Tip:** The number of `.pln` files tells you how many Databricks Workflows you'll be creating. More importantly, look at inter-plan dependencies — plans that trigger other plans. These chains become multi-workflow dependencies in Databricks and need careful sequencing design.
+
+---
+
+### `.pset` — Parameter Set (Runtime Configuration)
+
+The `.pset` file (also called a **Pset**) defines a **named collection of runtime parameters** passed to a graph or plan at execution time. Parameters control things like date ranges, file paths, database connection strings, environment flags, and record limits — without hardcoding them into graph logic.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | Developers — one Pset per environment or per run scenario |
+| **Stored in** | EME, referenced by plans and graphs |
+| **Contains** | Key-value pairs: `AI_MFS_DEPTH`, `AI_MFS_SIZE`, `START_DATE`, `END_DATE`, `DB_HOST`, `OUTPUT_DIR`, etc. |
+| **Human-readable?** | Yes — plain text key=value format |
+| **Migration target** | Maps to Databricks Job parameters, Widgets, environment-specific YAML configs, or Databricks Secrets for credentials |
+
+**Example Pset content:**
+```
+START_DATE=2024-01-01
+END_DATE=2024-01-31
+OUTPUT_DIR=/data/output/accounts
+DB_HOST=prod-oracle-01
+MAX_RECORDS=0
+AI_MFS_DEPTH=4
+AI_MFS_SIZE=262144
+```
+
+> **SA Tip:** `AI_MFS_DEPTH` and `AI_MFS_SIZE` are parallelism parameters — they control how many partitions and how large each partition is. When you see these in Psets, note the values; they tell you how much parallelism the customer is running and help right-size the Databricks cluster. These parameters disappear in Databricks — Spark handles partitioning automatically.
+
+---
+
+### `.ksh` / `.sh` — Shell Scripts
+
+Shell scripts (Korn shell `.ksh` or bash `.sh`) are **external programs invoked by graph components** — typically via a `Run Program` or `Run Shell` component inside a graph. They handle tasks that Ab Initio components don't do natively: file movement, FTP/SFTP transfers, email notifications, archive operations, database stored procedure calls, or pre/post-processing steps.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | Developers / operations engineers |
+| **Stored in** | Project directory or a shared scripts library; referenced by path in graph components |
+| **Contains** | Shell commands — file ops, network calls, DB calls, environment setup, logging |
+| **Human-readable?** | Yes — standard shell script |
+| **Migration target** | Maps to Databricks notebook shell cells (`%sh`), Python `subprocess` calls, or dedicated workflow tasks |
+
+> **SA Tip:** Shell scripts are the most common source of **lineage breaks** in Ab Initio estates. If a script moves a file to a new path or writes to a database, the EME has no visibility into it. Always review scripts manually — they often contain undocumented business logic (date manipulation, record counts, file naming conventions) that must be preserved in the migration.
+
+---
+
+### `.lay` — Layout File
+
+The `.lay` file defines the **physical parallelism configuration** for an environment — how many partitions exist, on which servers, and in which directories. Every MFS dataset reference in a graph points to a layout that tells Co>OS where to find or write the partitioned data.
+
+| Property | Detail |
+|----------|--------|
+| **Created by** | System administrators / infrastructure team |
+| **Stored in** | Environment-specific config directory; referenced by graphs and Psets |
+| **Contains** | Partition count, server hostnames, directory paths per partition |
+| **Human-readable?** | Yes — plain text |
+| **Migration target** | Does not migrate — eliminated entirely. Spark handles partitioning automatically. The partition count informs cluster sizing only. |
+
+---
+
+### Quick Reference — File Type Summary
+
+| Extension | What It Is | Migration Action |
+|-----------|-----------|-----------------|
+| `.mp` | Graph — the ETL pipeline logic | Translate to PySpark notebook / DLT pipeline |
+| `.dml` | Schema definition for a dataset | Translate to Delta table schema / StructType |
+| `.xfr` | Reusable transform function (UDF) | Rewrite as Unity Catalog SQL/Python function |
+| `.pln` | Orchestration plan (job DAG) | Recreate as Databricks Workflow |
+| `.pset` | Runtime parameter set | Replace with Databricks Job parameters / Secrets |
+| `.ksh` / `.sh` | Shell script invoked by graphs | Port to notebook `%sh` cells or Python tasks |
+| `.lay` | Parallelism / partition layout | Discard — inform cluster sizing only |
+
+---
+
+## 10. Migration Assessment and Artifact Inventory
 
 ### The Goal of the Assessment
 
@@ -565,7 +731,7 @@ Organize graphs into waves based on dependency order and complexity:
 
 ---
 
-## 10. Migration Mapping to Databricks
+## 11. Migration Mapping to Databricks
 
 ### The Core Principle
 

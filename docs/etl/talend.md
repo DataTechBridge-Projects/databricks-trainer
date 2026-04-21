@@ -410,14 +410,33 @@ This is simpler than Ab Initio's EME but also less governed. There is no enforce
 
 ### Key Artifact Types
 
-| Artifact | Format | What It Contains |
-|----------|--------|-----------------|
-| **Job** | `.item` (XML) + generated `.java` | ETL logic — the primary migration target |
-| **Context** | `.item` (XML) | Named parameter groups per environment |
-| **Routine** | `.java` | Custom Java utility classes (UDFs) used across Jobs |
-| **Schema** | Repository entry | Reusable column definitions |
-| **DB Connection** | Repository entry | JDBC connection metadata |
-| **Job Script** | Shell/bat file | Wrapper scripts that invoke the compiled Job JAR |
+When inventorying a Talend estate, these are the artifact types you will encounter. Everything in the first block lives inside the Studio project directory and is version-controlled (or should be). Everything in the second block is runtime infrastructure.
+
+**Design-time artifacts (in the Studio repository / Git):**
+
+| Artifact | File Extension | What It Contains |
+|----------|---------------|-----------------|
+| **Job** | `.item` | XML definition of the entire Job — component configuration, row links, trigger links, schema definitions, and tMap expressions; the primary migration target |
+| **Context Group** | `.item` (type: context) | Named set of environment-specific variables (dev / QA / prod values for DB hosts, file paths, run dates); referenced as `context.variable_name` inside Jobs |
+| **Routine** | `.java` | Custom Java utility class with reusable helper methods — called from `tMap` expressions; equivalent of Ab Initio's `.xfr` transform; the second-highest migration effort item after tMap |
+| **Generic Schema** | `.item` (type: schema) | Reusable column definition (field names, types, lengths) shared across multiple Jobs — changes here ripple to every Job that references it |
+| **DB Connection** | `.item` (type: metadata) | Named JDBC connection definition — host, port, database, driver class; referenced by `tJDBCInput`, `tOracleInput`, etc. |
+| **File Metadata** | `.item` (type: metadata) | Named file or directory path definition with associated schema — referenced by file input/output components |
+| **Job Script (wrapper)** | `.sh` / `.bat` | Shell script that invokes the compiled Job JAR directly (`java -jar JobName_run.jar`); used when Jobs are triggered outside TAC via cron or external scheduler |
+| **pom.xml** | `.xml` | Maven build descriptor — present in CI/CD-enabled projects; defines how Jobs are compiled and packaged into JARs; absent in older or Open Studio environments |
+| **talend.project** | `.project` | Eclipse project descriptor — metadata about the Studio project itself; not migration-relevant but needed to open the project in Studio |
+
+**Runtime artifacts (produced at build/deploy time, not in source control):**
+
+| Artifact | File Extension | What It Contains |
+|----------|---------------|-----------------|
+| **Compiled Job JAR** | `.jar` | The executable artifact deployed to the Job Server — compiled from the `.item` definition; what actually runs in production |
+| **Job Properties file** | `.properties` | Key-value config file bundled with the JAR — contains default parameter values and classpath entries; sometimes modified directly in production (a red flag for drift) |
+| **TAC Task Definition** | (stored in TAC DB) | Schedule, target Job Server, Context group override, and execution history for a deployed Job — lives in TAC's internal database, not in source control |
+| **Job Chain Definition** | (stored in TAC DB) | Ordered sequence of TAC tasks with dependency and trigger rules — the orchestration configuration for a pipeline; must be exported from TAC separately during inventory |
+| **Execution Log** | `.log` / TAC UI | Per-run stdout/stderr from the Job JVM — stored on the Job Server filesystem or viewable in TAC; the first place to look when diagnosing failures |
+
+> **SA Tip:** The `.item` file is XML and technically readable in any text editor, but it's dense and not human-friendly. During discovery, ask developers to walk you through Jobs in Studio — it's far faster than reading raw XML. For inventory purposes, parsing `.item` files programmatically (grep for component names, tRunJob references, context variable usage) is more practical than opening each one manually.
 
 ---
 

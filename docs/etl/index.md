@@ -21,6 +21,7 @@ Enterprise ETL migrations are complex. Customers have years of logic embedded in
 |------|-------------|
 | [Ab Initio](ab_initio.md) | Enterprise parallel ETL — building blocks, orchestration, and Databricks migration mapping |
 | [Talend](talend.md) | Open-core Java ETL — Jobs, tMap logic, orchestration, and Databricks migration mapping |
+| [IBM DataStage](datastage.md) | IBM enterprise ETL — APT parallel engine, Sequences, xMeta inventory, and Databricks migration mapping |
 
 ---
 

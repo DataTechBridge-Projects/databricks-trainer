@@ -174,6 +174,22 @@ Before scoping a migration, ask:
 9. What is the **version control story** — SVN, Git, or none?
 10. What are the **SLAs** for critical pipelines?
 
+### What You'll Actually Find
+
+The architecture sections above describe how Talend is *designed* to work. What you encounter on a customer site is usually messier. These are the patterns that come up repeatedly across real Talend environments — know them before the discovery call.
+
+| What You'll Find | Why It Matters |
+|-----------------|---------------|
+| **Version control is nominal** | Developers check in infrequently, commit messages are meaningless ("fix", "test", "update"), and the version in source control often doesn't match what's actually deployed to the Job Server. Always verify the running JAR version against the repo. |
+| **"Zombie" TAC tasks** | TAC Job Conductor has dozens of defined tasks that haven't run in months — or ever. Operators often define a task once and then trigger jobs manually by SSH-ing to the server and running the JAR directly. Scope only what's provably running. |
+| **Shell script wrappers everywhere** | A significant number of Jobs are invoked not through TAC but via shell scripts (`.sh` / `.bat`) scheduled in cron or called by an external scheduler. These are invisible to TAC and easy to miss in discovery — always ask ops to show you actual cron entries and Control-M jobs. |
+| **Studio is slow and hard to diff** | Talend Studio is Eclipse-based. It's heavyweight, slow on large projects, and `.item` files are XML that produces noisy diffs in Git. This is a persistent developer pain point — use it in the "why migrate" conversation. |
+| **Licensing per connector pack** | Talend's enterprise licensing is tied to connector packs — customers pay separately for Salesforce, SAP, mainframe, and cloud storage connectors. Ask which connector packs are licensed and which are actively used. Unused connector licenses are immediate TCO savings talking points. |
+| **Mixed standard and Big Data Jobs** | Very few customers are 100% standard Java Jobs or 100% Big Data. Most have a mix — some Jobs were migrated to Big Data for performance, others were never touched. The ratio of Big Data to standard Jobs is the single most important variable in migration scoping. |
+| **Open Studio Jobs in production** | Even at Data Fabric customers, some Jobs — often older ones built before the enterprise rollout — were created in Open Studio and still run via shell wrappers. These have no TAC task, no schedule metadata, and no deployment history. |
+
+> **SA Tip:** In the first discovery meeting, ask the ops team (not the developers) to show you the actual job run logs from the past 30 days — in TAC, in cron, and in the external scheduler. This is the fastest way to distinguish active Jobs from dead code and find Jobs that TAC doesn't know about.
+
 ---
 
 ## 2. Jobs and Components — The Core Building Block
@@ -311,7 +327,9 @@ This is fundamentally different from Databricks — standard Talend has no Spark
 
 > **SA Tip:** When a customer says their Talend Jobs are "slow," this is usually why — they're running large data volumes through a single Java process. Right-sizing the Databricks cluster will often deliver order-of-magnitude performance improvement without any code optimization. Use this as a TCO and performance narrative.
 
-### Talend Big Data Jobs
+### Talend Big Data Jobs — The Fork That Changes Everything
+
+**Ask this question first, before any other scoping:** *"Are your Jobs standard Java Jobs or Big Data (Spark) Jobs?"* The answer bifurcates the entire migration approach.
 
 Customers on the **Talend Big Data** edition can configure Jobs to run on a Spark cluster (on-prem YARN, AWS EMR, Azure HDInsight, or Databricks). In this mode:
 
@@ -319,7 +337,15 @@ Customers on the **Talend Big Data** edition can configure Jobs to run on a Spar
 - A `tSparkConfiguration` or `tAzureDatabricksConfiguration` component provides cluster connection details
 - Components like `tHiveInput`, `tSparkOutput`, and `tMap` generate Spark-native operations
 
-> **SA Tip:** If the customer is already running Talend Big Data Jobs on Databricks, they have a hybrid architecture — Talend as the IDE, Databricks as the runtime. Migration in this case is more about eliminating Talend Studio as a dependency than re-platforming the execution engine. The Spark logic may be largely reusable.
+The migration effort is fundamentally different depending on which mode a Job uses:
+
+| Job Type | What Migration Looks Like | Relative Effort |
+|----------|--------------------------|-----------------|
+| **Standard Java Job** | Full rewrite — every `tMap`, Routine, and component must be re-implemented in PySpark or SQL | High |
+| **Big Data Job on YARN / EMR / HDInsight** | Repoint cluster config (`tSparkConfiguration` → Databricks cluster); validate Spark logic still works | Low–Medium |
+| **Big Data Job already on Databricks** | Remove Talend Studio as the orchestration layer; the execution logic is already running on Databricks | Low — dependency elimination only |
+
+> **SA Tip:** If the customer is already running Talend Big Data Jobs on Databricks, you're not migrating a workload — you're eliminating a license. The pitch is: "You're paying Talend to be an IDE wrapper around Databricks. Let's cut the wrapper." That's a very different conversation than a full ETL replatform, and it's a much easier win to scope and close.
 
 ### Parallelism Mechanisms Summary
 

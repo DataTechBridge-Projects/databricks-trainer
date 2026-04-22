@@ -2,6 +2,8 @@
 
 A practical guide to Banking, Financial Services & Insurance for Solution Architects working on data platforms. The goal is not to make you a banker — it is to give you enough domain fluency to have a credible conversation with a BFSI customer and understand *why* their data problems are the shape they are.
 
+> **[Open the interactive reader →](../bfsi-reader.html)** — three-panel layout with section navigation on the left, content in the centre, and per-section table of contents on the right.
+
 ## Sections
 
 1. [BFSI Industry Overview](section_01_bfsi_industry_overview.md) — Segments, regulatory landscape, and how data platforms map to BFSI value

@@ -228,6 +228,8 @@ nav:
     - "Informatica BDM": etl/informatica_bdm.md
     - "Matillion": etl/matillion.md
     - "SSIS": etl/ssis.md
+    - "Pentaho": etl/pentaho.md
+    - "Oracle Data Integrator": etl/odi.md
     # ETL_SECTIONS_END
 
 extra:

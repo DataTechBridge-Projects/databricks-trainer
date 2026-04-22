@@ -224,6 +224,7 @@ nav:
     - "Ab Initio": etl/ab_initio.md
     - "Talend": etl/talend.md
     - "IBM DataStage": etl/datastage.md
+    - "Informatica": etl/informatica.md
     # ETL_SECTIONS_END
 
 extra:

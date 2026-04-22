@@ -235,6 +235,9 @@ nav:
     - "Oracle Data Integrator": etl/odi.md
     # ETL_SECTIONS_END
 
+  - Glossary:
+    - AWS: glossary/aws.md
+
 extra:
   social:
     - icon: fontawesome/brands/github

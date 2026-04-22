@@ -1,0 +1,17 @@
+
+TECHNOLOGY/TOOL= Azure
+
+Create a glossary file at docs/glossary/<tech>.md for <TECHNOLOGY/TOOL>.
+                                                                                                                                                       
+  Requirements:                                                                                                                                      
+  - Sorted A–Z with lettered section headers (## A, ## B, etc.)
+  - Every major service/component must have sub-entries for its distinct features, modes, or sub-products (e.g. if a service has serverless vs provisioned modes, tiered storage, or named sub-features — each gets its own ### entry)
+  - Each entry must be descriptive and SA-focused: what it is in one sentence, why a customer cares, key tradeoffs, and when to recommend it
+  - Coverage must be exhaustive — someone should be able to look up any keyword related to <TECHNOLOGY/TOOL> and find it here
+  - At the top of the file (after the intro paragraph), add a summary table with
+    columns: Service | Sub-entries — listing every service that has sub-entries
+    and what those sub-entries are
+  - Audience: Solution Architects with general IT background but no hands-on experience with <TECHNOLOGY/TOOL>. Goal is enough knowledge to hold  credible customer conversation — understand what the tech does, why it matters, and how it compares to alternatives. Level: 100-level (conceptual, not hands-on lab depth). Tone: conversational, business-aware, light on configuration details, heavy on "what this means for the customer"
+  - Add the new file to the Glossary section in mkdocs.yml
+
+  Audience persona: an SA who knows AWS well but has never worked with GCP

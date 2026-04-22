@@ -1,399 +1,1178 @@
 # AWS Glossary
 
-A comprehensive reference of AWS services, concepts, and terminology — sorted alphabetically. Written for Solution Architects who need to understand what each term means, why it matters, and how to talk about it in a customer conversation.
+A comprehensive A–Z reference of AWS services, sub-features, architectural concepts, and terminology. Written for Solution Architects who need to understand what each term means, why it matters, and how to talk about it in a customer conversation. Sorted alphabetically.
+
+---
+
+## Services with Sub-Entries
+
+| Service | Sub-entries |
+|---|---|
+| **ACM** | Private CA |
+| **Athena** | Federated Query, Apache Spark, Named Queries, Workgroups |
+| **Aurora** | Auto Scaling, Backtrack, Global Database, ML, Parallel Query, Serverless v2 |
+| **Bedrock** | Agents, Flows, Guardrails, Knowledge Bases, Model Evaluation, Model Fine-Tuning, Studio |
+| **CloudFront** | Behaviors, Cache Policies, Field-Level Encryption, Functions, Lambda@Edge, Origin Shield |
+| **CloudWatch** | Alarms, Application Insights, Container Insights, Contributor Insights, Dashboards, Evidently, Logs Insights, Metrics, RUM, Synthetics |
+| **Cognito** | Advanced Security Features, Hosted UI, Identity Pools, User Pools |
+| **Comprehend** | Custom Classification, Custom Entity Recognition, Medical |
+| **Connect** | Contact Lens, Voice ID, Wisdom |
+| **DocumentDB** | Elastic Clusters |
+| **DynamoDB** | Auto Scaling, DAX, Global Tables, On-Demand Capacity, PartiQL, PITR, Streams, TTL, Transactions |
+| **EC2** | Capacity Reservations, Dedicated Hosts, Dedicated Instances, Hibernate, Image Builder, IMDS, Nitro Enclaves, Spot Fleet |
+| **ECS** | Anywhere, Service Connect, Services, Task Definitions |
+| **EKS** | Add-ons, Anywhere, Auto Mode, Fargate Profiles, Managed Node Groups |
+| **ElastiCache** | Global Datastore, Serverless, Redis Cluster Mode |
+| **Elastic Beanstalk** | Extensions (.ebextensions) |
+| **ELB** | ALB Listener Rules, ALB Target Groups, ALB WAF Integration |
+| **EMR** | on EC2, on EKS, Serverless, Studio |
+| **EventBridge** | Event Bus, Pipes, Rules, Schema Registry, Scheduler |
+| **FSx** | Lustre S3 Integration, NetApp ONTAP FlexClone, Windows Shadow Copies |
+| **Glue** | Crawlers, Data Catalog, DataBrew, ETL Jobs, for Ray |
+| **GuardDuty** | EKS Protection, Lambda Protection, Malware Protection, RDS Protection, S3 Protection |
+| **IAM** | Access Analyzer, Groups, Permissions Boundaries, Policies, Roles, Service-Linked Roles, Users |
+| **Inspector** | CIS Scans |
+| **IoT Core** | Device Shadow, Fleet Indexing, Jobs, Rules Engine |
+| **IoT** | Device Defender, Greengrass, SiteWise, TwinMaker |
+| **KMS** | Customer Managed Keys, Key Policies, Multi-Region Keys |
+| **Kinesis** | Data Firehose, Data Streams, Enhanced Fan-Out, Video Streams, Managed Flink |
+| **Lake Formation** | Blueprints, Data Sharing, Fine-Grained Permissions, LF-Tags |
+| **Lambda** | Concurrency, Container Images, Destinations, Event Source Mappings, Extensions, Function URLs, Layers, Power Tuning, Provisioned Concurrency |
+| **Lex** | Intents, Slot Types |
+| **Managed Blockchain** | Hyperledger Fabric, Ethereum |
+| **MSK** | Connect, Replicator, Schema Registry, Serverless |
+| **Neptune** | Analytics, Serverless |
+| **OpenSearch** | Cold Storage, Serverless, UltraWarm |
+| **Organizations** | AI Services Opt-Out Policy, Backup Policies, SCPs, Tag Policies |
+| **Personalize** | Campaigns, Event Tracker, Filters |
+| **Pinpoint** | Journeys, Segments |
+| **PrivateLink** | Endpoint Services |
+| **QuickSight** | Embedded Analytics, ML Insights, Q (Natural Language), SPICE |
+| **RDS** | Blue/Green Deployments, Custom, Enhanced Monitoring, Multi-AZ, Performance Insights, Proxy, Read Replicas |
+| **Redshift** | Concurrency Scaling, Data API, Data Sharing, Federated Query, ML, RA3 Nodes, Serverless, Spectrum |
+| **Rekognition** | Custom Labels, Video |
+| **Route 53** | Health Checks, Hosted Zones, Resolver, Routing Policies, Traffic Flow |
+| **S3** | Access Points, Batch Operations, CRR, Event Notifications, Intelligent-Tiering, Inventory, Lifecycle Policies, Multi-Region Access Points, Object Lambda, Object Lock, RTC, S3 Select, SRR, Storage Lens, Transfer Acceleration, Versioning |
+| **SageMaker** | Autopilot, Canvas, Clarify, Data Wrangler, Debugger, Distributed Training, Experiments, Feature Store, Ground Truth, HyperPod, Inference, JumpStart, Model Monitor, Model Registry, Pipelines, Studio |
+| **SES** | Configuration Sets, Dedicated IPs, Virtual Deliverability Manager |
+| **Step Functions** | Activity Tasks, Express Workflows, Standard Workflows, SDK Integrations |
+| **SSM (Systems Manager)** | AppConfig, Automation, Distributor, Inventory, OpsCenter, Parameter Store, Patch Manager, Run Command, Session Manager, State Manager |
+| **Textract** | Analyze Lending, Queries |
+| **Timestream** | Live Analytics |
+| **Transcribe** | Call Analytics, Medical |
+| **Transfer Family** | AS2, Custom Identity Provider |
+| **Transit Gateway** | Network Manager, Multicast, Route Tables |
+| **VPC** | DHCP Option Sets, Endpoint Policies, Flow Logs, Reachability Analyzer, Sharing, Traffic Mirroring |
+| **VPN** | Client VPN, Site-to-Site VPN |
+| **WAF** | Bot Control, Fraud Control (ATP + ACFP), Managed Rule Groups, Web ACLs |
+| **X-Ray** | Groups, Sampling Rules, Service Map |
 
 ---
 
 ## A
 
 ### ACM (AWS Certificate Manager)
-A managed service that provisions, deploys, and renews SSL/TLS certificates. Eliminates the operational burden of manually tracking certificate expiration dates and rotating them across load balancers, CloudFront distributions, and API Gateway endpoints. Free for certificates used with AWS services; customers pay only for private CA certificates.
+A managed service that provisions, deploys, and renews SSL/TLS certificates. Eliminates manually tracking certificate expiration across load balancers, CloudFront, and API Gateway. Public certificates are free. Integrates directly with ALB, CloudFront, API Gateway, and Elastic Beanstalk — enabling HTTPS with no manual certificate installation.
+
+### ACM Private CA (Private Certificate Authority)
+A managed private CA for issuing internal certificates — for internal services, mutual TLS (mTLS), IoT devices, or code signing. Unlike public ACM certificates (which are free and browser-trusted), private certificates carry a monthly CA fee (~$400/month/CA) plus per-certificate charges. Supports certificate hierarchies (root CA → subordinate CA).
+
+### Amazon AppFlow
+A fully managed integration service for transferring data between AWS and SaaS applications — Salesforce, ServiceNow, Slack, Google Analytics, SAP, Zendesk — without writing custom code. Flows can run on schedule, on event, or on demand. Data can be transformed, filtered, and mapped during transfer. The low-code path for moving data between business applications and AWS analytics services (S3, Redshift, EventBridge).
+
+### Amazon AppStream 2.0
+A managed application streaming service that delivers desktop applications to any device through a browser. The application runs on AWS, not the end-user device — nothing to install or update on the client. Used for software trials, remote workforces, and BYOD scenarios. Differs from WorkSpaces (full desktop streaming) by streaming individual applications.
 
 ### Amazon Athena
-A serverless, interactive query service that lets you analyze data stored in Amazon S3 using standard SQL. There is no infrastructure to manage and no cluster to provision — you simply point Athena at an S3 location, define a schema in the AWS Glue Data Catalog, and start querying. You pay only for the data scanned per query (roughly $5/TB), which makes it extremely cost-effective for ad hoc analysis. Performance can be dramatically improved by using columnar formats (Parquet, ORC) and partitioning data by date or region — techniques that reduce the amount of data scanned per query.
+A serverless, interactive query service for analyzing data in S3 using standard SQL. No infrastructure to manage; pay per data scanned (~$5/TB). Compatible with Glue Data Catalog for schema management.
+
+### Athena Federated Query
+Extends Athena SQL across data sources beyond S3 — DynamoDB, RDS, CloudWatch Logs, OpenSearch, on-premises JDBC sources — using Lambda-based data source connectors. A single SQL query can join data across S3 and RDS without moving data.
+
+### Athena for Apache Spark
+Runs interactive Apache Spark workloads inside Athena using managed Jupyter notebooks. No cluster to provision — Spark sessions start in seconds. Used for data exploration and ML feature engineering on data lake data.
+
+### Athena Named Queries
+Saved SQL queries in Athena (stored in S3 or the Athena console) that can be re-run or shared across teams. Combined with Workgroups, they provide a governed query library.
+
+### Athena Workgroups
+Logical groupings of Athena users and queries with separate settings for data scan limits, query result locations, encryption, and cost controls. Enables cost allocation and governance by team or project.
+
+### Amazon Augmented AI (A2I)
+A service for building human review workflows for ML predictions. When a model's confidence falls below a threshold, A2I routes the prediction to a human reviewer. Pre-built task UIs exist for Textract (document review) and Rekognition (image moderation). Used in regulated industries where humans must validate automated decisions.
 
 ### Amazon Aurora
-A fully managed, MySQL- and PostgreSQL-compatible relational database engine built by AWS. It delivers up to five times the throughput of standard MySQL at one-tenth the cost of commercial databases like Oracle. Aurora separates compute and storage — the storage layer automatically grows in 10 GB increments up to 128 TB and replicates data six ways across three Availability Zones. Aurora Serverless v2 takes this further by automatically scaling compute capacity up or down in fine-grained increments, making it well-suited for applications with intermittent or unpredictable workloads.
+A MySQL- and PostgreSQL-compatible managed relational database delivering up to 5x MySQL throughput. Separates compute from storage; storage replicates six ways across three AZs and grows automatically to 128 TB.
+
+### Aurora Auto Scaling
+Automatically adds or removes Aurora Replicas based on CPU or connection count metrics. Scales read capacity without manual intervention or downtime.
+
+### Aurora Backtrack
+Rewinds an Aurora MySQL cluster to a previous point in time — without restoring from a backup. Backtrack operates in seconds/minutes versus the hour-long restore process. Backtrack window up to 72 hours. Aurora PostgreSQL does not support Backtrack (use point-in-time restore instead).
+
+### Aurora Global Database
+Spans an Aurora cluster across up to five AWS Regions with sub-second replication from primary to secondary Regions. Secondary Regions serve read traffic with local latency. In a disaster, a secondary Region can be promoted to primary in under a minute. Used for globally distributed applications and cross-Region DR.
+
+### Aurora ML
+Integrates Aurora with SageMaker and Comprehend so that ML inference can be called from SQL. For example: `SELECT sentiment_analysis(review_text) FROM reviews` — Aurora calls a SageMaker endpoint in-query. Enables ML inference without extracting data from the database.
+
+### Aurora Parallel Query
+Pushes query processing to the Aurora storage layer, allowing analytical queries to run in parallel across storage nodes without impacting OLTP workloads. Reduces query latency for large table scans on Aurora MySQL. An alternative to offloading analytical workloads to Redshift for mixed OLTP/analytics patterns.
+
+### Aurora Serverless v2
+Scales Aurora compute capacity up and down in fine-grained increments (0.5 ACU steps) in response to actual workload demand — including scaling to near-zero when idle. Billed per ACU-second. Right for intermittent, unpredictable, or dev/test workloads where always-on provisioned capacity would be wasteful.
+
+### Amazon Bedrock
+A fully managed service providing access to foundation models (FMs) from Anthropic, Meta, Mistral, Cohere, Stability AI, and Amazon through a single API. No infrastructure, no ML expertise required. The platform for building generative AI applications on AWS.
+
+### Bedrock Agents
+Multi-step AI agents that plan and execute tasks by combining foundation model reasoning with tool use. Agents can call APIs, query knowledge bases, run Lambda functions, and interact with data sources to complete complex, multi-turn tasks autonomously. Configured through the Bedrock console with an instruction prompt, action groups (API schemas), and knowledge base connections.
+
+### Bedrock Flows
+A visual builder for creating multi-step generative AI workflows — chaining prompts, conditions, knowledge base lookups, Lambda functions, and agent calls into a directed acyclic graph (DAG). Allows building complex AI orchestration logic without custom application code.
+
+### Bedrock Guardrails
+Configurable safety and content filters applied to both input and output of FM interactions. Controls include: topic denial (block off-topic queries), content filtering (violence, hate speech, adult content), PII redaction, word filters, and grounding checks (detect hallucinations vs. retrieved context). Applied consistently across all models in Bedrock without model-specific tuning.
+
+### Bedrock Knowledge Bases
+Managed Retrieval Augmented Generation (RAG) pipeline. Connects a data source (S3, Confluence, SharePoint, Salesforce, web crawler) to a vector store (OpenSearch Serverless, Pinecone, RDS pgvector, MongoDB Atlas, Aurora). Bedrock handles chunking, embedding, and indexing automatically. At query time, retrieves relevant chunks and injects them into the FM prompt — grounding responses in customer data.
+
+### Bedrock Model Evaluation
+A framework for evaluating and comparing foundation models on customer-defined tasks. Supports automatic evaluation (using built-in metrics: ROUGE, BERTScore, toxicity, accuracy on MCQ) and human evaluation (routes outputs to a labeling workforce). Helps customers choose the right model for their use case based on quality and cost metrics.
+
+### Bedrock Model Fine-Tuning
+Customizes a foundation model with customer-specific training data to improve performance on domain-specific tasks. Two approaches: **Fine-tuning** (supervised learning on labeled input-output pairs) and **Continued Pre-training** (unsupervised learning on domain text to inject proprietary knowledge). Fine-tuned models are stored privately in the customer's account. Not all Bedrock models support fine-tuning — check model cards.
+
+### Bedrock Studio
+A web-based workspace for collaboratively building, testing, and sharing generative AI applications powered by Bedrock. Teams can prototype prompts, agents, and knowledge bases and share them within the organization for review and iteration.
+
+### Amazon Braket
+AWS's managed quantum computing service. Provides access to quantum hardware from IonQ, Rigetti, D-Wave, and OQC, plus managed quantum circuit simulators. Braket Hybrid Jobs runs quantum-classical hybrid algorithms on EC2 or SageMaker. Relevant for customers exploring quantum advantage for optimization problems in finance, pharma, and logistics.
+
+### Amazon Chime SDK
+Developer APIs and SDKs for embedding real-time audio, video, and messaging into custom applications. Customers building telehealth, contact center, or collaboration features use the SDK rather than the end-user Chime application.
 
 ### Amazon CloudFront
-A global Content Delivery Network (CDN) with over 400 Points of Presence (PoPs) worldwide. It caches static and dynamic content at edge locations close to end users, dramatically reducing latency and offloading origin servers. Integrated natively with S3 (for static sites), ALB, and API Gateway. CloudFront also doubles as a security layer — it integrates with AWS WAF, Shield Advanced, and AWS Certificate Manager to protect applications at the edge before traffic ever reaches the origin.
+A global CDN with 400+ PoPs caching static and dynamic content at edge locations. Integrates with S3, ALB, API Gateway, Lambda@Edge. Functions as a security perimeter via WAF, Shield Advanced, and ACM.
+
+### CloudFront Behaviors
+Rules within a CloudFront distribution that match URL patterns and apply different cache policies, origin configurations, or functions. Example: `/api/*` routes to an ALB origin with no caching; `/*.jpg` routes to S3 with a 30-day cache TTL.
+
+### CloudFront Cache Policies
+Control what CloudFront caches and for how long — TTL settings, and which request headers/cookies/query strings are included in the cache key. Managed cache policies (CachingOptimized, CachingDisabled) cover most use cases; custom policies give precise control.
+
+### CloudFront Field-Level Encryption
+Adds an additional layer of security for sensitive data (e.g., credit card numbers) by encrypting specific form fields at the CloudFront edge using a customer-provided public key. Only applications that hold the corresponding private key can decrypt the fields — even AWS cannot read them in transit.
+
+### CloudFront Functions
+Lightweight JavaScript functions that run at CloudFront edge locations for simple request/response manipulation — URL rewrites, header manipulation, A/B testing redirects. Sub-millisecond execution, millions of requests per second. Cheaper and faster than Lambda@Edge for simple transformations that don't need Node.js capabilities or access to external services.
+
+### CloudFront Lambda@Edge
+Node.js or Python Lambda functions that run at CloudFront Regional Edge Caches (not all PoPs) for more complex edge logic — authentication, cookie manipulation, dynamic content personalization, A/B testing with backend logic. Runs at four event types: Viewer Request, Origin Request, Origin Response, Viewer Response.
+
+### CloudFront Origin Shield
+An additional caching layer (a single Regional cache) between CloudFront edge PoPs and the origin. Reduces origin load by consolidating cache misses from all edge locations through a single point before hitting the origin. Reduces origin egress costs and origin request volume.
 
 ### Amazon CloudWatch
-The primary observability service for AWS. It collects metrics, logs, and traces from virtually every AWS service and lets you set alarms, build dashboards, and trigger automated actions based on thresholds. CloudWatch Logs Insights provides an interactive query language for log analysis. Container Insights, Lambda Insights, and Application Insights are purpose-built extensions for specific compute types. Think of it as the single pane of glass for operational health across an AWS environment.
+The primary observability service for AWS. Collects metrics, logs, and traces. Enables alarms, dashboards, and automated actions.
+
+### CloudWatch Alarms
+Monitor a single CloudWatch metric or math expression and trigger actions (SNS notification, Auto Scaling action, EC2 action) when the metric crosses a threshold. Three states: OK, ALARM, INSUFFICIENT_DATA. Composite Alarms combine multiple alarms using AND/OR logic to reduce alarm noise.
+
+### CloudWatch Application Insights
+Automatically detects and configures monitoring for common application stacks (.NET, Java, SQL Server, SAP HANA) running on EC2. Surfaces anomalies as problems in the CloudWatch console with correlated logs, metrics, and traces — reducing mean time to resolution.
+
+### CloudWatch Container Insights
+Collects, aggregates, and summarizes container metrics and logs from ECS, EKS, and Kubernetes. Provides cluster, node, pod, and container-level metrics. Powered by the CloudWatch Agent and Fluent Bit for log collection.
+
+### CloudWatch Contributor Insights
+Analyzes log data in real time to identify the top contributors to a metric (e.g., which IP addresses generate the most 5XX errors, which DynamoDB keys are most frequently accessed). Creates rules using log fields; outputs ranked time series data. No custom code required.
+
+### CloudWatch Dashboards
+Customizable, shareable monitoring dashboards displaying metrics, alarms, logs, and CloudWatch Synthetics canary results. Supports cross-account and cross-Region widgets. Automatic dashboards for most AWS services are available pre-built in the console.
+
+### CloudWatch Evidently
+A feature flagging and A/B testing service. Allows gradually rolling out new features to a percentage of users and measuring the impact on business metrics before full rollout. Integrated with CloudWatch for metric collection and analysis.
+
+### CloudWatch Logs Insights
+An interactive query language for analyzing CloudWatch Logs data. SQL-like syntax supports filtering, aggregation, sorting, and pattern extraction from log data. Useful for ad hoc log investigations and building operational dashboards from log-derived metrics.
+
+### CloudWatch Metrics
+Time-series data points from AWS services and custom application code. Metrics have a namespace, name, and up to 30 dimensions. Standard resolution: 1-minute granularity; High Resolution: 1-second granularity. Metric Math allows creating new metrics by combining existing ones. CloudWatch Metric Streams delivers near-real-time metrics to Kinesis Data Firehose or third-party observability tools (Datadog, Dynatrace, New Relic).
+
+### CloudWatch RUM (Real User Monitoring)
+Collects real-time telemetry from end-user browser sessions — page load performance, JavaScript errors, HTTP call failures — and correlates them with CloudWatch metrics and X-Ray traces. Provides a user-experience perspective to complement infrastructure-side observability.
+
+### CloudWatch Synthetics
+Runs configurable canary scripts (Node.js or Python) on a schedule to monitor endpoints, APIs, and user flows. Canaries simulate user actions — loading a URL, submitting a form — and alert when behavior changes (broken links, latency spikes, wrong content). Independent of application code; detects issues even when no real user traffic exists.
+
+### Amazon CodeCatalyst
+A unified software development service combining project management, source control (Git), CI/CD, and cloud dev environments. Blueprint-based project creation; integrates with GitHub. Aimed at development teams wanting a managed DevOps toolchain.
+
+### Amazon Cognito
+An identity service for web and mobile applications.
+
+### Cognito Advanced Security Features
+An add-on for User Pools that adds adaptive authentication (step-up MFA based on risk signals like unusual location or device), compromised credential detection, and a security dashboard showing sign-in anomalies. Requires an additional per-MAU charge.
+
+### Cognito Hosted UI
+A pre-built, customizable sign-in and sign-up web UI provided by Cognito User Pools. Handles the complete authentication flow (sign in, sign up, MFA challenge, password reset) without building custom UI screens. Supports social identity provider federation (Google, Facebook, Apple) and SAML enterprise federation.
+
+### Cognito Identity Pools (Federated Identities)
+Exchanges a Cognito User Pool token, social identity provider token, or SAML assertion for temporary AWS credentials (via STS). Enables mobile and web applications to call AWS services directly (S3, DynamoDB, Lambda) with per-user IAM role assumptions. Supports unauthenticated (guest) access with restricted permissions.
+
+### Cognito User Pools
+A fully managed user directory for web and mobile applications. Handles user sign-up, sign-in, MFA (SMS, TOTP, email OTP), social federation (Google, Facebook, Apple), SAML/OIDC enterprise federation, and email/phone verification. Issues JWT tokens (id_token, access_token, refresh_token) on successful authentication. User attributes, groups, and Lambda triggers (pre-sign-up, post-confirmation, pre-token generation) allow customization.
 
 ### Amazon Comprehend
-A Natural Language Processing (NLP) service that uses machine learning to extract meaning from unstructured text. It can identify entities (people, places, organizations), sentiment (positive/negative/neutral/mixed), key phrases, language, and PII (Personally Identifiable Information). No ML expertise required — you call an API with text and get structured results back. Common use cases include analyzing customer reviews, classifying support tickets, and redacting PII from documents.
+An NLP service for extracting meaning from unstructured text — entity recognition, sentiment analysis, key phrase extraction, language detection, and PII detection/redaction.
+
+### Comprehend Custom Classification
+Trains a custom text classification model using labeled examples. Classifies documents into user-defined categories (e.g., support ticket type, legal document category) without ML expertise. Inference available as real-time single-document or asynchronous batch.
+
+### Comprehend Custom Entity Recognition
+Trains a custom NER (named entity recognition) model to identify domain-specific entities not covered by the standard model — product names, internal codes, medical device identifiers. Requires labeled training examples.
+
+### Comprehend Medical
+A specialized version of Comprehend for extracting medical information from clinical text — diagnoses, medications, dosages, procedures, anatomical terms. Includes ICD-10-CM and RxNorm entity linking. HIPAA eligible. Used by healthcare and life sciences customers for clinical NLP without building custom models.
+
+### Amazon Connect
+A cloud-based contact center providing voice, chat, and task channels — IVR, agent desktops, real-time and historical analytics, and workforce management. Pay per minute of use. Deploys in minutes with no telephony infrastructure.
+
+### Connect Contact Lens
+An ML-powered analytics overlay for Connect. Provides real-time and post-call sentiment analysis, automatic call transcription, keyword/phrase spotting, agent performance scoring, and conversation summaries. Helps supervisors monitor agent quality and surface compliance issues without listening to every call.
+
+### Connect Voice ID
+Real-time caller authentication using voice biometrics. Analyzes voice characteristics to verify a caller's identity against a stored voiceprint — replacing security questions and PIN entry. Reduces handle time and fraud risk. Integrates into contact flows without custom code.
+
+### Connect Wisdom
+An ML-powered knowledge retrieval service for Connect agents. Surfaces relevant articles, procedures, and FAQs in real time during a call based on what the customer is saying — without the agent needing to search manually. Indexes content from Salesforce, ServiceNow, S3, and other sources.
+
+### Amazon Detective (see Amazon Detective — standalone entry)
+
+### Amazon DocumentDB
+A fully managed document database compatible with the MongoDB API. Stores JSON-shaped data; separates compute from storage (same architecture as Aurora) with six-way replication across three AZs. Not a complete drop-in for all MongoDB features; removes the operational burden of managing MongoDB clusters.
+
+### DocumentDB Elastic Clusters
+A DocumentDB deployment option that automatically scales storage and compute horizontally (sharded) — beyond the limits of a single DocumentDB cluster. Each shard is independently managed. Designed for workloads with extremely large document datasets that exceed single-cluster capacity.
 
 ### Amazon DynamoDB
-A fully managed, serverless NoSQL key-value and document database. It delivers single-digit millisecond performance at any scale and is designed for workloads where read/write throughput must remain consistent even as data volume grows to hundreds of terabytes. DynamoDB uses a primary key (partition key alone, or partition key + sort key) to uniquely identify items. DynamoDB Streams captures item-level change events, enabling event-driven architectures. Global Tables provide multi-region, active-active replication for disaster recovery and low-latency global access.
+A fully managed NoSQL key-value and document database with single-digit millisecond performance at any scale.
 
-### Amazon EC2 (Elastic Compute Cloud)
-The foundational virtual server service in AWS. EC2 instances come in dozens of families optimized for different workloads — general purpose (M/T family), compute optimized (C family), memory optimized (R/X family), storage optimized (I/D family), and accelerated computing (P/G/Inf family for GPU/ML). EC2 is the "escape hatch" when managed services don't fit a workload, but it requires the customer to manage the OS, patching, and scaling. Pricing models include On-Demand, Reserved Instances (1 or 3 year), Spot (up to 90% discount for interruptible workloads), and Savings Plans.
+### DynamoDB Auto Scaling
+Monitors DynamoDB table and GSI read/write capacity consumption and automatically adjusts provisioned capacity up or down using Application Auto Scaling and CloudWatch. Prevents throttled requests during traffic spikes without over-provisioning. Configured with a target utilization percentage and min/max capacity bounds.
 
-### Amazon ECS (Elastic Container Service)
-A fully managed container orchestration service for running Docker containers. ECS removes the need to manage a control plane — AWS handles scheduling, placement, and health checks. Containers can run on EC2 instances (you manage the fleet) or on AWS Fargate (serverless — no servers to manage at all). ECS integrates natively with IAM, ALB, CloudWatch, and ECR (Elastic Container Registry), making it the lowest-friction path to running containers on AWS.
+### DynamoDB Accelerator (DAX)
+An in-memory cache for DynamoDB delivering microsecond read latency. Write-through; serves eventually consistent reads only. Best for read-heavy workloads with repetitive key access (leaderboards, session state, catalog lookups).
 
-### Amazon EKS (Elastic Kubernetes Service)
-A managed Kubernetes service that runs the Kubernetes control plane across multiple Availability Zones. Customers bring their own worker nodes (EC2 or Fargate) but AWS handles etcd, the API server, and control plane upgrades. EKS is the right choice for organizations already invested in Kubernetes tooling and CNCF ecosystem (Helm, Argo, Flux). It comes with more operational overhead than ECS but provides full Kubernetes compatibility and portability. EKS Anywhere extends the same control plane to on-premises environments.
+### DynamoDB Global Tables
+Multi-region, active-active replication. Writes in any Region are replicated to all other Regions with typically sub-second latency. Conflict resolution: last-writer-wins based on timestamp. Provides both global low-latency reads/writes and cross-Region disaster recovery in a single configuration.
 
-### Amazon EMR (Elastic MapReduce)
-A managed big data platform for running open-source frameworks like Apache Spark, Hadoop, Hive, Presto, and Flink at scale. EMR handles cluster provisioning, configuration, and scaling while you focus on your data processing logic. EMR on EC2 gives you full control over cluster configuration; EMR Serverless removes cluster management entirely — you submit jobs and AWS handles all the infrastructure. A common architecture pairs EMR with S3 as the storage layer and AWS Glue Data Catalog as the metadata store.
+### DynamoDB On-Demand Capacity Mode
+Pay-per-request pricing; DynamoDB instantly accommodates any throughput without capacity planning. Ideal for unpredictable or spiky workloads. More expensive per request than Provisioned mode — if traffic patterns are known, Provisioned + Auto Scaling is cheaper.
 
-### Amazon EventBridge
-A serverless event bus that connects AWS services, SaaS applications, and custom applications using events. It receives events (JSON payloads describing something that happened), matches them against rules, and routes them to targets like Lambda, SQS, Step Functions, or Kinesis. EventBridge Scheduler adds the ability to invoke targets on a cron or rate schedule. The Schema Registry auto-discovers and stores event schemas, making it easier to build loosely coupled, event-driven architectures.
+### DynamoDB PartiQL
+An SQL-compatible query language for DynamoDB. Allows SELECT, INSERT, UPDATE, DELETE using familiar SQL syntax — without learning DynamoDB's native expression syntax. Useful for ad hoc queries in the console and migrations from relational databases. Does not add SQL join or aggregation capabilities; each statement still maps to a DynamoDB operation.
 
-### Amazon Glacier / S3 Glacier
-AWS's lowest-cost archival storage tier. Data stored in S3 Glacier Instant Retrieval is accessible in milliseconds; S3 Glacier Flexible Retrieval takes minutes to hours; S3 Glacier Deep Archive (the cheapest tier at ~$1/TB/month) takes up to 12 hours for retrieval. All tiers provide 11 nines of durability. Glacier is the right answer for compliance-driven retention (audit logs, financial records, medical imaging) where data is rarely or never accessed after initial storage.
+### DynamoDB Point-in-Time Recovery (PITR)
+Continuous backup of DynamoDB tables enabling restoration to any second within a 35-day rolling window — without writing backup code or schedules. Protects against accidental writes or deletes. Restores create a new table; the original table is unaffected.
 
-### Amazon GuardDuty
-An intelligent threat detection service that continuously analyzes AWS CloudTrail events, VPC Flow Logs, and DNS logs to identify malicious activity or unauthorized behavior. Machine learning models identify anomalies like unusual API calls, compromised credentials, or communication with known malicious IP addresses. No agents to deploy — GuardDuty is enabled with a single click and starts producing findings immediately. Findings are surfaced in the GuardDuty console and can be routed to Security Hub or EventBridge for automated remediation.
+### DynamoDB Streams
+A time-ordered log of item-level changes (INSERT, MODIFY, REMOVE) to a DynamoDB table. Events are available for 24 hours and can trigger Lambda functions or be consumed by Kinesis Data Streams. Used for building event-driven pipelines, cross-region replication (before Global Tables), and change data capture.
 
-### Amazon Inspector
-An automated vulnerability management service that continuously scans EC2 instances, container images in ECR, and Lambda functions for known software vulnerabilities (CVEs) and unintended network exposure. Inspector integrates with AWS Systems Manager Agent and requires no separate agent installation on modern AMIs. Risk scores are normalized using the industry-standard CVSS framework. Inspector replaces the older "Amazon Inspector Classic" and is now fully automated rather than assessment-based.
+### DynamoDB Time to Live (TTL)
+A mechanism for automatically deleting expired items from a table — no write cost or throughput consumption. Each item can have a TTL attribute (Unix epoch timestamp); DynamoDB deletes items within 48 hours of expiration. Used for session expiry, log retention, and time-boxed data without manual cleanup.
 
-### Amazon Kinesis
-A family of services for ingesting and processing real-time streaming data at scale:
-- **Kinesis Data Streams** — low-latency ingestion of streaming data into shards; consumers process data in near-real-time
-- **Kinesis Data Firehose** (now Amazon Data Firehose) — fully managed delivery of streaming data to destinations like S3, Redshift, OpenSearch, or Splunk; handles batching, compression, and encryption automatically
-- **Kinesis Data Analytics** (now Amazon Managed Service for Apache Flink) — run Apache Flink applications to process and analyze streaming data using SQL or Java/Python
-
-Kinesis is the AWS-native answer to Apache Kafka for teams that want a fully managed streaming platform without cluster operations.
-
-### Amazon Lake Formation
-A service that makes it faster and simpler to build, secure, and manage a data lake on S3. Lake Formation sits on top of S3 and the Glue Data Catalog and adds a fine-grained permissions layer — column-level and row-level security — that S3 bucket policies alone cannot provide. It also accelerates the initial data lake setup by automating blueprints for ingesting data from common sources (RDS, S3, DynamoDB). Lake Formation is the governance layer; Glue and Athena are the processing and querying layers that operate within the boundaries it defines.
-
-### Amazon Macie
-A data security service that uses machine learning to automatically discover, classify, and protect sensitive data stored in S3. Macie can identify PII (names, credit card numbers, SSNs, passport numbers), financial data, and other sensitive content. It produces findings that appear in the Macie console and can be routed to Security Hub or EventBridge. Particularly relevant for customers in regulated industries (healthcare, finance, retail) who need to demonstrate they know where sensitive data lives.
-
-### Amazon MSK (Managed Streaming for Apache Kafka)
-A fully managed Apache Kafka service. AWS provisions and manages the Kafka brokers and ZooKeeper nodes, handles patching and replacement of failed brokers, and integrates with IAM, VPC, and CloudWatch. MSK Serverless removes broker provisioning entirely — capacity scales automatically. The key SA distinction from Kinesis: MSK gives you full Kafka API compatibility, which matters when customers have existing Kafka workloads or are committed to the Kafka ecosystem (connectors, Kafka Streams, ksqlDB).
-
-### Amazon OpenSearch Service
-A managed search and analytics service based on the open-source OpenSearch (forked from Elasticsearch) project. Used for log analytics (as part of the SIEM or observability stack), full-text search (product catalogs, document search), and operational dashboards. OpenSearch Service manages cluster provisioning, patching, and cross-zone replication. It integrates with Kinesis Data Firehose for streaming log ingestion and Cognito for dashboard authentication. Customers migrating from self-managed Elasticsearch can move to OpenSearch Service with minimal API changes.
-
-### Amazon RDS (Relational Database Service)
-A managed service for running relational databases — MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, and Amazon Aurora — without managing the underlying OS or database engine installation. AWS handles automated backups (up to 35-day retention), Multi-AZ failover (typically under 60 seconds), read replicas for horizontal read scaling, and patch management. RDS is the right answer when customers need a familiar relational database model with reduced operational overhead. For new workloads, Aurora is generally the preferred choice for MySQL/PostgreSQL workloads due to its performance and storage architecture.
-
-### Amazon Redshift
-A fully managed, petabyte-scale cloud data warehouse. Redshift uses a columnar storage format and massively parallel processing (MPP) to execute complex analytical queries across terabytes of data in seconds. Redshift Spectrum extends queries directly to data stored in S3 without loading it into the warehouse. Redshift Serverless automatically scales compute based on workload demand. The RA3 node type introduced compute/storage separation — compute scales independently while data is stored durably in Redshift Managed Storage backed by S3.
-
-### Amazon Route 53
-AWS's scalable DNS (Domain Name System) and domain registration service. Route 53 translates human-readable domain names into IP addresses and supports advanced routing policies: Simple, Weighted (traffic splitting), Latency-based, Failover (active-passive), Geolocation, Geoproximity, and Multivalue. Health checks allow Route 53 to automatically remove unhealthy endpoints from DNS responses. Route 53 Resolver extends DNS resolution between VPCs and on-premises networks via Direct Connect or VPN.
-
-### Amazon S3 (Simple Storage Service)
-The object storage backbone of AWS. S3 stores data as objects (files + metadata) in flat namespaces called buckets. It provides 11 nines of durability (99.999999999%) by replicating data across at least three Availability Zones. S3 is the de facto landing zone for data lakes, backup targets, static website hosting, and artifact storage. Storage classes (Standard, Intelligent-Tiering, Standard-IA, Glacier) allow customers to optimize cost based on access frequency. S3 Lifecycle Policies automate transitions between storage classes. S3 Versioning protects against accidental deletion and overwrites.
-
-### Amazon S3 Intelligent-Tiering
-A storage class that automatically moves objects between access tiers (Frequent Access, Infrequent Access, Archive Instant Access) based on actual usage patterns — at no retrieval cost. It eliminates the need to manually predict access patterns, making it the right default choice for data lakes where usage is unpredictable. A small monthly monitoring fee applies per object, so it's not cost-effective for very small objects (< 128 KB).
-
-### Amazon SageMaker
-The end-to-end ML platform on AWS. SageMaker covers the entire ML lifecycle: data labeling (Ground Truth), feature engineering (Feature Store), model training (managed training jobs with distributed training support), experiment tracking, model hosting (real-time endpoints, batch transform, serverless inference), and MLOps (Pipelines, Model Registry, Model Monitor). SageMaker Studio is the integrated IDE. Customers who want to build custom ML models without managing any ML infrastructure use SageMaker; customers who want pre-built ML capabilities use AWS AI Services (Rekognition, Comprehend, Forecast, etc.).
-
-### Amazon SNS (Simple Notification Service)
-A fully managed pub/sub messaging service for fan-out architectures. A message published to an SNS topic is delivered to all subscribed endpoints — which can include SQS queues, Lambda functions, HTTP/HTTPS endpoints, email addresses, and SMS recipients. SNS is the "broadcast" layer in event-driven architectures; SQS is the "buffer" layer. Together (SNS → SQS), they decouple producers from consumers while ensuring no messages are lost.
-
-### Amazon SQS (Simple Queue Service)
-A fully managed message queuing service that decouples application components. Producers send messages to a queue; consumers poll the queue and process messages independently. SQS Standard queues offer at-least-once delivery and best-effort ordering (nearly unlimited throughput); FIFO queues guarantee exactly-once processing and strict ordering (up to 3,000 messages/second with batching). The visibility timeout prevents duplicate processing — when a consumer picks up a message, it becomes temporarily invisible to other consumers until the consumer deletes it or the timeout expires.
-
-### Amazon VPC (Virtual Private Cloud)
-The networking foundation of every AWS deployment. A VPC is a logically isolated section of the AWS cloud where you launch resources in a virtual network you define. You control IP address ranges (CIDR blocks), subnets (public vs. private), route tables, internet gateways, NAT gateways, and network ACLs. Security Groups act as stateful firewalls at the instance level. VPC Peering and AWS Transit Gateway extend connectivity between VPCs and to on-premises networks. Understanding VPC design — subnet sizing, AZ distribution, egress architecture — is foundational for any solution architecture conversation.
-
-### AMI (Amazon Machine Image)
-A pre-configured template for launching EC2 instances. An AMI includes the root volume (OS + installed software), launch permissions, and a block device mapping. AWS provides hundreds of public AMIs (Amazon Linux 2023, Ubuntu, Windows Server); customers can create custom AMIs that bake in application dependencies to reduce instance startup time. AWS Marketplace offers third-party AMIs with commercial software pre-licensed.
-
-### API Gateway (Amazon API Gateway)
-A fully managed service for creating, deploying, and managing REST, HTTP, and WebSocket APIs at any scale. It handles authentication (IAM, Cognito, Lambda authorizers), throttling, caching, request/response transformation, and monitoring. API Gateway is the front door for serverless backends (Lambda) and acts as a proxy to other AWS services or HTTP endpoints. HTTP APIs are cheaper and lower-latency than REST APIs for most use cases; REST APIs add more features (usage plans, request validation, API keys).
-
-### ARN (Amazon Resource Name)
-A globally unique identifier for every AWS resource. The format is `arn:partition:service:region:account-id:resource`. ARNs are used in IAM policies to specify exactly which resources a principal can or cannot access. Being able to read an ARN (e.g., `arn:aws:s3:::my-bucket` vs. `arn:aws:s3:::my-bucket/*`) is essential for writing precise IAM policies.
-
-### Auto Scaling
-The mechanism for automatically adjusting the number of EC2 instances, ECS tasks, DynamoDB capacity units, or other scalable resources based on demand. EC2 Auto Scaling Groups (ASGs) use scaling policies — Target Tracking (e.g., keep CPU at 50%), Step Scaling, or Scheduled Scaling — to add or remove instances. Predictive Scaling uses ML to forecast demand and pre-scale before a load spike hits. Auto Scaling is the primary tool for both cost optimization (scale in during off-hours) and high availability (maintain minimum capacity across AZs).
-
-### Availability Zone (AZ)
-One or more discrete data centers within an AWS Region, each with independent power, cooling, and networking. AZs within a Region are connected by high-bandwidth, low-latency fiber. Distributing resources across multiple AZs (Multi-AZ architecture) is the baseline requirement for high-availability designs — a failure in one AZ does not impact resources in others. Most managed AWS services (RDS Multi-AZ, Aurora, ALB) handle AZ redundancy automatically.
-
-### AWS Backup
-A centralized, policy-driven backup service that automates data protection across AWS services — EC2, EBS, RDS, Aurora, DynamoDB, EFS, FSx, S3, and VMware workloads. Backup plans define schedules and retention periods; backup vaults store the recovery points. AWS Backup Vault Lock (WORM — Write Once Read Many) prevents backup deletion, satisfying compliance requirements in regulated industries.
-
-### AWS Batch
-A fully managed service for running batch computing jobs at any scale. You define a job (a Docker container + command), submit it to a managed queue, and AWS Batch provisions the right compute environment (EC2 On-Demand or Spot, or Fargate), schedules the jobs, and terminates compute when the queue is empty. It's the right answer for scheduled or event-triggered workloads that are too large for Lambda (>15 min) and don't need always-on compute.
-
-### AWS CDK (Cloud Development Kit)
-An open-source framework for defining cloud infrastructure using familiar programming languages — TypeScript, Python, Java, C#, and Go. CDK constructs represent AWS resources at three levels of abstraction: L1 (raw CloudFormation), L2 (higher-level, opinionated defaults), and L3 (patterns that combine multiple services). CDK synthesizes down to CloudFormation templates, so everything is still managed through CloudFormation's change sets and rollback mechanisms. Customers who prefer coding over YAML/JSON templating strongly favor CDK.
-
-### AWS CloudFormation
-The native Infrastructure-as-Code (IaC) service for AWS. Templates (written in JSON or YAML) declare the desired state of AWS resources; CloudFormation provisions and updates those resources in the correct order, handling dependencies automatically. Change sets allow teams to preview what will change before applying an update. Stack drift detection identifies manual changes made outside CloudFormation. For multi-account and multi-region deployments, CloudFormation StackSets automate deployment across an entire AWS Organization.
-
-### AWS CloudTrail
-The audit log for your AWS account. Every API call made to AWS — through the console, CLI, SDK, or another service — is recorded as an event in CloudTrail. Events include who made the call (IAM principal), what was called (API name), when it happened (timestamp), and from where (source IP). CloudTrail is the first place to look during a security investigation. Trails can be configured to deliver logs to S3 for long-term retention and to CloudWatch Logs for real-time alerting.
-
-### AWS Config
-A service that continuously records the configuration state of AWS resources and evaluates that state against rules (managed rules or custom Lambda-backed rules). Config answers two questions: "What did this resource look like at a point in time?" (configuration history) and "Does this resource comply with our policies?" (compliance evaluation). Config is the foundation for automated compliance reporting in regulated environments. Conformance Packs bundle multiple Config rules into a single deployable package aligned to frameworks like CIS Benchmarks or PCI DSS.
-
-### AWS Control Tower
-A service for setting up and governing a multi-account AWS environment (a "Landing Zone") following AWS best practices. Control Tower provisions a well-architected account structure (management account, log archive account, audit account), applies Service Control Policies (SCPs) via AWS Organizations, and enables guardrails (preventive and detective controls) across all enrolled accounts. It's the starting point for enterprise customers who are building their AWS environment from scratch and need governance at scale.
-
-### AWS Direct Connect
-A dedicated, private network connection between a customer's on-premises data center and AWS. Unlike VPN over the public internet, Direct Connect provides consistent bandwidth (1 Gbps to 100 Gbps), lower latency, and predictable performance. It bypasses the public internet entirely, which is required by some compliance frameworks. Direct Connect Gateway allows a single connection to reach VPCs across multiple AWS Regions. The typical setup pairs Direct Connect for production traffic with a VPN as a backup path.
-
-### AWS Fargate
-A serverless compute engine for containers that works with both ECS and EKS. With Fargate, you define CPU and memory requirements for a container task — AWS provisions, patches, and scales the underlying compute without you ever seeing a server. It eliminates the need to manage EC2 instance fleets for container workloads. Fargate is typically more expensive per compute unit than EC2 but significantly reduces operational overhead, making it the right default for teams that don't want to manage container host fleets.
-
-### AWS Glue
-A serverless data integration service with three main capabilities: (1) **Glue ETL** — runs Apache Spark jobs to transform data between sources and targets; (2) **Glue Data Catalog** — a centralized metadata repository (database and table definitions) used by Athena, Redshift Spectrum, and EMR; (3) **Glue Crawlers** — automatically scan data stores (S3, RDS, DynamoDB) and infer schemas to populate the Data Catalog. Glue Studio provides a visual drag-and-drop interface for building ETL pipelines. It's the glue (literally) that holds together the modern AWS data lake stack.
-
-### AWS IAM (Identity and Access Management)
-The access control foundation of AWS. IAM defines who (principals — users, roles, groups, services) can do what (actions) on which resources (ARNs) under what conditions. IAM Policies are JSON documents that grant or deny permissions. IAM Roles are preferable to IAM Users for granting access to EC2 instances, Lambda functions, and cross-account scenarios because they issue temporary credentials. The principle of least privilege — granting only the permissions required — is the core IAM security principle. IAM Access Analyzer identifies over-permissive policies and external access.
-
-### AWS Lambda
-The serverless compute service that runs code in response to events without provisioning or managing servers. Lambda functions are stateless, event-driven, and scale from zero to thousands of concurrent executions automatically. Supported runtimes include Python, Node.js, Java, Go, Ruby, .NET, and custom runtimes via Lambda Layers. Functions execute for up to 15 minutes. Lambda integrates with virtually every AWS service as both a trigger source (S3 events, DynamoDB Streams, API Gateway, EventBridge) and a target. Lambda@Edge and CloudFront Functions extend execution to the CDN edge.
-
-### AWS Organizations
-A service for centrally managing and governing multiple AWS accounts. Organizations allows account grouping into Organizational Units (OUs), applying Service Control Policies (SCPs) to enforce permission boundaries across accounts, and enabling consolidated billing. AWS Organizations is the prerequisite for Control Tower, Security Hub, GuardDuty, Config, and most multi-account governance services. A common account structure separates workloads by environment (dev/staging/prod) or by business unit.
-
-### AWS Secrets Manager
-A service for storing, rotating, and retrieving secrets — database passwords, API keys, OAuth tokens — without hardcoding them in application code or configuration files. Secrets Manager supports automatic rotation for supported databases (RDS, Redshift, DocumentDB) using a Lambda function; the application always retrieves the current version of the secret without any code changes. Costs ~$0.40/secret/month plus API call charges. For non-rotating configuration values (not secrets), AWS Systems Manager Parameter Store is a free alternative.
-
-### AWS Step Functions
-A serverless orchestration service for building workflows as state machines. Each step in the workflow is a state — it can invoke a Lambda function, call an AWS service API (200+ service integrations via SDK integrations), wait for a human approval, run parallel branches, or retry failed steps with exponential backoff. Standard Workflows guarantee exactly-once execution for long-running processes; Express Workflows are optimized for high-volume, short-duration event processing. Step Functions replaces complex, error-prone orchestration logic in application code with a visual, auditable workflow.
-
-### AWS Systems Manager (SSM)
-A unified operations hub for managing EC2 instances and on-premises servers. Key capabilities: **Session Manager** (browser-based shell access without opening port 22 or managing SSH keys), **Parameter Store** (secure configuration and secrets storage), **Patch Manager** (automated OS patching across a fleet), **Run Command** (execute commands remotely without SSH), and **Inventory** (track software and configuration across instances). SSM Agent (pre-installed on Amazon Linux and recent Windows AMIs) is the only requirement.
-
-### AWS Transit Gateway
-A network transit hub that connects multiple VPCs and on-premises networks through a single gateway. Before Transit Gateway, connecting N VPCs required N*(N-1)/2 peering connections — a hub-and-spoke model with Transit Gateway at the center scales linearly. Transit Gateway also integrates with Direct Connect and VPN. Inter-Region Transit Gateway Peering extends the hub-and-spoke model globally. It's the right answer for customers with more than a handful of VPCs that need to communicate.
-
-### AWS WAF (Web Application Firewall)
-A web application firewall that protects web applications from common exploits — SQL injection, cross-site scripting (XSS), OWASP Top 10 vulnerabilities. WAF rules can match on IP addresses, HTTP headers, query strings, and body content. AWS Managed Rule Groups (maintained by AWS and third-party vendors) provide pre-built protection with minimal configuration. WAF deploys in front of CloudFront, ALB, API Gateway, and AppSync. Rate-based rules provide basic DDoS protection at Layer 7.
-
----
-
-## B
-
-### Billing Alarm
-A CloudWatch alarm configured on the `EstimatedCharges` metric in the `AWS/Billing` namespace. Triggers an SNS notification when projected AWS charges exceed a specified threshold. A basic but essential control for any AWS environment — every account should have at least one billing alarm set. AWS Budgets provides more granular cost control with forecasting, service-level thresholds, and automated actions.
-
-### Blue/Green Deployment
-A deployment strategy where two identical environments ("blue" = current, "green" = new) run simultaneously. Traffic is switched from blue to green all at once (or gradually via weighted routing). If the new version has problems, rollback is instant — just switch traffic back to blue. Supported natively by Elastic Beanstalk, CodeDeploy, ECS, and Route 53 weighted routing policies. Eliminates downtime and reduces deployment risk.
-
----
-
-## C
-
-### CIDR (Classless Inter-Domain Routing)
-The notation used to define IP address ranges in VPC subnet configuration. A CIDR block like `10.0.0.0/16` defines the network address (`10.0.0.0`) and the prefix length (`/16` = 16 bits fixed, leaving 16 bits for hosts = 65,536 addresses). Choosing VPC CIDR blocks that don't overlap with on-premises networks or other VPCs is critical for Direct Connect and VPC Peering connectivity. The `/16` to `/28` range is valid for VPC and subnet CIDR blocks.
-
-### CloudWatch Logs
-The log storage and analysis component of Amazon CloudWatch. Applications, OS, and AWS services send log events to Log Groups (logical containers) → Log Streams (sequences of events from a single source). Log Retention Policies automatically expire old logs. CloudWatch Logs Insights provides an interactive SQL-like query language for analyzing log data. Log subscriptions can stream logs in near-real-time to Lambda, Kinesis, or OpenSearch for processing or long-term storage.
-
-### Compliance Frameworks (AWS)
-AWS is certified against dozens of industry and government compliance frameworks including SOC 1/2/3, PCI DSS, HIPAA, ISO 27001/27017/27018, FedRAMP, GDPR, and NIST 800-53. AWS publishes audit reports in AWS Artifact. Crucially, compliance in AWS is a **shared responsibility** — AWS is responsible for the compliance of the infrastructure; customers are responsible for their own workloads and configurations running on that infrastructure. Customers can use AWS services (Config, Security Hub, Control Tower) to automate compliance checks.
-
-### Cost Explorer
-An AWS Cost Management tool that visualizes, understands, and manages AWS costs and usage over time. It provides pre-built reports (e.g., cost by service, by linked account) and lets you build custom charts with filters and groupings. The Savings Plans and Reserved Instance recommendations in Cost Explorer calculate potential savings based on historical usage. Cost Explorer data has a ~24-hour lag — it's for trend analysis, not real-time billing.
-
----
-
-## D
-
-### Data Lake
-An architectural pattern where large volumes of raw data — structured, semi-structured, and unstructured — are stored in their native format in a centralized repository (typically S3) at low cost. Unlike a data warehouse, a data lake imposes no schema at ingest time (schema-on-read). The risk of a poorly governed data lake is a "data swamp" — data that cannot be trusted or found. AWS Lake Formation addresses governance; Glue handles transformation; Athena and Redshift Spectrum handle querying.
-
-### DDoS (Distributed Denial of Service)
-An attack that attempts to overwhelm an application or network with traffic from many sources. AWS Shield Standard is automatically included for all AWS customers at no cost and protects against common Layer 3/4 DDoS attacks. AWS Shield Advanced adds 24/7 DDoS Response Team (DRT) support, cost protection for scaling charges during attacks, and advanced attack visibility. CloudFront, Route 53, and WAF add additional layers of protection at the edge.
-
-### Dead Letter Queue (DLQ)
-A queue (SQS) or topic (SNS) that receives messages that cannot be successfully processed after a configured number of attempts. DLQs prevent bad messages from blocking the queue and allow engineers to inspect, debug, and reprocess failed messages. Setting up DLQs for Lambda functions, SQS queues, and EventBridge targets is a reliability best practice — without them, processing failures are silent.
+### DynamoDB Transactions
+Enables ACID transactions across multiple items and tables in a single all-or-nothing operation (TransactWriteItems and TransactGetItems). Up to 100 items per transaction. Useful for financial ledgers, order management, and any workflow requiring atomic multi-item consistency guarantees.
 
 ---
 
 ## E
 
-### EBS (Elastic Block Store)
-Block storage volumes for EC2 instances. Unlike instance store (ephemeral, lost when instance stops), EBS volumes persist independently of the instance lifecycle. Volume types are optimized for different workloads: gp3 (general purpose, baseline 3,000 IOPS), io2 Block Express (high-performance, up to 256,000 IOPS for databases), st1 (throughput-optimized HDD for sequential reads), sc1 (cold HDD for infrequently accessed data). EBS volumes live in a single AZ; EBS Snapshots (stored in S3) enable cross-AZ and cross-region backup.
+### Amazon EC2 (Elastic Compute Cloud)
+The foundational virtual server service in AWS. Instance families: general purpose (M/T), compute optimized (C), memory optimized (R/X/u), storage optimized (I/D/H), and accelerated computing (P/G/Trn/Inf).
 
-### ECR (Elastic Container Registry)
-A fully managed Docker container image registry. ECR integrates natively with ECS and EKS for image pulling and with CodePipeline/CodeBuild for CI/CD. ECR Image Scanning detects vulnerabilities in container images on push or on a schedule. ECR is private by default; Public ECR (gallery.ecr.aws) hosts publicly available images. Lifecycle Policies automatically expire old or untagged images to control storage costs.
+### EC2 Capacity Reservations
+Reserves EC2 capacity in a specific AZ for a specific instance type — without any billing commitment. Guaranteed capacity is available whenever needed. Billed at On-Demand rates whether or not instances are running. Used to guarantee capacity for critical workloads in AZs that might run out of On-Demand capacity during peak events.
 
-### EFS (Elastic File System)
-A fully managed, serverless NFS (Network File System) that can be mounted concurrently by multiple EC2 instances, ECS tasks, Lambda functions, and on-premises servers. EFS scales automatically with no capacity planning required and charges only for storage used. Performance modes: General Purpose (low latency) and Max I/O (higher aggregate throughput for parallel workloads). Storage classes: Standard and Infrequent Access (IA), with Lifecycle Management to move files automatically. EFS is the right answer when multiple compute resources need shared read/write access to the same file system.
+### EC2 Dedicated Hosts
+Physical EC2 servers dedicated exclusively to a single customer. Provides visibility into the physical host (socket and core count) required for BYOL (Bring Your Own License) software licensing (Windows Server, SQL Server, Oracle). Can be On-Demand or Reserved. Full control over instance placement on the host.
 
-### ElastiCache
-A fully managed, in-memory caching service supporting Redis and Memcached. Used to reduce database load by caching frequently accessed data, with sub-millisecond read latency. Redis mode supports replication, clustering, Sorted Sets, Pub/Sub, and persistence; Memcached is simpler and better for pure caching. Common patterns: session storage, leaderboards, real-time analytics, database query caching. ElastiCache for Redis can serve as a message broker (Streams feature) or a rate limiter.
+### EC2 Dedicated Instances
+EC2 instances running on hardware dedicated to a single customer — but without visibility into the physical host or control over instance placement. Less expensive than Dedicated Hosts; used when hardware isolation is required by compliance but BYOL socket-based licensing is not needed.
+
+### EC2 Hibernate
+Saves the contents of EC2 instance RAM to the EBS root volume, then stops the instance. On restart, the instance resumes from exactly where it left off — applications continue running without reboot or re-initialization. Root volume must be encrypted. Supported on select instance families and sizes. Useful for long-running processes that need to pause and resume quickly.
+
+### EC2 Image Builder
+Automates creation, testing, and distribution of custom AMIs and container images via pipelines. Eliminates the manual process of launching an instance, installing software, and creating an AMI. Integrates with SSM for component reuse and Organizations for cross-account image sharing.
+
+### EC2 Instance Metadata Service (IMDS)
+A local HTTP endpoint (`169.254.169.254`) accessible from within an EC2 instance that returns instance metadata — instance ID, Region, AZ, IAM role credentials, public IP, user data. IMDSv2 (Session-Oriented) is the secure version — requires a PUT request to get a session token before accessing metadata, protecting against SSRF attacks. IMDSv1 (less secure, token-optional) should be disabled on new instances.
+
+### EC2 Nitro Enclaves
+Isolated compute environments within an EC2 instance for processing highly sensitive data — cryptographic keys, PII, healthcare data — in a hardened enclave with no persistent storage, no interactive access, and no network access (except a local vsock to the parent instance). The parent instance controls what data enters the enclave. Used for payment processing, key management, and compliance-mandated data isolation.
+
+### EC2 Spot Instances
+Use spare AWS capacity at up to 90% discount. AWS can reclaim with a 2-minute warning. Right for fault-tolerant, stateless, checkpointed workloads: batch, ML training, CI/CD, big data.
+
+### EC2 Spot Fleet
+A collection of Spot and optionally On-Demand instances fulfilling a target capacity or price. Spot Fleet diversifies across instance types and AZs — maximizing availability and minimizing interruption. Allocation strategies: `lowestPrice`, `diversified`, `capacityOptimized` (recommended — reduces interruptions by selecting pools with the most available capacity).
+
+### Amazon ECS (Elastic Container Service)
+A fully managed container orchestration service. AWS handles scheduling, placement, and health checks. Containers run on EC2 or Fargate.
+
+### ECS Anywhere
+Extends ECS scheduling to on-premises servers and VMs managed via SSM Agent. On-premises servers register as ECS external instances; ECS schedules tasks on them using the same API and console as cloud ECS. Enables a hybrid container deployment model without adopting Kubernetes.
+
+### ECS Service Connect
+A managed service mesh capability within ECS that handles service discovery, load balancing, and observability for inter-service communication — without requiring App Mesh, Envoy configuration, or custom DNS. Services register under a namespace and connect to each other by short service names. Traffic metrics appear automatically in CloudWatch.
+
+### ECS Services
+Long-running ECS configurations that maintain a desired count of task replicas, integrate with load balancers (ALB/NLB), handle rolling updates, and support Auto Scaling. Services ensure container availability and replace failed tasks automatically.
+
+### ECS Task Definitions
+JSON blueprints defining how a container should run — Docker image, CPU/memory allocation, port mappings, environment variables, secrets (from Secrets Manager or SSM Parameter Store), log configuration, and volume mounts. Versioned; new deployments reference a specific revision.
+
+### Amazon EKS (Elastic Kubernetes Service)
+A managed Kubernetes service. AWS runs the control plane across multiple AZs; customers provide worker nodes (EC2 or Fargate).
+
+### EKS Add-ons
+Managed operational software for EKS clusters — kube-proxy, CoreDNS, VPC CNI, EBS CSI driver, EFS CSI driver. AWS manages add-on versioning, testing, and patching. Add-ons can be installed, updated, and removed via the EKS console, CLI, or API without manual Helm operations.
+
+### EKS Anywhere
+Runs EKS on customer-managed infrastructure — VMware vSphere, bare metal, Nutanix, Apache CloudStack. Uses the same EKS Distro Kubernetes distribution as cloud EKS. AWS manages Kubernetes upgrades and configuration; infrastructure management remains with the customer. Enables consistent Kubernetes operations across cloud and on-premises.
+
+### EKS Auto Mode
+A fully managed EKS configuration (launched 2024) where AWS automatically provisions, scales, and terminates EC2 worker nodes based on pod scheduling requirements. Customers define compute classes and resource limits; EKS Auto Mode selects optimal instance types and manages the lifecycle. Blurs the distinction between ECS Fargate and EKS managed nodes.
+
+### EKS Fargate Profiles
+Configuration that determines which Kubernetes pods run on Fargate (serverless, no EC2 nodes). Fargate Profiles match pods based on namespace and label selectors. Each Fargate pod gets dedicated compute — no noisy neighbor risk. Fargate for EKS is typically more expensive per compute unit than EC2 nodes but eliminates node fleet management.
+
+### EKS Managed Node Groups
+Automate the provisioning and lifecycle of EC2 worker nodes for EKS clusters. AWS provisions nodes using an Auto Scaling Group, handles node upgrades (drain → terminate → replace) with zero-downtime procedures, and applies security patches. Customer controls instance type, size, AMI, and scaling bounds.
+
+### Amazon ElastiCache
+A fully managed in-memory caching service supporting Redis and Memcached. Sub-millisecond read latency.
+
+### ElastiCache Global Datastore
+Replicates a Redis ElastiCache cluster across multiple AWS Regions with typically sub-second latency. Secondary Regions serve read traffic; primary Region handles writes. Supports cross-Region failover for globally distributed applications. Similar to Aurora Global Database but for Redis cache.
+
+### ElastiCache Serverless
+A serverless Redis and Memcached offering that automatically scales cache capacity based on application demand — no cluster sizing or shard management. Billed per ECU (ElastiCache Compute Units) consumed. Eliminates the need to predict peak cache capacity.
+
+### ElastiCache for Redis Cluster Mode
+Distributes data across multiple shards (partitions), each a primary + replica pair. Enables horizontal scaling beyond the memory limits of a single node. Supports up to 500 nodes per cluster. Data is distributed using consistent hashing on the key space. Write operations go to the primary in each shard; reads can go to replicas.
 
 ### Elastic Beanstalk
-A Platform-as-a-Service (PaaS) for deploying and scaling web applications without managing infrastructure. You upload your application code (in Node.js, Python, Ruby, Java, Go, .NET, PHP, or Docker), and Elastic Beanstalk automatically handles provisioning, load balancing, auto scaling, and monitoring. You retain full access to the underlying EC2 instances and can customize the environment. Beanstalk is the right answer for developers who want fast deployment without deep AWS expertise — though most mature teams graduate to ECS, EKS, or direct IaC (CDK/CloudFormation) as their needs grow.
+A PaaS for deploying web applications without managing infrastructure. Upload code; Beanstalk handles provisioning, load balancing, auto scaling, and monitoring.
+
+### Elastic Beanstalk Extensions (.ebextensions)
+Configuration files (YAML/JSON in a `.ebextensions/` folder in the application bundle) that customize the Elastic Beanstalk environment — installing packages, running commands, setting environment properties, modifying load balancer listeners. Provide escape-hatch customization without leaving the Beanstalk model.
 
 ### Elastic Load Balancing (ELB)
-A family of load balancers that distribute incoming traffic across multiple targets (EC2 instances, containers, Lambda, IP addresses):
-- **Application Load Balancer (ALB)** — Layer 7 (HTTP/HTTPS), path-based and host-based routing, WebSocket support, WAF integration. Best for microservices and HTTP applications.
-- **Network Load Balancer (NLB)** — Layer 4 (TCP/UDP/TLS), ultra-low latency, static IP addresses, handles millions of requests per second. Best for real-time applications, gaming, and financial services.
-- **Gateway Load Balancer (GWLB)** — Layer 3/4, routes traffic through third-party virtual network appliances (firewalls, IDS/IPS). Best for network security inspection.
+Distributes incoming traffic across multiple targets. Three types: ALB (Layer 7), NLB (Layer 4), GWLB (Layer 3/4 for network appliances).
+
+### ALB Listener Rules
+Conditions and actions on an ALB listener. Conditions match on path, hostname, HTTP header, query string, source IP, or HTTP method. Actions forward to a target group, redirect, return a fixed response, authenticate with Cognito, or authenticate with OIDC. Enables a single ALB to route to multiple microservices based on URL path or hostname.
+
+### ALB Target Groups
+A logical grouping of targets (EC2 instances, ECS tasks, Lambda functions, IP addresses) that receive traffic from an ALB listener rule. Target groups have their own health check configuration. A target can be in multiple target groups. Weighted target groups allow gradual traffic shifting between versions.
+
+### ALB WAF Integration
+Attaches a WAF Web ACL to an ALB to inspect and filter HTTP traffic before it reaches application targets. The ALB forwards each request to WAF for rule evaluation; WAF returns Allow or Block. Requires WAF to be deployed in the same Region as the ALB (unlike CloudFront WAF, which is global).
+
+### Amazon EMR (Elastic MapReduce)
+A managed big data platform for Apache Spark, Hadoop, Hive, Presto, Flink, Hudi, and Iceberg.
+
+### EMR on EC2
+Traditional EMR deployment on an EC2-based cluster — a master node (primary), core nodes (compute + HDFS storage), and optional task nodes (compute only, good for Spot). Customer controls instance types, cluster sizing, and configuration. Auto Scaling adjusts task node count based on metrics.
+
+### EMR on EKS
+Runs Apache Spark jobs on an existing Amazon EKS cluster using EMR's optimized Spark runtime. Shares the Kubernetes node pool with other workloads, improving utilization. Integrates EMR's job management, monitoring, and optimized Spark runtime with Kubernetes workload orchestration.
+
+### EMR Serverless
+Submit Spark or Hive jobs without provisioning or managing a cluster. EMR Serverless provisions resources on demand, runs the job, and releases resources when complete. Pre-initialized capacity can be configured to reduce cold-start latency. Right for intermittent batch jobs where always-on cluster cost is unjustifiable.
+
+### EMR Studio
+A managed web-based IDE for data engineers and data scientists. Provides Jupyter notebooks connected to EMR clusters or EMR Serverless. Supports Git integration, collaboration, and debugging. Replaces the older EMR Notebooks interface.
+
+### Amazon EventBridge
+A serverless event bus for connecting AWS services, SaaS apps, and custom applications using events.
+
+### EventBridge Event Bus
+A pipeline that receives events and delivers them to targets based on matching rules. Three types: **Default** (receives events from AWS services), **Custom** (receives events from custom applications), **Partner** (receives events from SaaS partners — Zendesk, Shopify, Datadog). Each account and Region has its own default event bus.
+
+### EventBridge Pipes
+Connects a source (SQS, Kinesis, DynamoDB Streams, Kafka, MQ) to a target (Lambda, Step Functions, API Gateway, EventBridge bus) with optional filtering, enrichment (Lambda or API Gateway call), and transformation — in a single, managed resource. Reduces boilerplate code for event-driven integration patterns.
+
+### EventBridge Rules
+Pattern-matching rules on an event bus that route matching events to one or more targets. Rules match on any combination of event fields using prefix matching, wildcard matching, or exact value matching. A single rule can have up to 5 targets.
+
+### EventBridge Schema Registry
+Automatically discovers and stores event schemas from events flowing through EventBridge buses. Schemas are available as code bindings (Java, Python, TypeScript) so that developers can work with strongly typed event objects rather than raw JSON. Makes it easier to build and document event-driven integrations.
+
+### EventBridge Scheduler
+A managed scheduler that invokes targets (Lambda, Step Functions, SQS, any EventBridge API destination) on a cron or rate schedule — or at a specific one-time date/time. More scalable and precise than CloudWatch Events for scheduling at scale (millions of schedules). Supports flexible time windows (run the job within a 15-minute window around the scheduled time to spread load).
 
 ---
 
 ## F
 
-### Fargate (see AWS Fargate)
+### AWS Fargate
+Serverless compute for containers (ECS and EKS). Define CPU and memory; AWS provisions and patches the underlying compute.
 
-### FSx
-A family of managed file system services built on popular third-party file systems:
-- **FSx for Windows File Server** — fully managed SMB file shares for Windows workloads (Active Directory integrated)
-- **FSx for Lustre** — high-performance parallel file system for HPC, ML training, and video processing; can be linked to S3
-- **FSx for NetApp ONTAP** — multi-protocol (NFS, SMB, iSCSI) with NetApp SnapMirror and tiering
-- **FSx for OpenZFS** — ZFS-based, high-performance, low-latency storage with snapshots and clones
+### Fargate Spot
+Up to 70% discount on Fargate tasks for interruptible workloads. AWS can reclaim capacity with a 2-minute warning. Suitable for batch jobs, CI/CD, and other fault-tolerant container workloads that can tolerate interruption.
+
+### AWS Fault Injection Simulator (FIS)
+A managed chaos engineering service. Pre-built experiment templates simulate AZ failures, EC2 terminations, CPU/memory stress, network latency injection, RDS failovers. Integrated stop conditions (CloudWatch alarms) automatically halt experiments if thresholds are breached.
+
+### AWS Firewall Manager
+Centrally configures WAF rules, Shield Advanced, VPC security groups, Network Firewall policies, and Route 53 Resolver DNS Firewall rules across an AWS Organization. Automatically applies policies to new accounts and resources as they are created.
+
+### Amazon Forecast (see Amazon Forecast — already detailed)
+
+### Amazon FSx
+Managed file system services for Windows File Server, Lustre, NetApp ONTAP, and OpenZFS. (See FSx sub-entries below.)
+
+### FSx for Lustre — S3 Integration
+Links an FSx for Lustre file system to an S3 bucket. Files are lazily loaded from S3 on first access (no need to pre-stage all data). After processing, results can be exported back to S3. This pattern connects the high-throughput Lustre file system to the durable, cheap S3 storage layer for HPC and ML training workflows.
+
+### FSx for NetApp ONTAP — FlexClone
+Creates instant, space-efficient clones of volumes or files — only changed blocks consume additional storage. Used for dev/test environments (clone production data without duplication cost), CI/CD pipeline data seeding, and database cloning. Unique to ONTAP; not available in other FSx variants.
+
+### FSx for Windows File Server — Shadow Copies
+Volume Shadow Copy Service (VSS) integration for FSx for Windows. Creates point-in-time snapshots of the file system that users can access directly from Windows Explorer ("Previous Versions") to recover accidentally deleted or modified files — without involving IT or restoring from backup.
 
 ---
 
 ## G
 
-### Global Accelerator (AWS Global Accelerator)
-A networking service that routes user traffic through the AWS global backbone network to the nearest AWS edge location, reducing latency and improving availability for globally distributed applications. Unlike CloudFront (which caches content), Global Accelerator works at Layer 4 and proxies traffic — it's the right choice for non-HTTP protocols, dynamic content, and applications that need failover across Regions. It provides two static Anycast IP addresses that serve as a fixed entry point from anywhere in the world.
+### Amazon GuardDuty
+Intelligent threat detection analyzing CloudTrail events, VPC Flow Logs, DNS logs, S3 data plane events, and EKS audit logs.
 
-### Graviton (AWS Graviton)
-AWS-designed ARM-based processors for EC2 instances and managed services (RDS, ElastiCache, Lambda, Fargate). Graviton3 (and Graviton4) instances typically deliver better price/performance than comparable x86 instances — often 20-40% better performance per dollar. Most Linux workloads are compatible with minimal changes. Graviton is a strong cost optimization and performance recommendation for EC2-heavy workloads.
+### GuardDuty EKS Protection
+Analyzes EKS audit logs and runtime activity to detect threats within Kubernetes clusters — unauthorized API server calls, suspicious container launches, privilege escalation, crypto mining. Runtime monitoring uses a GuardDuty security agent (DaemonSet) to observe process, network, and file system activity on EKS nodes.
+
+### GuardDuty Lambda Protection
+Monitors network activity logs for Lambda functions, detecting functions communicating with known malicious IPs or domains, or exhibiting anomalous network behavior (e.g., a data processing Lambda suddenly making outbound connections to a C2 server).
+
+### GuardDuty Malware Protection
+Scans EBS volumes attached to EC2 instances and container workloads flagged by GuardDuty findings for malware, trojans, worms, and crypto miners — without requiring an antivirus agent. Triggered automatically by relevant GuardDuty findings.
+
+### GuardDuty RDS Protection
+Analyzes Aurora and RDS login activity to detect anomalous database access — unusual login locations, brute force attempts, privilege escalation, suspicious queries from compromised credentials.
+
+### GuardDuty S3 Protection
+Analyzes S3 data plane API events (GetObject, PutObject, DeleteObject) to detect threats — exfiltration of large volumes of data, unusual API call patterns from compromised identities, access from Tor exit nodes.
+
+### AWS Glue
+A serverless data integration service with ETL, Data Catalog, Crawlers, and DataBrew.
+
+### Glue Crawlers
+Automatically scan data stores (S3, RDS, DynamoDB, JDBC, Delta Lake, Iceberg) on a schedule to infer schemas and populate the Glue Data Catalog. Support incremental crawling (only scan new/changed data). The starting point for cataloging a data lake without writing schema DDL manually.
+
+### Glue Data Catalog
+A centralized, managed metadata repository — databases, tables, and schema definitions — used by Athena, Redshift Spectrum, EMR, and Lake Formation. Compatible with the Apache Hive Metastore API. Tables in the Catalog describe where data lives in S3 (or other sources), the format (CSV, Parquet, ORC, JSON), and the schema. A single Catalog is shared across all services in an account and Region.
+
+### Glue DataBrew
+A visual data preparation tool with 250+ built-in transformations — no code required. Data profiling, anomaly detection, format normalization. Publishes transformation recipes that run as Glue jobs. Bridges the gap between business analysts and data engineers.
+
+### Glue ETL Jobs
+Apache Spark-based batch data transformation jobs. Written in Python or Scala using the Glue DynamicFrame API (or standard Spark DataFrames). Run on managed Spark clusters that scale automatically. Glue Studio provides a drag-and-drop visual interface for building ETL jobs without writing code. Glue Streaming jobs process data continuously from Kinesis or Kafka.
+
+### Glue for Ray
+Runs distributed Python workloads using the Ray framework on Glue serverless infrastructure. Enables data scientists to scale Python-native workloads (Pandas, NumPy, scikit-learn) across multiple nodes without switching to Spark.
 
 ---
 
 ## H
 
 ### High Availability (HA)
-An architectural goal of designing systems to remain operational in the face of component failures. On AWS, HA typically means deploying resources across at least two Availability Zones, using managed services with built-in redundancy (ALB, RDS Multi-AZ, Aurora), and automating failure recovery (Auto Scaling, Route 53 health checks). HA is distinct from Disaster Recovery (DR): HA addresses in-Region failures (AZ outage); DR addresses Region-level failures.
+Designing systems to remain operational through component failures. On AWS: distribute across multiple AZs, use managed services with built-in redundancy (RDS Multi-AZ, Aurora, ALB), and automate failure recovery (Auto Scaling, Route 53 health checks).
 
 ---
 
 ## I
 
-### IAM Role (see AWS IAM)
+### AWS IAM (Identity and Access Management)
+The access control foundation of AWS — who can do what on which resources.
 
-### IGW (Internet Gateway)
-An AWS-managed gateway that enables communication between resources in a VPC and the public internet. An IGW is attached to a VPC and referenced in route tables for public subnets. EC2 instances in a public subnet need both a public IP/Elastic IP and a route to an IGW to communicate with the internet. Private subnets use a NAT Gateway for outbound-only internet access. The IGW itself is highly available and scales automatically.
+### IAM Access Analyzer
+Analyzes resource-based policies (S3 buckets, IAM roles, KMS keys, Lambda functions, SQS queues, Secrets Manager secrets, EFS file systems) to identify resources accessible from outside the account or AWS Organization. Generates findings for any external access — intended or unintended. Also validates IAM policies for syntax errors and policy checks, and generates least-privilege policies from CloudTrail activity (Policy Generation).
 
-### Instance Store
-Ephemeral block storage physically attached to the EC2 host. Instance store volumes provide very high I/O throughput (suitable for temporary caches, buffers, and scratch data in HPC workloads) but are not persistent — data is lost when the instance stops or terminates. Not suitable for any data that must survive instance lifecycle events. Contrast with EBS, which persists independently of instance state.
+### IAM Groups
+Collections of IAM users that inherit the policies attached to the group. Groups simplify permission management at scale — attach a policy to the group instead of each user individually. A user can belong to multiple groups; permissions are the union of all group policies. Note: groups cannot be nested (no group-within-a-group).
+
+### IAM Identity Center (see SSO / IAM Identity Center)
+
+### IAM Permissions Boundaries
+An advanced IAM feature setting the maximum permissions a role or user can have — even if their identity policies grant more. A permissions boundary does not grant permissions; it restricts what can be granted. Used to delegate IAM role creation to developers (they can create roles, but only within the boundary you define). Common in landing zone designs to prevent privilege escalation.
+
+### IAM Policies
+JSON documents that grant or deny permissions. Types: **AWS Managed** (maintained by AWS for common use cases), **Customer Managed** (created and managed by the customer), **Inline** (embedded directly in a user/role/group — not reusable), **Resource-Based** (attached to a resource, e.g., S3 bucket policy, KMS key policy — grant cross-account access). Evaluation order: explicit Deny > SCP > resource-based policy > identity-based policy > permissions boundary.
+
+### IAM Roles
+An IAM identity with permissions policies but no long-term credentials. Roles issue temporary credentials via STS (AWS Security Token Service). Used for: EC2 instance profiles (grant EC2 apps AWS permissions), Lambda execution roles, cross-account access, federated identity (SAML/OIDC), and service-to-service permissions. Preferred over IAM Users for all non-human access.
+
+### IAM Service-Linked Roles
+Pre-defined IAM roles created and managed by specific AWS services — the service defines the trust policy and permissions. Customers cannot edit the permission policy (only the trust relationship in some cases). Automatically created when enabling a service feature. Examples: the AWSServiceRoleForAutoScaling role used by Auto Scaling, the AWSServiceRoleForElasticLoadBalancing role used by ELB.
+
+### IAM Users
+Long-term IAM identities for individual people or applications. Have permanent credentials (password for console access; access key ID + secret access key for programmatic access). Best practice: use IAM Roles instead of IAM Users wherever possible; if IAM Users are needed, enforce MFA and rotate access keys. IAM Identity Center (SSO) with federated login is strongly preferred over creating individual IAM Users for humans.
+
+### Amazon Inspector
+Automated vulnerability management for EC2, ECR container images, and Lambda functions — scanning for CVEs and network exposure.
+
+### Inspector CIS Scans
+Runs Center for Internet Security (CIS) benchmark assessments against EC2 instances to check OS-level configuration hardening — password policies, filesystem permissions, network settings. Reports compliance gaps against the CIS benchmark level (Level 1 or Level 2). Available as scheduled or on-demand scans.
+
+### Amazon IoT Core
+A managed service for connecting IoT devices to AWS using MQTT, HTTP, or WebSocket.
+
+### IoT Core Device Shadow
+A JSON document that stores the last-known state of an IoT device (reported state) and desired future state. Applications interact with the shadow even when the device is offline — the device syncs its state when connectivity is restored. Each device can have multiple named shadows. Essential for building responsive IoT UIs that don't depend on live device connectivity.
+
+### IoT Core Fleet Indexing
+Indexes device registry data and device shadow attributes, enabling SQL-like queries across thousands or millions of devices — "find all devices with firmware < 2.0 in California." Supports aggregation queries for fleet analytics dashboards.
+
+### IoT Core Jobs
+Manages remote operations across a fleet of IoT devices — firmware updates, configuration changes, commands. Jobs target a device group, deliver the job document, track execution status per device, and support rollout scheduling (gradual deployment with configurable rollout rates and abort criteria).
+
+### IoT Core Rules Engine
+Evaluates inbound device messages using SQL-like queries and routes matching messages to AWS services — Lambda, DynamoDB, S3, Kinesis, SQS, SNS, IoT Analytics, and others. A single rule can fan out to multiple targets. Enables serverless device data processing without a custom message broker.
+
+### AWS IoT Device Defender
+A security service for auditing IoT device configurations and detecting anomalous device behavior. **Audit** checks device configurations against security best practices (e.g., devices sharing certificates, overly permissive policies). **Detect** uses ML to establish a baseline of normal device behavior (message rates, connection frequency, port usage) and alerts when a device deviates — indicating a compromised or malfunctioning device.
+
+### AWS IoT Greengrass
+Extends AWS to edge devices for local compute (Lambda, Docker), ML inference (SageMaker models), and data stream management — even without internet connectivity. Syncs state with IoT Core when connectivity is restored.
+
+### AWS IoT SiteWise
+A managed service for collecting, organizing, and analyzing data from industrial equipment — PLCs, SCADA systems, historians. SiteWise Edge runs locally on industrial gateways; data is streamed to AWS for analysis, visualization (SiteWise Monitor), and ML. Structures industrial data into an asset model hierarchy (site → factory → line → machine → sensor) for consistent representation.
+
+### AWS IoT TwinMaker
+Creates digital twins of physical systems — factories, buildings, industrial equipment — by connecting real-time sensor data (from IoT SiteWise, Kinesis, SQL databases) to 3D models (imported from CAD/BIM tools or Grafana). Enables operators to visualize the state of a physical system in a 3D environment and drill into components when anomalies are detected. Built on a graph-based knowledge representation.
 
 ---
 
 ## K
 
-### KMS (AWS Key Management Service)
-A managed service for creating and controlling encryption keys used to encrypt data across AWS services. KMS integrates with over 100 AWS services — S3, EBS, RDS, Redshift, Lambda, Secrets Manager, and more. Keys can be AWS-managed (free, created per service), customer-managed (more control, ~$1/month/key), or customer-provided (CMK — you provide key material). KMS enforces access via IAM policies and key policies and logs every key usage to CloudTrail. For compliance, KMS supports FIPS 140-2 validated HSMs.
+### Amazon Kinesis
+A family of real-time data streaming services.
+
+### Amazon Data Firehose (formerly Kinesis Data Firehose)
+A fully managed delivery service for streaming data. Receives records from Kinesis Data Streams, MSK, direct PUT, or other sources and delivers batched, compressed, and optionally transformed data to S3, Redshift, OpenSearch, Splunk, or any HTTP endpoint. Format conversion transforms JSON to Parquet/ORC for cost-effective S3 storage. Lambda data transformation runs custom code on each record in flight. Zero infrastructure management — the simplest path from streaming data to a data store.
+
+### Kinesis Data Streams
+A low-latency, durable stream for ingesting data at scale. Data is split across shards (each shard: 1 MB/s write, 2 MB/s read). Consumers can be Lambda (event-source mapping), Kinesis Client Library (KCL) applications, or Enhanced Fan-Out (dedicated 2 MB/s per consumer per shard). Retention: 1–365 days. On-Demand mode eliminates shard count management.
+
+### Kinesis Enhanced Fan-Out
+Delivers stream data to multiple consumers simultaneously over dedicated HTTP/2 connections — each consumer gets 2 MB/s per shard, regardless of other consumers. Standard mode shares 2 MB/s across all consumers. Enhanced Fan-Out is required when multiple consumers need low-latency (< 70ms) delivery from the same stream.
+
+### Kinesis Video Streams
+Ingests, processes, and stores video streams from cameras, drones, and industrial sensors. Integrates with Amazon Rekognition Video for real-time face search and object detection, and with SageMaker for custom ML inference on video. Supports WebRTC for two-way, real-time video communication.
+
+### Amazon Managed Service for Apache Flink
+Runs Apache Flink applications for stateful stream processing — windowed aggregations, pattern detection, stream joins. Supports Java, Python, SQL, and Scala. Auto-scales parallelism. Integrates with Kinesis Data Streams, MSK, S3, and DynamoDB.
+
+### AWS KMS (Key Management Service)
+Manages encryption keys used across AWS services.
+
+### KMS Customer Managed Keys (CMK)
+Encryption keys created and managed by the customer. The customer defines key policies (who can use and manage the key), enables automatic annual rotation, controls key deletion (7–30 day waiting period), and can disable/re-enable keys. ~$1/key/month + API call charges. Required when audit requirements demand customer control over key lifecycle.
+
+### KMS Key Policies
+The primary access control mechanism for KMS keys — unlike most AWS resources (where IAM is the primary control), KMS keys require both a key policy and an IAM policy to grant access. The key policy defines which IAM principals in the account (or cross-account) are allowed to use and manage the key. Without an explicit allow in the key policy, even the account root user cannot use the key.
+
+### KMS Multi-Region Keys
+Key pairs where the same key material is replicated to multiple AWS Regions. Allows encrypting data in one Region and decrypting it in another without re-encrypting. Useful for cross-Region data replication scenarios (DynamoDB Global Tables, S3 Cross-Region Replication) where data must remain encrypted end-to-end.
 
 ---
 
 ## L
 
-### Lambda (see AWS Lambda)
+### AWS Lambda
+Serverless compute running code in response to events. Stateless, event-driven, zero infrastructure. Scales from zero to thousands of concurrent executions.
 
-### Landing Zone
-A pre-configured, multi-account AWS environment that follows best practices for security, governance, and architecture. A landing zone establishes the account structure (via AWS Organizations), network topology (hub-and-spoke VPC design), identity (SSO via IAM Identity Center), logging (centralized CloudTrail and Config logs), and guardrails (SCPs). AWS Control Tower automates landing zone setup. The landing zone is the foundation for enterprise AWS adoption — "building right from the start."
+### Lambda Concurrency
+The number of Lambda function instances processing requests simultaneously. **Unreserved Concurrency**: drawn from the account-level pool (default 1,000 per Region). **Reserved Concurrency**: guarantees a function a fixed number of concurrent executions — prevents other functions from consuming the pool, and also caps the function's maximum concurrency. **Provisioned Concurrency**: pre-initializes execution environments to eliminate cold starts — billed even when idle.
+
+### Lambda Container Images
+Packages a Lambda function as a Docker container image (up to 10 GB) instead of a ZIP deployment package. Allows using standard Docker tooling, CI/CD pipelines, and any runtime — not just the officially supported ones. Images are stored in ECR and deployed to Lambda. Cold starts may be slightly higher than ZIP deployments for large images.
+
+### Lambda Destinations
+Configures where Lambda sends asynchronous invocation results — both on success and on failure — to SQS, SNS, Lambda, or EventBridge. An alternative to DLQs that carries the full event context plus execution metadata. On-success destinations enable chaining async workflows; on-failure destinations capture failures with context for debugging.
+
+### Lambda Event Source Mappings
+A Lambda resource that reads from a source (Kinesis Data Streams, DynamoDB Streams, SQS, MSK, MQ, Kafka) and invokes the function with batches of records. Lambda manages polling, batch sizing, parallelism, error handling (retry or send to DLQ), and windowing (for streams, wait until a batch is complete or a time window expires).
+
+### Lambda Extensions
+Sidecar processes that run alongside a Lambda function to integrate monitoring, security, and governance tools — without modifying function code. Extensions can be internal (share the same process) or external (run as a separate process in the execution environment). Examples: Datadog, New Relic, HashiCorp Vault agents running as Lambda extensions.
+
+### Lambda Function URLs
+Built-in HTTPS endpoints for Lambda functions — no API Gateway required. Accessible via a unique URL; supports IAM authentication or no auth. Supports streaming responses. Right for simple HTTP use cases where API Gateway features (usage plans, request validation, custom domain, stage management) are not needed.
+
+### Lambda Layers
+ZIP archives containing libraries, runtimes, or data shared across multiple Lambda functions. Layers are versioned and can be shared across accounts. Reduces function package size and enables a consistent dependency layer across a team's functions. Up to 5 layers per function; total unzipped size (function + layers) must not exceed 250 MB.
+
+### Lambda Power Tuning
+An open-source AWS Step Functions state machine that automatically runs a Lambda function at multiple memory configurations and finds the optimal memory setting for the desired balance of performance and cost. Run via the AWS Serverless Application Repository. Not a native AWS service, but the standard tool for Lambda cost/performance optimization.
+
+### Lambda Provisioned Concurrency
+Pre-initializes Lambda execution environments so that functions respond immediately without a cold start — crucial for latency-sensitive workloads (APIs, user-facing applications). Billed per provisioned concurrency-hour. Can be combined with Application Auto Scaling to add/remove provisioned concurrency on a schedule or based on utilization.
+
+### Amazon Lake Formation
+A service for building, securing, and managing data lakes on S3. Adds fine-grained permissions (column-level, row-level) on top of S3 and the Glue Data Catalog.
+
+### Lake Formation Blueprints
+Pre-built workflows for ingesting data from common sources (RDS, S3, DynamoDB, CloudTrail logs) into the data lake. Blueprints automate the Glue ETL job and Glue Crawler creation, scheduling, and monitoring. Reduce the time to onboard a new data source from days to minutes.
+
+### Lake Formation Data Sharing
+Enables sharing of Glue Data Catalog databases and tables across AWS accounts without copying data. A data producer grants Lake Formation permissions on specific databases/tables to a data consumer account. The consumer accesses data directly in the producer's S3 bucket via the granted permissions. Used for cross-account analytics and building data marketplaces within an organization.
+
+### Lake Formation Fine-Grained Permissions
+Row-level and column-level security on top of Glue Data Catalog tables. Column-level security restricts which columns a principal can query (e.g., hide SSN from analysts). Row-level security uses Lake Formation Filters to restrict which rows are visible (e.g., analysts can only see data for their Region). Applied consistently across all services that use the Glue Data Catalog (Athena, Redshift Spectrum, EMR, Glue ETL).
+
+### Lake Formation LF-Tags
+A tag-based access control model for Lake Formation. Administrators define tag keys and allowed values (e.g., `Sensitivity = [Public, Confidential, Restricted]`); resources (databases, tables, columns) are tagged with these values; principals are granted access to data with specific tag values via LF-Tag policies. Scales better than resource-by-resource permission grants in large data lakes with hundreds of tables.
+
+### Amazon Lex
+A service for building voice and text chatbots using ASR and NLU technology.
+
+### Lex Intents
+The core building block of a Lex bot — represents an action the user wants to perform. Each intent has: training utterances (example phrases a user might say), slots (parameters the bot needs to fulfill the intent), and a fulfillment step (Lambda function or dialog code hook). Example: "BookHotel" intent with slots for `City`, `CheckInDate`, `CheckOutDate`, `RoomType`.
+
+### Lex Slot Types
+Defines the type and valid values for a slot in an intent. Built-in slot types cover common data types (dates, times, numbers, cities, airport codes, credit card numbers). Custom slot types define domain-specific values (product names, account types, service codes) with optional synonyms.
+
+### Amazon Lightsail
+A simplified VPS platform with predictable monthly pricing bundling compute, storage, and networking. For developers, small businesses, and non-AWS specialists. Connects to broader AWS via VPC peering.
 
 ---
 
 ## M
 
-### Multi-AZ
-A deployment pattern where a resource or application is spread across multiple Availability Zones to achieve high availability. For managed services like RDS, Multi-AZ means AWS automatically maintains a synchronous standby replica in a different AZ and fails over to it (typically in under 60 seconds) if the primary has a hardware failure. For EC2 workloads, Multi-AZ is achieved by placing instances in an Auto Scaling Group that spans multiple AZs behind a load balancer.
+### Amazon Macie (see Macie — already detailed)
 
-### Multi-Region
-An architecture where workloads are deployed across more than one AWS Region to achieve disaster recovery, reduce global latency, or meet data residency requirements. Multi-Region is significantly more complex than Multi-AZ and is warranted only for the highest availability requirements (99.99%+ SLA) or strict data sovereignty rules. Services like DynamoDB Global Tables, Aurora Global Database, S3 Cross-Region Replication, and Route 53 latency/failover routing support Multi-Region designs.
+### Amazon Managed Blockchain
+Managed Hyperledger Fabric and Ethereum networks for multi-party distributed ledger use cases.
+
+### Managed Blockchain — Hyperledger Fabric
+A permissioned blockchain where participants are known and must be invited. AWS manages the ordering service, peer nodes, and certificate authorities. Each member runs their own peer nodes; AWS manages the underlying infrastructure. Used for supply chain traceability, cross-institution financial settlement, and healthcare data sharing among known parties.
+
+### Managed Blockchain — Ethereum
+Access to the public Ethereum network via fully managed Ethereum nodes. Customers interact with the Ethereum blockchain (read state, submit transactions) through these nodes without operating their own node infrastructure. Used for decentralized application (dApp) development, NFT platforms, and DeFi integrations.
+
+### Amazon MemoryDB for Redis
+A Redis-compatible, durable, in-memory primary database (not just a cache). Multi-AZ transactional log ensures zero data loss. Microsecond reads, single-digit millisecond writes.
+
+### Amazon MSK (Managed Streaming for Apache Kafka)
+Fully managed Apache Kafka — brokers, ZooKeeper, patching.
+
+### MSK Connect
+Runs Apache Kafka Connect connectors (source and sink) as a fully managed service. Source connectors ingest data from external systems (databases, SaaS) into MSK topics; sink connectors deliver data from MSK topics to external systems (S3, OpenSearch, Redshift). No Kafka Connect infrastructure to manage.
+
+### MSK Replicator
+Automatically replicates MSK topics across two MSK clusters in different Regions — for disaster recovery, cross-Region analytics, and active-active multi-Region architectures. Preserves consumer group offsets so consumers in the secondary Region can resume exactly where they left off.
+
+### MSK Schema Registry (Glue Schema Registry)
+A central repository for Kafka message schemas (Avro, JSON Schema, Protobuf). Producers register schemas; consumers retrieve them to deserialize messages. Enforces schema compatibility rules (backward, forward, full) to prevent breaking changes from reaching consumers. Integrated with MSK and Glue via the AWS Glue Schema Registry.
+
+### MSK Serverless
+Eliminates Kafka broker provisioning — MSK Serverless automatically scales capacity based on throughput. No shard/partition capacity planning. Priced per partition-hour and data throughput. Right for variable Kafka workloads where cluster sizing is difficult.
+
+### Multi-AZ
+Deploying resources across multiple Availability Zones for high availability. For RDS/Aurora: synchronous standby replica with automatic failover. For EC2: instances distributed in an Auto Scaling Group behind an ELB.
 
 ---
 
 ## N
 
 ### NAT Gateway
-A managed AWS service that enables instances in private subnets to initiate outbound connections to the internet (e.g., downloading patches, calling external APIs) without allowing inbound connections from the internet. Unlike an Internet Gateway (which works bidirectionally), NAT is unidirectional — outbound only. NAT Gateways are AZ-specific; for high availability, deploy one per AZ. Charges apply for data processed (~$0.045/GB) in addition to an hourly charge.
+A managed, AZ-specific service enabling outbound-only internet access from private subnets. Deploy one per AZ for high availability. Charges per hour + data processed. NAT Instance (EC2-based) is an older, self-managed alternative — avoid for new deployments.
+
+### Amazon Neptune
+A fully managed graph database supporting Property Graph (Gremlin, openCypher) and RDF (SPARQL).
+
+### Neptune Analytics
+Adds vector search and graph analytics capabilities — PageRank, community detection, shortest path, centrality — to existing Neptune databases. Enables ML-informed graph queries: find the most influential fraud cluster, recommend items based on graph distance. Runs analytics as managed queries alongside OLTP workloads.
+
+### Neptune Serverless
+Automatically scales Neptune compute capacity up and down based on workload demand, including scaling to near-zero during idle periods. Eliminates the need to choose and manage instance sizes for graph workloads. Billed per Neptune Capacity Unit (NCU)-second.
+
+### AWS Network Firewall
+A managed stateful network firewall and IDS/IPS for VPCs. Uses Suricata-compatible rules for deep packet inspection, domain-based filtering, and protocol anomaly detection. Deployed in a dedicated firewall subnet; Traffic must be routed through it via route table manipulation.
+
+### Network Firewall Managed Rule Groups
+Pre-built Suricata rule sets maintained by AWS and third-party vendors (CrowdStrike, Proofpoint, etc.) covering known malware domains, command-and-control infrastructure, and exploit signatures. Customers subscribe to managed rule groups without writing or maintaining their own rules.
 
 ---
 
 ## O
 
-### On-Demand Instances
-The baseline EC2 pricing model — pay per hour or per second for compute capacity, no upfront commitment. On-Demand is the right choice for short-lived, unpredictable workloads where you can't commit to a 1- or 3-year term. It's also the fallback when Reserved Instance or Savings Plan capacity is exhausted. Most customers use a mix of Savings Plans (for predictable base load) and On-Demand (for variable demand above the base).
+### Amazon OpenSearch Service
+Managed OpenSearch (forked from Elasticsearch) for log analytics, full-text search, and operational dashboards.
+
+### OpenSearch Cold Storage
+Moves older, infrequently queried indices to S3-backed cold storage at significantly lower cost than warm storage. Data is accessible but requires a brief attach step before querying. Part of the OpenSearch UltraWarm and Cold tiered storage model.
+
+### OpenSearch Serverless
+Runs OpenSearch without provisioning or managing clusters. Capacity scales automatically based on indexing and search demand. Separates indexing and search into independent scaling dimensions. Priced per OCU (OpenSearch Compute Unit) consumed. Right for variable or unpredictable search/analytics workloads.
+
+### OpenSearch UltraWarm
+Adds a warm storage tier backed by S3 with dedicated warm nodes that serve queries. Index data moves automatically from hot (primary) to warm storage based on age. Warm storage costs significantly less than hot primary storage for infrequently queried log data while remaining fully queryable without re-attaching.
+
+### AWS Organizations
+Centrally manages multiple AWS accounts with OUs, SCPs, and consolidated billing.
+
+### Organizations AI Services Opt-Out Policy
+An Organization policy that opts out all accounts in the Organization (or specific OUs) from having their data used to train AWS AI services. Applies to Comprehend, Lex, Polly, Rekognition, Textract, Transcribe, and others. Relevant for customers with strict data privacy requirements who want to prevent any customer data from leaving their control for model training.
+
+### Organizations Backup Policies
+Organization-wide policies that mandate AWS Backup plans across all member accounts. Define backup frequency, retention, vault configuration, and resource selection. Ensures that every account complies with the organization's data protection requirements without relying on individual account administrators.
+
+### Organizations Service Control Policies (SCPs)
+Maximum permission guardrails for accounts or OUs. Do not grant permissions — only restrict. An explicit Deny in an SCP overrides any IAM policy in the account. Common SCPs: restrict to approved Regions, prevent disabling GuardDuty/CloudTrail, block IAM user creation, restrict instance types, prevent root account usage.
+
+### Organizations Tag Policies
+Enforce consistent resource tagging across the Organization. Define allowed tag keys and allowed values for each key. Tag policies prevent misconfigured tags (typos, non-standard values) that break cost allocation reports. Non-compliant resources are reported in the Tag Policy compliance report.
 
 ---
 
 ## P
 
-### Parameter Store (see AWS Systems Manager)
+### Amazon Personalize
+A fully managed ML service for real-time personalization and recommendations. Upload interaction data; Personalize trains a recommendation model automatically.
 
-### Placement Groups
-A logical grouping of EC2 instances that influences their physical placement within AWS infrastructure:
-- **Cluster** — packs instances close together in a single AZ for ultra-low network latency and high throughput (HPC use case)
-- **Spread** — places instances on distinct hardware to reduce correlated failures (maximum 7 instances per AZ per group)
-- **Partition** — divides instances into logical partitions on separate hardware racks, used for large distributed systems (Hadoop, Cassandra, Kafka)
+### Personalize Campaigns
+A deployed recommendation solution that serves real-time recommendations via API. Each campaign is backed by a trained solution version. Campaigns have minimum TPS (provisioned throughput) and auto-scale above that minimum based on demand. Personalize returns ranked item lists with scores per user.
 
-### PrivateLink (AWS PrivateLink)
-A service that enables private connectivity between VPCs, AWS services, and on-premises networks without using the public internet. PrivateLink uses Elastic Network Interfaces (ENIs) with private IP addresses as entry points (Interface Endpoints) for AWS services. It's the alternative to VPC Gateway Endpoints (which only support S3 and DynamoDB) when you need private access to any of the 100+ AWS services that support PrivateLink. PrivateLink is also used to share custom services privately across VPCs without VPC Peering.
+### Personalize Event Tracker
+Captures real-time user interaction events (clicks, views, purchases, ratings) from a website or application and sends them to Personalize. Events are used both to retrain models over time and to immediately influence recommendations in real time (without waiting for a full model retrain). Enables the "you just viewed X, here are similar items" real-time feedback loop.
+
+### Personalize Filters
+SQL-like expressions applied to recommendation results to exclude or include items based on business rules — "don't recommend items the user has already purchased," "only recommend items in the user's subscription tier," "only show in-stock products." Applied at query time on top of the ML model output.
+
+### Amazon Pinpoint
+A multi-channel customer engagement service for email, SMS, push notifications, and voice. Combines segmentation, journey orchestration, and analytics.
+
+### Pinpoint Journeys
+Visual, multi-step message orchestration workflows. Define entry conditions (user attributes, events), branch logic (if user opened email → send push; else → send SMS), wait steps (24 hours after email, then check open), and end conditions. Used for onboarding flows, re-engagement campaigns, and lifecycle marketing.
+
+### Pinpoint Segments
+Groups of users or endpoints (email addresses, device tokens, phone numbers) defined by user attributes, behavioral data, or imported lists. Dynamic segments automatically update based on real-time data; imported segments are static lists uploaded from CSV or S3. Campaigns and Journeys target segments.
+
+### AWS PrivateLink
+Private connectivity from VPCs to AWS services and customer-hosted services without traversing the public internet. Creates Interface Endpoints (ENIs with private IPs).
+
+### PrivateLink Endpoint Services
+Allows a customer to expose their own service (hosted behind an NLB) to other VPCs or accounts via PrivateLink. Consumers create Interface Endpoints to the service; traffic flows privately over AWS backbone without VPC peering, IGW, or public IPs. Used for SaaS providers offering private connectivity and for sharing internal services across accounts without VPC peering.
+
+---
+
+## Q
+
+### Amazon QuickSight
+Cloud-native BI service with SPICE in-memory engine. Authors build dashboards; readers consume them.
+
+### QuickSight Embedded Analytics
+Embeds QuickSight dashboards and visuals directly into customer-facing applications using a generated URL or SDK. Registered user embedding (per-session auth) for internal users; anonymous embedding (one-click access) for external customers. Enables building SaaS analytics features without building a custom BI layer.
+
+### QuickSight ML Insights
+Automatically surface ML-driven insights within dashboards — anomaly detection (flags unexpected data points), forecasting (projects time-series data forward), and contribution analysis (explains which dimensions drive a metric change). Available to all QuickSight users without ML knowledge.
+
+### QuickSight Q (Natural Language Queries)
+Business users type natural language questions ("What were total sales last quarter by region?") and QuickSight Q generates a visualization automatically using ML. Q Topics must be configured by an author (defining which datasets, fields, and synonyms Q can use). Lowers the barrier to self-service analytics.
+
+### QuickSight SPICE
+Super-fast, Parallel, In-memory Calculation Engine. Caches dataset data in SPICE for fast interactive query performance — sub-second dashboard loading even on large datasets. SPICE capacity is allocated per user and per Region. Datasets can be scheduled to refresh SPICE on a cadence (hourly to daily). Direct Query mode bypasses SPICE for real-time data at the cost of query latency.
 
 ---
 
 ## R
 
-### RDS Proxy
-A fully managed database proxy for Amazon RDS and Aurora that sits between the application and the database, pooling and sharing connections. It dramatically reduces the overhead of establishing database connections, which is critical for Lambda functions (which can create thousands of short-lived connections, overwhelming a database). RDS Proxy also improves availability by failing over to a standby DB instance in under 30 seconds without dropping application connections.
+### Amazon RDS (Relational Database Service)
+Managed relational databases — MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, Aurora. AWS handles patching, backups, and Multi-AZ failover.
 
-### Reserved Instances (RIs)
-An EC2 pricing discount (up to 72%) in exchange for a 1- or 3-year commitment to a specific instance family, Region, and OS. Standard RIs are the biggest discount but cannot be exchanged; Convertible RIs allow exchanging attributes (instance family, OS) and discount up to 54%. AWS Savings Plans are generally preferred over RIs for most use cases due to their flexibility across instance families and Lambda. RIs are still relevant for specific workloads (e.g., RDS Reserved Instances).
+### RDS Blue/Green Deployments
+Creates a staging environment (green) that mirrors the production RDS cluster (blue) and keeps them synchronized using logical replication. Schema changes, engine upgrades, and parameter changes are applied to green and validated before a one-click switchover — with typically < 1 minute of downtime. Rollback reverts to blue in seconds. Available for RDS MySQL and Aurora MySQL.
 
-### Route Table
-A set of rules (routes) that determines where network traffic from a subnet or gateway is directed. Every subnet in a VPC is associated with one route table. A route table entry has a destination (CIDR block or prefix list) and a target (local, IGW, NAT Gateway, VPC Peering connection, Transit Gateway, etc.). The most specific route wins. The local route (e.g., `10.0.0.0/16 → local`) is always present and cannot be deleted.
+### RDS Custom
+Provides access to the underlying OS and database engine for RDS Oracle and SQL Server — enabling customization that standard RDS doesn't allow: installing agents, patching on a custom schedule, modifying OS parameters. Sits between self-managed EC2 (full control) and standard RDS (zero access). Required for Oracle licensing models that mandate specific OS-level configurations.
+
+### RDS Enhanced Monitoring
+Provides real-time OS-level metrics (CPU, memory, file system, disk I/O, swap) from the RDS host at up to 1-second granularity — versus the 1-minute minimum for standard CloudWatch RDS metrics. Delivered to CloudWatch Logs. Essential for diagnosing OS-level resource contention on RDS instances (e.g., high memory pressure from OS processes versus database processes).
+
+### RDS Multi-AZ
+Maintains a synchronous standby replica of an RDS instance in a different AZ. Automatic failover in under 60 seconds if the primary fails. No data loss (synchronous replication). Failover is transparent to the application because the RDS endpoint DNS record is updated automatically. Not used for read scaling — use Read Replicas for that.
+
+### RDS Performance Insights
+A database performance monitoring tool that makes it easy to detect and diagnose database load. Dashboard shows database load (in AAS — Average Active Sessions) broken down by wait type, SQL statement, host, and user. Identifies the exact query causing performance problems without requiring deep DBA expertise. Available for Aurora, MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server on RDS.
+
+### RDS Proxy (see earlier entry)
+
+### RDS Read Replicas
+Asynchronous read-only copies of an RDS or Aurora primary instance for horizontal read scaling. Applications direct read-heavy queries (reports, analytics, search) to replicas, offloading the primary. Up to 15 read replicas for Aurora, 5 for RDS MySQL/PostgreSQL. Read replicas can be promoted to standalone DB instances for migrations or regional failover.
+
+### Amazon Redshift
+A petabyte-scale cloud data warehouse using columnar storage and MPP.
+
+### Redshift Concurrency Scaling
+Automatically adds transient Redshift clusters to handle query bursts — providing consistent fast performance regardless of the number of concurrent queries. Customers get 1 hour of free concurrency scaling credits per 24 hours of main cluster usage. Beyond the free credits, concurrency scaling clusters are billed per second.
+
+### Redshift Data API
+Allows running SQL queries against a Redshift cluster or Redshift Serverless asynchronously via API — without managing JDBC/ODBC connections. The API returns a query ID immediately; results are retrieved when ready. Enables serverless applications (Lambda functions, microservices) to interact with Redshift without persistent database connections.
+
+### Redshift Data Sharing
+Enables live, read-only access to data in one Redshift cluster (producer) from another Redshift cluster or Redshift Serverless (consumer) — across accounts or within an account — without copying or moving data. Consumers always query the latest data in the producer's cluster. Eliminates ETL pipelines between data warehouses for cross-team data sharing.
+
+### Redshift Federated Query
+Extends Redshift SQL to query data in RDS and Aurora (PostgreSQL and MySQL) directly, alongside Redshift tables and S3 data. Joins between operational databases and the data warehouse in a single query — without ETL. Performance depends on network bandwidth and the source database's ability to push down predicates.
+
+### Redshift ML
+Trains, deploys, and runs ML models using SQL. `CREATE MODEL` triggers a SageMaker Autopilot training run on data in Redshift; the model is deployed as a Lambda function callable from Redshift SQL. Enables analysts to run ML inference directly in SQL without extracting data to SageMaker.
+
+### Redshift RA3 Nodes
+RA3 instances separate compute from storage using Redshift Managed Storage (RMS) — high-performance SSD for hot data, backed by S3 for data that doesn't fit in SSD. Compute and storage scale independently. The standard node type for new Redshift clusters; enables resizing compute without migrating data.
+
+### Redshift Serverless
+Runs Redshift analytics without provisioning clusters. Automatically scales compute capacity (RPU — Redshift Processing Units) based on workload demand. Billed per RPU-second plus storage. Ideal for intermittent analytics workloads and dev/test environments where paying for an idle cluster is wasteful.
+
+### Redshift Spectrum
+Queries data directly in S3 (in Parquet, ORC, CSV, JSON, Avro, and more) using Redshift compute — without loading data into the warehouse. Uses a separate, serverless scaling layer so Spectrum queries don't consume Redshift cluster resources. Enables a single SQL query to join Redshift warehouse tables with data lake data in S3.
+
+### Amazon Rekognition
+A computer vision service for analyzing images and video.
+
+### Rekognition Custom Labels
+Trains a custom image classification or object detection model using customer-provided labeled images. Amazon AutoML handles model training — no ML expertise required. Inference is available as a hosted endpoint or batch job. Used for detecting domain-specific objects (product defects, custom logos, medical images) that Rekognition's general models don't cover.
+
+### Rekognition Video
+Processes video files stored in S3 or live streams (via Kinesis Video Streams) for face search, object detection, activity recognition, text detection, and content moderation. Asynchronous API for stored video (submit job → poll or receive SNS notification); streaming analysis API for live video.
+
+### Amazon Route 53
+AWS's DNS and domain registration service.
+
+### Route 53 Health Checks
+Monitor endpoints (HTTP/HTTPS/TCP) or other CloudWatch alarms. Route 53 removes unhealthy endpoints from DNS responses (via failover or multivalue routing). Can monitor the health of a Region and trigger a DNS-level failover to a backup Region automatically. Three types: endpoint health checks, calculated health checks (combine multiple), and CloudWatch alarm health checks.
+
+### Route 53 Hosted Zones
+A container for DNS records for a domain. **Public Hosted Zones** are accessible from the public internet. **Private Hosted Zones** are associated with VPCs and resolve only for resources within those VPCs — used for internal service discovery (e.g., `db.internal → 10.0.1.50`).
+
+### Route 53 Resolver
+A managed DNS service for hybrid architectures. **Inbound Endpoints** allow on-premises DNS servers to resolve AWS private hosted zone names. **Outbound Endpoints** allow VPC resources to resolve on-premises domain names via on-premises DNS servers. DNS Firewall blocks queries to known malicious domains using managed or custom domain lists.
+
+### Route 53 Routing Policies
+**Simple**: single value or multiple values (random selection by client). **Weighted**: percentage-based traffic splitting. **Latency**: routes to the Region with the lowest network latency for the user. **Failover**: active-passive with health check-based switching. **Geolocation**: routes based on the user's geographic location. **Geoproximity**: routes based on geographic distance, with configurable bias. **Multivalue Answer**: returns up to 8 healthy records (basic load balancing at DNS level).
+
+### Route 53 Traffic Flow
+A visual editor for building complex routing configurations using multiple routing policies in a tree structure. Route traffic through multiple levels of rules — e.g., geoproximity within each Region, then latency within each location, then failover between AZs. Traffic Flow configurations (policies) can be versioned and reused across multiple record sets.
 
 ---
 
 ## S
 
-### S3 Lifecycle Policy (see Amazon S3)
+### Amazon S3 (Simple Storage Service)
+Object storage with 11 nines of durability. The data lake backbone of AWS.
+
+### S3 Access Points
+Named network endpoints attached to an S3 bucket, each with its own access policy and optional VPC restriction. Simplify managing access to shared datasets — instead of one complex bucket policy, each team, application, or use case has its own access point with targeted permissions. An S3 bucket can have thousands of access points.
+
+### S3 Batch Operations
+Runs bulk S3 operations — copying, tagging, restoring from Glacier, ACL changes, Lambda invocations — across millions or billions of objects using a manifest (S3 Inventory report or CSV). A single Batch Operations job can process billions of objects in hours. Replaces manual scripting for large-scale S3 data management tasks.
+
+### S3 Cross-Region Replication (CRR)
+Asynchronously copies objects from a source bucket to a destination bucket in a different AWS Region. Replicates new objects (not existing objects, unless using S3 Batch Operations for backfill). Used for disaster recovery, compliance (keep a copy in a specific country), and latency reduction (serve data from a closer Region). Versioning must be enabled on both buckets.
+
+### S3 Event Notifications
+Triggers actions when objects are created, deleted, restored from Glacier, or have replication failures. Targets: SQS queues, SNS topics, Lambda functions, and EventBridge (for advanced filtering and fan-out). The foundation for object-driven event pipelines — e.g., "invoke Lambda when a new CSV file arrives in S3."
+
+### S3 Intelligent-Tiering
+Automatically moves objects between access tiers based on usage patterns. Frequent Access (default) → Infrequent Access (30 days inactive) → Archive Instant Access (90 days inactive) → Archive Access (90–730 days, optional) → Deep Archive Access (180–730 days, optional). No retrieval fees; small per-object monitoring fee. The right default for unpredictable data lake access patterns.
+
+### S3 Inventory
+Generates daily or weekly CSV or ORC reports listing all objects in a bucket along with their metadata — size, last-modified date, storage class, replication status, encryption status, object lock retention mode. Used as input to S3 Batch Operations, as an input to cost analysis, and for auditing object-level compliance attributes.
+
+### S3 Lifecycle Policies
+Rules that automatically transition objects to cheaper storage classes or delete objects after a defined number of days. Example: move to Standard-IA after 30 days, Glacier after 90 days, delete after 365 days. Reduces storage costs without manual intervention. Applied at the bucket or prefix level.
+
+### S3 Multi-Region Access Points
+A single global endpoint that routes S3 requests to the nearest available S3 bucket across multiple Regions. Built-in failover routing — if one Region is degraded, traffic automatically fails over to the next closest healthy bucket. Simplifies globally distributed application architecture that reads/writes S3 data.
+
+### S3 Object Lambda
+Runs a Lambda function on data returned by S3 GetObject API calls. The function can redact PII, convert formats, filter rows, or add watermarks on the fly — without storing transformed copies. Applications call a standard S3 API; the Lambda transformation is transparent.
+
+### S3 Object Lock
+Implements WORM (Write Once Read Many) storage using retention policies. **Compliance mode**: even the root account cannot delete or modify an object during the retention period. **Governance mode**: accounts with special IAM permissions can override. **Legal Hold**: indefinitely locks an object without a retention date. Required for SEC Rule 17a-4, HIPAA, FINRA, and similar regulations mandating immutable records.
+
+### S3 Replication Time Control (RTC)
+A feature of S3 Cross-Region Replication that guarantees 99.99% of objects are replicated within 15 minutes. Provides CloudWatch metrics to monitor replication lag and compliance. Required when regulations mandate that replicated data be available within a specific SLA.
+
+### S3 Same-Region Replication (SRR)
+Asynchronously copies objects from a source bucket to a destination bucket in the same AWS Region. Used for aggregating logs from multiple source buckets into one, creating separate production and test environments from the same data, and complying with data residency requirements that prohibit data from leaving the Region.
+
+### S3 Select
+Retrieves a subset of data from a single S3 object using SQL expressions — filtering rows and projecting columns before data leaves S3. Reduces data transfer and speeds up retrieval for applications that need a fraction of a large CSV, JSON, or Parquet file.
+
+### S3 Storage Lens
+An organization-wide visibility tool providing a single dashboard of S3 storage across all buckets, accounts, and Regions in an Organization. Metrics include total storage, object count, access patterns, data protection coverage, and cost efficiency recommendations. Identifies buckets with no versioning, no lifecycle policy, or no encryption. The starting point for S3 cost optimization and governance programs.
 
 ### S3 Transfer Acceleration
-A feature that speeds up uploads to S3 by routing traffic through AWS CloudFront edge locations. Data is uploaded to the nearest edge location over the public internet and then transferred to the target S3 bucket over the private AWS backbone. Most effective for large file uploads from geographically distant locations. Charged per GB transferred in addition to standard S3 costs.
+Speeds up S3 uploads by routing traffic through CloudFront edge PoPs over the private AWS backbone. Most effective for large file uploads from geographically distant locations.
 
-### Savings Plans
-A flexible pricing model that offers significant discounts (up to 66%) on AWS compute usage in exchange for a consistent hourly spend commitment for 1 or 3 years. Compute Savings Plans apply across EC2, Lambda, and Fargate regardless of instance family, size, Region, OS, or tenancy. EC2 Instance Savings Plans offer a deeper discount (up to 72%) for a specific instance family in a specific Region. Savings Plans are generally preferred over Reserved Instances for most workloads due to their flexibility.
+### S3 Versioning
+Preserves every version of every object in a bucket. Protects against accidental deletion (delete creates a delete marker; previous versions are retained) and overwrites. Required for S3 Cross-Region Replication, S3 Replication Time Control, and S3 Object Lock. Versioning adds storage cost — Lifecycle Policies with noncurrent version expiration manage this.
 
-### Security Group
-A stateful virtual firewall at the EC2 instance (or ENI) level. Inbound and outbound rules specify allowed protocols, ports, and source/destination IP ranges or security group IDs. Stateful means return traffic is automatically allowed — you only need to define inbound rules for inbound traffic, not both directions. Security Groups are the primary network security mechanism for EC2, RDS, Lambda (in VPC), and most other resource types. Default is to deny all inbound and allow all outbound.
+### Amazon SageMaker
+The end-to-end ML platform for building, training, and deploying ML models.
 
-### Service Control Policy (SCP)
-An IAM policy type used in AWS Organizations to set maximum permission guardrails for accounts or OUs. SCPs do not grant permissions — they restrict what permissions can be granted. Even if an IAM policy allows an action, an SCP can deny it organization-wide. Common SCP patterns: preventing disabling of CloudTrail, restricting regions to approved regions, blocking the creation of IAM users, preventing changes to security tooling. SCPs are the "ceiling" of what any principal in the account can do.
+### SageMaker Autopilot
+Automatically trains and tunes ML models for tabular data (classification, regression). Customers provide a dataset and specify the target column; Autopilot explores algorithm options, generates feature engineering code (visible and editable), and produces a ranked leaderboard of candidate models. The no-code/low-code entry point to SageMaker for structured data problems.
 
-### Shared Responsibility Model
-AWS's framework for dividing security responsibilities between AWS and the customer. AWS is responsible for security **of** the cloud (physical infrastructure, hardware, hypervisor, managed service software). The customer is responsible for security **in** the cloud (OS patching on EC2, application code, IAM configuration, network ACLs, encryption choices, data classification). The division shifts based on the service type: for managed services like Lambda or S3, AWS takes on more responsibility; for EC2, the customer manages more.
+### SageMaker Canvas
+A no-code ML interface for business analysts. Upload data, select the target column, build and evaluate a model, and generate predictions — without writing code. Under the hood, uses SageMaker Autopilot. Predictions can be exported to S3 or integrated with business applications. Includes natural language data preparation powered by Bedrock.
 
-### Spot Instances
-EC2 instances that use spare AWS capacity at discounts of up to 90% versus On-Demand pricing. In exchange, AWS can reclaim Spot capacity with a 2-minute warning when demand increases. Ideal for fault-tolerant, stateless, or checkpointed workloads: batch processing, big data, CI/CD pipelines, ML training, and rendering. Spot Fleets and EC2 Fleet diversify across instance types and AZs to improve availability. Not appropriate for workloads that cannot tolerate interruption (databases, payment processing).
+### SageMaker Clarify
+Detects bias in datasets and ML models, and generates model explanations (feature importance using SHAP values). Runs as a processing job during training and as a monitor on live inference endpoints. Produces human-readable bias reports and explainability reports. Required for responsible AI and regulated ML use cases (GDPR right to explanation, financial model fairness).
 
-### SSO (AWS IAM Identity Center)
-The recommended way to provide centralized SSO access to AWS accounts and business applications. IAM Identity Center (formerly AWS SSO) integrates with identity providers (Microsoft Entra ID/Azure AD, Okta, Google Workspace) via SAML 2.0 and SCIM for user provisioning. Users log in once to the AWS access portal and can assume Permission Sets across any account in the Organization. It eliminates the need to create and manage IAM users in individual accounts.
+### SageMaker Data Wrangler
+A visual data preparation tool for ML feature engineering inside SageMaker Studio. 300+ built-in data transformations; integrates with S3, Athena, Redshift, Lake Formation, and SaaS data sources. Generates PySpark or Pandas code from visual transformations, which can be exported to a Glue job or SageMaker Pipeline. Bridges the gap between data analysts and ML engineers.
+
+### SageMaker Debugger
+Captures tensors and metrics during model training in real time and detects training problems — vanishing gradients, overfitting, underutilization of GPU — without stopping the training job. Built-in rules cover common deep learning training issues; custom rules can be written in Python. Profiling mode generates a detailed system performance report (GPU utilization, I/O bottlenecks, framework overhead).
+
+### SageMaker Distributed Training
+Libraries for training large ML models across multiple GPU instances. Two approaches: **Data Parallel** (copies the model to each GPU, splits training data — right for most models) and **Model Parallel** (splits the model across GPUs when the model is too large to fit on a single GPU — right for large language models and foundation model fine-tuning). Both are SageMaker-native libraries optimized for AWS GPU instances.
+
+### SageMaker Experiments
+Tracks, compares, and manages ML experiments — training runs, hyperparameters, metrics, and artifacts. Each trial automatically records inputs, outputs, and metrics. The experiment dashboard allows comparing runs side-by-side to identify the best model configuration. Integrates with SageMaker Training Jobs, Pipelines, and notebooks.
+
+### SageMaker Feature Store
+A managed repository for ML features. Features are computed once and stored in Feature Store — both in an online store (low-latency retrieval for real-time inference, backed by DynamoDB) and an offline store (historical feature retrieval for training, backed by S3). Ensures training and inference use the same feature definitions, preventing training-serving skew.
+
+### SageMaker Ground Truth
+A managed data labeling service. Supports text, image, video, and 3D point cloud labeling tasks. Labeling workforces can be Amazon Mechanical Turk (public), private (internal team), or AWS-vetted vendors. Ground Truth Plus uses pre-trained models to auto-label high-confidence examples and routes only uncertain ones to humans, reducing labeling cost by up to 70%.
+
+### SageMaker HyperPod
+A resilient compute infrastructure for training large foundation models and fine-tuning them at scale. HyperPod clusters span multiple instances with high-bandwidth networking (EFA — Elastic Fabric Adapter); the cluster management layer automatically detects and replaces failed nodes without interrupting long-running training jobs. Used for training models with billions of parameters where job failures are expensive.
+
+### SageMaker Inference
+Hosts trained ML models and serves predictions. Four modes: **Real-time Endpoints** (persistent, low-latency REST endpoint), **Serverless Inference** (auto-scales to zero when idle, cold starts in seconds — for intermittent traffic), **Asynchronous Inference** (queued, large payload inference — up to 1 GB request, no timeout), **Batch Transform** (one-off or scheduled batch predictions on S3 data, no endpoint needed).
+
+### SageMaker JumpStart
+A hub of pre-trained foundation models and ML solutions deployable with a few clicks. Foundation models include open-source models (Llama, Mistral, Falcon, Stable Diffusion) deployable on SageMaker endpoints. Solutions are end-to-end ML use case templates (fraud detection, predictive maintenance, churn prediction) with sample code and data. Lowers the barrier to experimenting with pre-trained models.
+
+### SageMaker Model Monitor
+Continuously monitors deployed ML models for data quality drift, model quality drift (prediction accuracy), bias drift, and feature attribution drift. Compares live inference data against a baseline captured during training. Fires CloudWatch alarms when drift is detected. The operationalization layer that ensures a model in production remains accurate over time as input data distributions change.
+
+### SageMaker Model Registry
+A centralized catalog for versioned, trained ML models. Models progress through stages (Staging → Production) via approval workflows. Each model version records the training job, metrics, container image, and artifact location. Integrates with SageMaker Pipelines for CI/CD — approved models automatically deploy to endpoints.
+
+### SageMaker Pipelines
+A managed CI/CD service for ML workflows — automating data preparation, model training, evaluation, approval, and deployment as a reusable, parameterized pipeline. Each pipeline step is a SageMaker job or condition. Pipeline runs are tracked in SageMaker Experiments. The MLOps automation layer that enables reproducible ML workflows.
+
+### SageMaker Studio
+The managed web-based IDE for ML — notebooks, experiments, training, models, pipelines, and monitoring in a unified interface. Each Studio user gets a personal JupyterServer backed by EFS. Studio also includes SageMaker Canvas, Data Wrangler, Feature Store, Model Registry, and Pipelines integration. The single entry point for all SageMaker workflows.
+
+### Amazon SES (Simple Email Service)
+Cloud-based email sending for transactional and marketing email. SMTP relay or API; sub-cent per thousand emails.
+
+### SES Configuration Sets
+Groups of rules applied when sending email. Actions include: publishing sending events (deliveries, bounces, complaints, opens, clicks) to CloudWatch, Kinesis Data Firehose, or SNS; enabling virtual deliverability manager recommendations; applying IP pool selection. Used for tracking deliverability metrics and routing email through specific dedicated IP pools.
+
+### SES Dedicated IP Addresses
+Exclusive IP addresses for sending email — not shared with other AWS customers. Protects sender reputation: your sending behavior affects only your IPs. Two types: **Dedicated IPs** (fixed IPs, higher cost, managed manually or via Dedicated IP pools); **Managed Dedicated IPs** (AWS manages warming and pool assignment automatically).
+
+### SES Virtual Deliverability Manager
+An ML-powered tool that analyzes sending behavior, identifies deliverability issues (high bounce rates, ISP blocks, missing authentication), and provides specific recommendations to improve inbox placement rates. Integrates with SES metrics and provides an account-level deliverability dashboard.
+
+### AWS Step Functions
+A serverless workflow orchestration service using state machines.
+
+### Step Functions Activity Tasks
+Long-running workflow steps where work is performed outside of AWS (on-premises systems, mobile devices, IoT sensors). The state machine waits for an external worker to poll for work, complete the task, and send a success/failure callback using a task token. Unlike Lambda (push-based), activities use a pull model.
+
+### Step Functions Express Workflows
+Designed for high-volume, short-duration workloads. At-least-once execution semantics; up to 5 minutes duration; priced per state transition. Used for IoT data processing, streaming analytics, and high-rate event processing where cost per invocation matters more than exactly-once guarantees.
+
+### Step Functions Standard Workflows
+Designed for long-running, durable workflows requiring exactly-once execution. State history is persisted for 90 days and visible in the console. Supports human approval steps (Wait for Callback), map states (parallel iteration over arrays), parallel branches, error handling with retry/catch, and timeouts up to 1 year.
+
+### Step Functions SDK Integrations
+Direct integrations with 200+ AWS service APIs without requiring Lambda as a middleware. Supported services include: DynamoDB (GetItem, PutItem), S3 (GetObject, PutObject), SNS, SQS, Glue, Athena, EMR, ECS, Batch, SageMaker, Bedrock, and many more. Reduces the number of Lambda functions in a workflow, lowering latency and cost.
+
+### AWS Systems Manager (SSM)
+A unified operations hub for EC2, on-premises servers, and edge devices.
+
+### SSM AppConfig
+Deploys application configuration changes with gradual rollouts, schema validation, and automatic rollback if error metrics spike. Separates configuration changes from code deployments for feature flags, A/B test parameters, and operational toggles.
+
+### SSM Automation
+Managed operational runbooks — multi-step automation documents (SSM Documents of type Automation) that perform tasks like patching an AMI, restarting an application stack, creating a backup, or responding to a security finding. Can be triggered by CloudWatch Events, scheduled, or invoked manually. Includes pre-built AWS-authored runbooks for common operations.
+
+### SSM Distributor
+Packages and deploys software to EC2 instances and on-premises servers at scale — agents, security software, AWS tools. Distributor packages are versioned and can be installed on demand via Run Command or on a schedule via State Manager.
+
+### SSM Inventory
+Collects metadata from managed instances — installed applications, OS configuration, Windows Registry, running services, network configuration. Queryable via the SSM console or via S3 + Athena for fleet-wide analysis. Used for software compliance, license management, and operational baseline documentation.
+
+### SSM OpsCenter
+A central hub for viewing and resolving operational issues (OpsItems) surfaced from CloudWatch Alarms, EventBridge events, Config rules, GuardDuty findings, and other sources. Each OpsItem includes related CloudWatch metrics, run books, and resource information — reducing the time to diagnose and resolve incidents.
+
+### SSM Parameter Store
+Centralized configuration and secret storage. Plain text (String), encrypted (SecureString using KMS), or structured (StringList). Hierarchical naming (e.g., `/app/prod/db-password`). Integrates with Lambda, ECS, EC2 Launch Templates, CloudFormation, and CodeBuild. Free for standard parameters; Advanced parameters support larger values and parameter policies (expiration notifications).
+
+### SSM Patch Manager
+Automates OS patching across a fleet of EC2 and on-premises instances. Patch baselines define approved patches and auto-approval rules (e.g., auto-approve security patches 7 days after release). Maintenance Windows schedule patching during defined periods. Patch compliance reports surface unpatched instances. Supports Windows, Amazon Linux, Ubuntu, RHEL, SUSE, Debian.
+
+### SSM Run Command
+Executes commands (shell scripts, PowerShell, AWS CLI commands) remotely on one or more EC2 or on-premises instances without SSH or bastion hosts. Uses SSM Agent for secure communication. Results are streamed to the console, S3, or CloudWatch Logs. Rate controls prevent overwhelming a large fleet. Used for ad hoc operations, incident response, and bootstrapping.
+
+### SSM Session Manager
+Browser-based, SSH-free shell access to EC2 instances and on-premises servers. No need to open port 22, manage SSH keys, or run a bastion host. All sessions are logged to S3 or CloudWatch Logs for audit. IAM-controlled access with optional MFA enforcement. Works via the AWS console, CLI (`aws ssm start-session`), or through standard SSH tunneling (SSH over SSM).
+
+### SSM State Manager
+Enforces a desired configuration state on managed instances — ensures that specific software is installed, specific agents are running, or specific settings are configured. Associations define the SSM Document and schedule; State Manager runs the association and reports compliance. Prevents configuration drift from the defined baseline.
 
 ---
 
 ## T
 
-### Transit Gateway (see AWS Transit Gateway)
+### Amazon Textract
+ML service for extracting text and structured data (forms, tables, signatures) from scanned documents.
 
-### Trusted Advisor
-A service that provides real-time guidance to help customers optimize their AWS infrastructure across five categories: **Cost Optimization** (underutilized resources, Reserved Instance recommendations), **Performance** (high-utilization instances, CloudFront optimizations), **Security** (open security groups, MFA on root, IAM key rotation), **Fault Tolerance** (Multi-AZ, S3 versioning, Route 53 health checks), and **Service Limits** (approaching service quotas). The number of checks available depends on the support plan — Basic/Developer plans get a limited set; Business and Enterprise plans get all checks via the API.
+### Textract Analyze Lending
+Purpose-built document analysis for mortgage and loan workflows — US paystubs, W-2 forms, 1003 mortgage applications, bank statements. Returns normalized fields (gross income, employer name, loan amount) already mapped to lending data schemas. Reduces custom extraction code for financial services customers.
+
+### Textract Queries
+Instead of extracting everything from a document, Queries lets you ask specific questions ("What is the patient name?", "What is the invoice total?") and Textract returns only those values. Reduces processing cost for documents where you only need a few fields, and improves accuracy by focusing extraction on specific content.
+
+### Amazon Timestream
+Serverless time-series database for IoT and operational metrics. Separate memory and magnetic storage tiers.
+
+### Timestream Live Analytics
+Runs real-time SQL queries on time-series data directly from the memory store — without moving data to the magnetic store. Sub-millisecond query latency for the most recent data. Used for operational dashboards and real-time anomaly detection on streaming IoT sensor data.
+
+### Amazon Transcribe
+Automatic speech recognition (ASR) service converting audio to text.
+
+### Transcribe Call Analytics
+Purpose-built for contact center audio analysis. Automatically transcribes calls, identifies speakers (agent vs. customer), detects sentiment per turn, flags interruptions and talk time ratios, detects customer issue categories, and summarizes call outcomes. Reduces the cost of post-call quality monitoring compared to human review.
+
+### Transcribe Medical
+Specialized ASR for clinical conversations — clinic visits, surgical procedures, telemedicine. Trained on medical terminology; returns HIPAA-eligible transcriptions. Supports specialty vocabularies (cardiology, neurology, radiology, etc.).
+
+### AWS Transfer Family
+Managed SFTP, FTPS, FTP, and AS2 file transfer service backed by S3 or EFS.
+
+### Transfer Family AS2
+Adds AS2 (Applicability Statement 2) protocol support for B2B EDI file exchange — the protocol required by many retailers (Walmart, Target) and healthcare trading partners (X12 EDI). Handles message signing, encryption, MDN acknowledgements, and partner certificate management. Enables AWS-native EDI without on-premises AS2 servers.
+
+### Transfer Family Custom Identity Provider
+Integrates Transfer Family with any identity source — Microsoft Active Directory, Okta, custom Lambda-based authentication — via API Gateway + Lambda. Allows validating SFTP credentials against an existing user directory without migrating users to Cognito or IAM. Used by customers with established SFTP partner authentication systems.
+
+### AWS Transit Gateway
+A network hub connecting multiple VPCs and on-premises networks.
+
+### Transit Gateway Network Manager
+Provides a global, centralized view of the AWS and hybrid network topology — VPCs, Transit Gateways, Direct Connect, and VPN connections across all Regions and accounts. Visualizes as a network map; monitors path health; provides routing analytics (which path does traffic take from A to B?). Generates CloudWatch Events for network topology changes.
+
+### Transit Gateway Multicast
+Distributes a single data stream to multiple VPCs simultaneously — without individual unicast connections from source to each receiver. Used for video conferencing, financial market data feeds, and software distribution where the same data must reach many destinations with minimal bandwidth overhead.
+
+### Transit Gateway Route Tables
+Separate route tables within a Transit Gateway that control which attachments (VPCs, VPN, Direct Connect) can communicate with each other. Used to implement network segmentation — e.g., production VPCs cannot route traffic to development VPCs, but both can route to shared services VPCs. Supports blackhole routes to drop traffic to specific destinations.
 
 ---
 
 ## V
 
-### VPC Endpoint
-A private connection between a VPC and an AWS service that doesn't require an internet gateway, NAT gateway, VPN, or Direct Connect connection. There are two types: **Gateway Endpoints** (for S3 and DynamoDB only, free) add an entry to the route table; **Interface Endpoints** (powered by PrivateLink, ~$0.01/hour/AZ + data charges) create ENIs with private IPs in the VPC. VPC Endpoints are essential for security-conscious architectures where S3 or other service traffic must not traverse the public internet.
+### Amazon VPC (Virtual Private Cloud)
+The networking foundation of AWS. Define IP ranges, subnets, routing, and access controls.
+
+### VPC DHCP Option Sets
+Configure which DNS servers, NTP servers, and domain names are assigned to VPC instances via DHCP. Customizing the DNS server allows VPC instances to use on-premises DNS servers (for hybrid DNS resolution) or a custom DNS server. Each VPC has one DHCP option set; AWS provides a default that uses AmazonProvidedDNS (Route 53 Resolver).
+
+### VPC Endpoint Policies
+IAM resource-based policies attached to VPC Gateway and Interface Endpoints that control which principals and S3 buckets (for Gateway Endpoints) can be accessed through the endpoint. Endpoint policies add a layer of security beyond bucket policies and IAM policies — traffic through the endpoint can be restricted to specific buckets or actions, preventing data exfiltration to unauthorized S3 buckets.
+
+### VPC Flow Logs
+Captures IP traffic metadata to/from VPC network interfaces. Published to CloudWatch Logs, S3, or Kinesis Data Firehose. Used for security analysis, network troubleshooting, and compliance. Custom log formats can include additional fields (traffic path, TCP flags, packet-level details).
 
 ### VPC Peering
-A network connection between two VPCs that routes traffic privately using AWS backbone infrastructure. VPC Peering is non-transitive — if VPC A peers with VPC B and VPC B peers with VPC C, VPC A cannot communicate with VPC C through B. For more than a few VPCs, this limitation makes Transit Gateway the better choice. CIDR blocks between peered VPCs must not overlap.
+Private network connection between two VPCs via the AWS backbone. Non-transitive; CIDRs must not overlap. For many VPCs, Transit Gateway is preferred.
+
+### VPC Reachability Analyzer
+A network diagnostics tool that analyzes the configuration of VPC networking components (security groups, NACLs, route tables, IGW, NAT GW, VPC Peering, TGW) to determine whether a network path exists between two endpoints — without sending actual traffic. Returns a hop-by-hop analysis showing where connectivity is blocked and why. Replaces manual route table and security group inspection.
+
+### VPC Sharing (Resource Access Manager)
+Allows sharing VPC subnets with other AWS accounts in the same Organization using AWS Resource Access Manager (RAM). The subnet owner account controls the networking; participant accounts launch resources (EC2, RDS, Lambda) into the shared subnets. Centralizes network management in a single account while allowing multiple teams to use the same VPC — reducing VPC sprawl and Transit Gateway peering complexity.
+
+### VPC Traffic Mirroring
+Copies network traffic from an EC2 instance's ENI to a monitoring appliance (an EC2 instance or NLB) for deep packet inspection, IDS/IPS analysis, or network forensics — without disrupting the original traffic. Filters control which traffic is mirrored (by port, protocol, CIDR). Used for security monitoring use cases that require full packet capture rather than just flow logs.
+
+### AWS VPN — Client VPN
+A managed OpenVPN-based remote access VPN. End users install the AWS Client VPN or any OpenVPN-compatible client and connect to a Client VPN endpoint associated with a VPC. Scales automatically; authentication via Active Directory, SAML/SSO (Okta, Entra ID), or mutual certificate authentication. Split tunneling sends only VPC-destined traffic through the VPN; full tunneling sends all traffic through it.
+
+### AWS VPN — Site-to-Site VPN
+An IPSec VPN connecting an on-premises Customer Gateway device to a Virtual Private Gateway or Transit Gateway. Two redundant tunnels per connection (active-active); up to 1.25 Gbps per tunnel. Used as the primary connectivity method for smaller customers and as a backup path for Direct Connect customers. Accelerated VPN option routes traffic over AWS Global Accelerator for improved performance.
 
 ---
 
 ## W
 
-### Well-Architected Framework
-AWS's documented set of best practices for building cloud workloads, organized into six pillars: **Operational Excellence**, **Security**, **Reliability**, **Performance Efficiency**, **Cost Optimization**, and **Sustainability**. Each pillar has design principles, best practice questions, and review guidance. The AWS Well-Architected Tool in the console guides customers through formal reviews of their workloads and produces a findings report. SAs use Well-Architected as a conversation framework to identify risks and improvement opportunities in customer architectures.
+### AWS WAF (Web Application Firewall)
+Protects web applications from common exploits. Deploys in front of CloudFront, ALB, API Gateway, AppSync.
+
+### WAF Bot Control
+A managed rule group (additional fee) that detects and controls bot traffic. Distinguishes legitimate bots (Google, LinkedIn scrapers) from malicious bots (credential stuffers, scrapers, DDoS bots). Common bots are allowed or blocked with pre-built rules; targeted inspection uses ML to detect sophisticated bots that mimic human behavior. Reduces fraudulent API usage and infrastructure load from bot traffic.
+
+### WAF Fraud Control — Account Creation Fraud Prevention
+Detects automated account creation abuse (fake account farms, promotion abuse, credential stuffing during registration). Uses ML to score each account creation request and block high-risk submissions. Priced per protected endpoint.
+
+### WAF Fraud Control — Account Takeover Prevention (ATP)
+Monitors login endpoints for credential stuffing and brute force attacks. Analyzes credential usage patterns, stolen credential databases, and request fingerprints. Automatically blocks high-volume login abuse while allowing legitimate users through. Requires the WAF SDK in the application to capture login success/failure signals.
+
+### WAF Managed Rule Groups
+Pre-built rule sets maintained by AWS and third-party vendors. AWS-managed groups include: Core Rule Set (OWASP Top 10), Known Bad Inputs (common attack patterns), SQL Database, Linux/Windows OS, PHP, and WordPress. Third-party managed rules from CrowdStrike, F5, Imperva, and others cover more specialized threat intelligence. Customers pay a subscription fee per managed rule group.
+
+### WAF Web ACLs
+The top-level WAF resource containing an ordered list of rules and rule groups. Each rule has a priority, conditions, and an action (Allow, Block, Count, CAPTCHA, Challenge). Rules are evaluated in priority order; the first matching rule's action applies. A Web ACL is associated with one or more resources (CloudFront distributions, ALBs, API Gateways). Default action (allow or block) applies when no rule matches.
+
+### AWS Well-Architected Framework
+Best practices across six pillars: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization, and Sustainability.
+
+### Well-Architected Lenses
+Extensions to the Well-Architected Framework for specific industries or workload types. AWS provides lenses for: Serverless, SaaS, Data Analytics, IoT, Machine Learning, Financial Services, Healthcare, High Performance Computing, Media & Entertainment, and Hybrid Networking. Each lens adds domain-specific questions and best practices on top of the base framework pillars.
+
+### Well-Architected Tool
+A console-based questionnaire tool guiding formal workload reviews against the Framework. Generates findings reports with High and Medium risks. Milestones track improvement over time. Supports custom lenses and can be shared across accounts for partner-led reviews.
+
+### AWS WorkSpaces
+Cloud-hosted virtual desktops (VDI). WorkSpaces Personal: persistent individual desktops. WorkSpaces Pools: non-persistent pooled desktops for task workers. Pay per month (AlwaysOn) or per hour (AutoStop).
+
+### WorkSpaces Thin Client
+A low-cost hardware device (the Amazon WorkSpaces Thin Client) for connecting to WorkSpaces, AppStream 2.0, and other virtual desktop services. Plug-and-play; no OS to manage. Reduces endpoint management cost compared to traditional PCs for call center agents, task workers, and kiosk use cases.
 
 ---
 
-*Last updated: April 2026. Terms reflect services and features generally available at that date.*
+## X
+
+### AWS X-Ray
+Distributed tracing service analyzing and debugging distributed applications — microservices, serverless, APIs.
+
+### X-Ray Groups
+Filters traces by expression (e.g., `service("checkout-api") AND http.status = 5xx`) into named groups. Separate CloudWatch metrics and sampling rules apply per group. Used to focus observability on a specific service path or error condition without sorting through all traces.
+
+### X-Ray Sampling Rules
+Controls the percentage of requests that are traced to manage cost and data volume. Default rule: 5% of all requests (plus 1 per second reservoir per host). Custom rules can match by host, service name, URL path, or HTTP method — trace 100% of `/checkout` requests while sampling 1% of `/health` checks. Sampling rules are managed centrally and pushed to SDK clients in real time.
+
+### X-Ray Service Map
+A visual representation of the service graph — each connected node is a service (EC2 app, Lambda, DynamoDB, RDS, external HTTP); edges show call relationships with average latency and error rate. Allows a developer or operator to see at a glance where latency or errors originate in a distributed application without reading individual traces.
+
+---
+
+*Last updated: April 2026. Entries reflect services and features generally available at that date.*

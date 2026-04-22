@@ -237,6 +237,7 @@ nav:
 
   - Glossary:
     - AWS: glossary/aws.md
+    - Azure: glossary/azure.md
 
 extra:
   social:

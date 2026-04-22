@@ -23,6 +23,9 @@ Enterprise ETL migrations are complex. Customers have years of logic embedded in
 | [Talend](talend.md) | Open-core Java ETL — Jobs, tMap logic, orchestration, and Databricks migration mapping |
 | [IBM DataStage](datastage.md) | IBM enterprise ETL — APT parallel engine, Sequences, xMeta inventory, and Databricks migration mapping |
 | [Informatica](informatica.md) | Market-leading enterprise ETL — mappings, sessions, workflows, IDQ, and Databricks migration mapping |
+| [Informatica BDM](informatica_bdm.md) | Informatica Big Data Management — Spark/Hive execution, mappings, mapplets, IDQ, and Databricks migration mapping |
+| [Matillion](matillion.md) | Cloud-native ELT — Transformation/Orchestration pipelines, push-down SQL, and Databricks migration mapping |
+| [SSIS](ssis.md) | Microsoft SQL Server Integration Services — packages, Control Flow, Data Flow, SQL Agent orchestration, and Databricks migration mapping |
 
 ---
 

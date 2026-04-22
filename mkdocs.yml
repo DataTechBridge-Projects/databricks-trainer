@@ -225,6 +225,9 @@ nav:
     - "Talend": etl/talend.md
     - "IBM DataStage": etl/datastage.md
     - "Informatica": etl/informatica.md
+    - "Informatica BDM": etl/informatica_bdm.md
+    - "Matillion": etl/matillion.md
+    - "SSIS": etl/ssis.md
     # ETL_SECTIONS_END
 
 extra:

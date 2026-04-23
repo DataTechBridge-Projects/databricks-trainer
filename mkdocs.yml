@@ -238,6 +238,7 @@ nav:
   - Glossary:
     - AWS: glossary/aws.md
     - Azure: glossary/azure.md
+    - GCP: glossary/gcp.md
 
 extra:
   social:

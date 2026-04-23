@@ -62,6 +62,13 @@ flowchart TD
 
 How Ab Initio sits between source systems and targets in a typical enterprise data pipeline.
 
+<div id="ab-data-flow-zoom-wrapper" style="position:relative; border:1px solid #ddd; border-radius:6px; overflow:hidden; background:#fafafa;">
+<div style="position:absolute; top:8px; right:10px; z-index:10; display:flex; align-items:center; gap:8px; font-size:0.78rem; color:#666;">
+  <span>Scroll to zoom · Drag to pan</span>
+  <button id="ab-data-flow-reset" onclick="abDataFlowReset()" style="padding:2px 8px; font-size:0.75rem; border:1px solid #ccc; border-radius:4px; background:#fff; cursor:pointer;">Reset</button>
+</div>
+<div id="ab-data-flow-zoom" style="cursor:grab; user-select:none;">
+
 ```mermaid
 flowchart LR
     subgraph SOURCES["Source Systems"]
@@ -99,6 +106,101 @@ flowchart LR
     OUTPUT --> TARGETS
     PLAN -. schedules .-> ABINIT
 ```
+
+</div>
+</div>
+
+<script>
+(function () {
+  var scale = 1, tx = 0, ty = 0;
+  var dragging = false, startX, startY, startTx, startTy;
+  var MIN_SCALE = 0.4, MAX_SCALE = 5;
+
+  function getSvg() {
+    var el = document.getElementById('ab-data-flow-zoom');
+    return el ? el.querySelector('svg') : null;
+  }
+
+  function applyTransform(svg) {
+    svg.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+    svg.style.transformOrigin = '0 0';
+    svg.style.display = 'block';
+  }
+
+  window.abDataFlowReset = function () {
+    scale = 1; tx = 0; ty = 0;
+    var svg = getSvg();
+    if (svg) applyTransform(svg);
+  };
+
+  function init() {
+    var svg = getSvg();
+    if (!svg) { setTimeout(init, 200); return; }
+
+    svg.style.transition = 'none';
+    applyTransform(svg);
+
+    var wrapper = document.getElementById('ab-data-flow-zoom');
+
+    wrapper.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var rect = wrapper.getBoundingClientRect();
+      var mx = e.clientX - rect.left;
+      var my = e.clientY - rect.top;
+      var delta = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+      var newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale * delta));
+      tx = mx - (mx - tx) * (newScale / scale);
+      ty = my - (my - ty) * (newScale / scale);
+      scale = newScale;
+      applyTransform(svg);
+    }, { passive: false });
+
+    wrapper.addEventListener('mousedown', function (e) {
+      if (e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX; startY = e.clientY;
+      startTx = tx; startTy = ty;
+      wrapper.style.cursor = 'grabbing';
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', function (e) {
+      if (!dragging) return;
+      tx = startTx + (e.clientX - startX);
+      ty = startTy + (e.clientY - startY);
+      applyTransform(getSvg());
+    });
+
+    window.addEventListener('mouseup', function () {
+      if (!dragging) return;
+      dragging = false;
+      var wrapper = document.getElementById('ab-data-flow-zoom');
+      if (wrapper) wrapper.style.cursor = 'grab';
+    });
+
+    wrapper.addEventListener('touchstart', function (e) {
+      if (e.touches.length === 1) {
+        dragging = true;
+        startX = e.touches[0].clientX; startY = e.touches[0].clientY;
+        startTx = tx; startTy = ty;
+      }
+    }, { passive: true });
+
+    wrapper.addEventListener('touchmove', function (e) {
+      if (dragging && e.touches.length === 1) {
+        tx = startTx + (e.touches[0].clientX - startX);
+        ty = startTy + (e.touches[0].clientY - startY);
+        applyTransform(getSvg());
+      }
+    }, { passive: true });
+
+    wrapper.addEventListener('touchend', function () { dragging = false; });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () { setTimeout(init, 600); });
+  if (document.readyState !== 'loading') { setTimeout(init, 600); }
+})();
+</script>
 
 ---
 

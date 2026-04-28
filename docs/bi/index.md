@@ -27,6 +27,8 @@ This section helps SAs answer:
 | [Amazon QuickSight](quicksight.md) | AWS managed cloud BI — SPICE engine, embedding SDK, tag-based RLS, dataset model, and Databricks migration mapping |
 | [Power BI](power-bi.md) | Microsoft Power BI — semantic model / DAX layer, Import vs. DirectQuery modes, data-driven subscriptions, Power BI Embedded, and Databricks migration mapping |
 | [Tableau](tableau.md) | Tableau — VizQL engine, LOD expressions, hyper extracts, JS Embedding API, Analytics Extensions (TabPy), and Databricks migration mapping |
+| [Oracle OBIEE](obiee.md) | Oracle BI Enterprise Edition — RPD semantic layer, BI Publisher pixel-perfect reports, iBot bursting, Essbase/MDX mapping, and Databricks migration assessment |
+| [SAP BusinessObjects](sap-bo.md) | SAP BO — Crystal Reports vs. Webi workstreams, Universe semantic layer, AJS bursting, BEx/BW dependencies, and Databricks migration mapping |
 
 ---
 

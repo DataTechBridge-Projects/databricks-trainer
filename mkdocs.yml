@@ -32,6 +32,9 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
+extra_javascript:
+  - javascripts/tts.js
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
@@ -243,6 +246,8 @@ nav:
     - "Amazon QuickSight": bi/quicksight.md
     - "Power BI": bi/power-bi.md
     - "Tableau": bi/tableau.md
+    - "Oracle OBIEE": bi/obiee.md
+    - "SAP BusinessObjects": bi/sap-bo.md
     # BI_SECTIONS_END
 
   - Glossary:

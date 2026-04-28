@@ -5,37 +5,37 @@
 ```mermaid
 graph TB
     subgraph Authors["Authoring Layer"]
-        TD[Tableau Desktop<br/>(.twb / .twbx)]
-        TP[Tableau Prep Builder<br/>(flow files)]
-        TWC[Tableau Web Authoring<br/>(browser-based)]
+        TD["Tableau Desktop<br>(.twb / .twbx)"]
+        TP["Tableau Prep Builder<br>(flow files)"]
+        TWC["Tableau Web Authoring<br>(browser-based)"]
     end
 
     subgraph Server["Tableau Server / Tableau Cloud"]
-        GW[Gateway / Load Balancer]
-        APP[Application Server<br/>(VizQL + portal UI)]
-        VizQL[VizQL Server<br/>(query engine + renderer)]
-        BGW[Backgrounder<br/>(scheduler + subscriptions)]
-        DS[Data Server<br/>(published data sources)]
-        FM[File Store<br/>(extract cache .hyper)]
-        PG[(PostgreSQL<br/>Repository DB)]
-        META[Metadata API<br/>(Tableau Catalog)]
+        GW["Gateway / Load Balancer"]
+        APP["Application Server<br>(VizQL + portal UI)"]
+        VizQL["VizQL Server<br>(query engine + renderer)"]
+        BGW["Backgrounder<br>(scheduler + subscriptions)"]
+        DS["Data Server<br>(published data sources)"]
+        FM["File Store<br>(extract cache .hyper)"]
+        PG[("PostgreSQL<br>Repository DB")]
+        META["Metadata API<br>(Tableau Catalog)"]
     end
 
     subgraph Clients["Consumers"]
-        Browser[Browser / Portal]
-        Email[Email Subscriptions]
-        EMB[Embedded Application]
-        API[REST API / JS API]
+        Browser["Browser / Portal"]
+        Email["Email Subscriptions"]
+        EMB["Embedded Application"]
+        API["REST API / JS API"]
     end
 
     subgraph Sources["Data Sources"]
-        SQL[(Relational DB)]
-        CLOUD[(Cloud DW / Databricks)]
-        FILE[Flat Files / Excel]
-        CUBE[OLAP / Cubes]
+        SQL[("Relational DB")]
+        CLOUD[("Cloud DW / Databricks")]
+        FILE["Flat Files / Excel"]
+        CUBE["OLAP / Cubes"]
     end
 
-    TD -->|Publish .twbx / .twb| GW
+    TD -->|"Publish .twbx / .twb"| GW
     TWC --> GW
     GW --> APP
     APP --> VizQL
@@ -58,26 +58,26 @@ graph TB
 
 ```mermaid
 flowchart LR
-    SRC[(Source Systems<br/>DB / Cloud DW / Files)]
-    DS[Data Server<br/>Published Data Sources]
-    EXT[Hyper Extract<br/>.hyper file]
-    VizQL[VizQL Engine<br/>Query + Render]
-    BGW[Backgrounder<br/>Refresh / Schedule]
-    CACHE[View Cache<br/>Pre-rendered VIZ]
+    SRC[("Source Systems<br>DB / Cloud DW / Files")]
+    DS["Data Server<br>Published Data Sources"]
+    EXT["Hyper Extract<br>.hyper file"]
+    VizQL["VizQL Engine<br>Query + Render"]
+    BGW["Backgrounder<br>Refresh / Schedule"]
+    CACHE["View Cache<br>Pre-rendered VIZ"]
 
-    SRC -->|Live query or<br/>extract refresh| DS
+    SRC -->|"Live query or extract refresh"| DS
     DS -->|Extract| EXT
     EXT --> VizQL
     DS -->|Live| VizQL
-    BGW -->|Scheduled refresh| DS
-    BGW -->|Subscription render| VizQL
-    VizQL -->|Cached image| CACHE
+    BGW -->|"Scheduled refresh"| DS
+    BGW -->|"Subscription render"| VizQL
+    VizQL -->|"Cached image"| CACHE
 
-    CACHE -->|Portal| Browser[Browser / Portal]
-    VizQL -->|On-demand render| Browser
-    VizQL -->|PDF / PNG / Excel| Email[Email Subscription]
-    VizQL -->|Embedded view| EMB[Embedded App<br/>JS API / Embedding v3]
-    VizQL -->|JSON / Image| RESTAPI[REST API Consumer]
+    CACHE -->|Portal| Browser["Browser / Portal"]
+    VizQL -->|"On-demand render"| Browser
+    VizQL -->|"PDF / PNG / Excel"| Email["Email Subscription"]
+    VizQL -->|"Embedded view"| EMB["Embedded App<br>JS API / Embedding v3"]
+    VizQL -->|"JSON / Image"| RESTAPI["REST API Consumer"]
 ```
 
 ---

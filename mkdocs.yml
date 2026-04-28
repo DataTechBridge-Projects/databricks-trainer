@@ -250,6 +250,15 @@ nav:
     - "SAP BusinessObjects": bi/sap-bo.md
     # BI_SECTIONS_END
 
+  - Data Solutions & Architecture:
+    - Home: data-ref/index.md
+    - "Data Architecture Patterns": data-ref/data-architecture-patterns.md
+    - "Data Ingestion & Pipelines": data-ref/data-ingestion-pipelines.md
+    - "Data Storage Layers": data-ref/data-storage-layers.md
+    - "Data Governance & Cataloging": data-ref/data-governance-cataloging.md
+    - "Real-Time & Streaming": data-ref/real-time-streaming.md
+    - "Data Serving & Consumption": data-ref/data-serving-consumption.md
+
   - Glossary:
     - AWS: glossary/aws.md
     - Azure: glossary/azure.md

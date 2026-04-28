@@ -1,4 +1,4 @@
-[TOOL NAME] = Oracle Data Integrator
+[TOOL NAME] = Informatica Cloud
 You are writing a single-page SA migration guide for [TOOL NAME] in the style of docs/etl/ab_initio.md.
 
 The audience is a Solution Architect who needs to quickly learn the tool, analyze a customer's existing estate, and map it to Databricks for migration. This is not a developer guide — no hands-on lab content. Focus on understanding, not building.

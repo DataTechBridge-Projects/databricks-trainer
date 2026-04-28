@@ -1,0 +1,142 @@
+[TOOL NAME] = Power BI
+You are writing a single-page SA migration guide for [TOOL NAME].
+
+The audience is a Solution Architect who needs to quickly learn the tool, analyze a customer's existing BI estate, and map it to Databricks (with Databricks SQL, Lakeview dashboards, or a connected BI layer like Power BI or Tableau) for migration. This is not a developer guide — no hands-on lab content. Focus on understanding, not building.
+
+The page must cover these 13 sections in one markdown file:
+
+1. Ecosystem Overview
+   - What [TOOL NAME] is, where it fits in the broader BI/analytics market and the vendor's product suite
+   - Product variants and editions (on-prem, cloud, embedded, SaaS) if applicable
+   - Why customers use it: primary use cases (operational reporting, self-service analytics, embedded BI, scheduled delivery, etc.)
+   - Key discovery questions to ask:
+     * How many reports/dashboards exist? How many are actively used?
+     * How are reports consumed — portal, embedded in apps, scheduled delivery, API?
+     * What data sources are connected — relational DBs, cubes/OLAP, flat files, cloud sources?
+     * What version/edition is the customer running?
+     * Are any reports embedded in custom applications?
+     * Is scheduled delivery (email/file drop) business-critical?
+     * How is security and row-level access enforced?
+
+2. Component Architecture
+   - Describe each major runtime component of [TOOL NAME] separately.
+   - For each component: what it does, what breaks if it's gone, and what the migration equivalent is.
+   - Cover: the core report processing/rendering engine, the web portal or UI layer, the content store or catalog database, any separate scheduling or delivery service, any SDK or API layer, any separate metadata or governance service.
+   - Use a table: Component | Role | Migration Equivalent | SA Note
+
+3. Artifact Lifecycle — Walk the full chain an SA can explain to a customer:
+   - Author: what tooling is used to create reports (developer tool vs. self-service tool), what format the artifact is saved in
+   - Deploy/Publish: how artifacts get from the authoring tool to the server — what is uploaded, where it is stored, whether it is stored as a file on disk or as a blob in a database
+   - Compile: does [TOOL NAME] pre-compile reports or compile at render time? What triggers compilation? What is the intermediate format?
+   - Execute: how data is fetched and bound — what runs on the server, what (if anything) runs on the client
+   - Render: what output formats are supported (HTML, PDF, Excel, etc.), where rendering happens (server-side vs. client-side)
+   - Deliver: how output reaches consumers — portal, URL, email subscription, file share, embedded control, API
+   - Call out explicitly at each step: what is server-side, what is client-side, and what artifact is involved
+   - Use a flow table: Stage | What happens | Where (server/client) | Artifact involved | Migration risk
+
+4. Data Sources and Dataset Model
+   - How [TOOL NAME] defines and manages data source connections — shared/centralized vs. embedded per report
+   - How datasets or queries are defined and reused across reports
+   - Data source types commonly found in customer estates and their migration complexity (relational SQL, OLAP/cubes, flat files, cloud sources, etc.)
+   - How parameters and filters are defined and passed — especially cascading or dynamic parameters
+   - Use a table: Data Source Type | Frequency in customer estates | Migration Path | Risk
+
+5. Rendering and Delivery Model
+   - Rendering modes: on-demand, cached, pre-generated snapshots — how each works and what customers typically use
+   - Delivery modes: interactive portal, direct URL/API access, email subscriptions, file share drops, embedded in applications, data-driven/dynamic distribution
+   - Call out which delivery modes encode business logic (e.g. dynamic recipient lists, parameter-driven distribution) — these are migration risks
+   - Call out any embedded SDK or control used to host reports inside custom applications
+   - Use a table: Delivery Mode | How it works | Business use case | Migration equivalent | Risk
+
+6. Project Structure and Version Control
+   - How artifacts are organized on the server — folder structure, namespaces, projects, or packages
+   - Whether [TOOL NAME] has native version control or relies on external tools
+   - How environments (Dev/QA/Prod) are managed and how artifacts are promoted
+   - What command-line or scripting tools exist for bulk export, deployment, or migration
+   - Key discovery question: is the server catalog the source of truth, or does the customer maintain source-controlled project files?
+
+7. Orchestration and Scheduling
+   - How reports are scheduled — built-in scheduler, external scheduler dependency, or both
+   - How subscriptions and bursting (distributing personalized report versions to many recipients) work
+   - Whether report execution can be triggered externally via API or ETL pipeline integration
+   - Any hidden external dependencies (e.g. a separate scheduler service that must be running)
+   - Migration target: Databricks Workflows, partner BI native scheduling, or orchestration pipeline calling BI APIs
+
+8. Metadata, Lineage, and Impact Analysis
+   - Where the catalog/inventory lives — content store DB, flat files, API, proprietary repository
+   - Key metadata tables, views, or API endpoints to query for: report list, usage/access frequency, data source connections, subscriptions, security assignments
+   - Whether [TOOL NAME] has built-in lineage — if not, how lineage must be inferred (e.g. by parsing report definitions)
+   - SA Tip: call out the most valuable single artifact for scoping migration (e.g. usage/audit log)
+   - Provide example queries or API calls for: counting reports, identifying unused reports (no access in 90 days), listing data sources in use, listing schedules/subscriptions
+
+9. Data Quality and Governance
+   - How row-level security is implemented — declarative security layer, query-level filtering, or both
+   - How column-level security is handled (if at all)
+   - How data freshness and caching policies are controlled
+   - Any custom code or scripting embedded in reports (e.g. expressions, macros, SDK extensions) — call out migration risk
+   - Migration target: Unity Catalog row filters and column masks, Databricks SQL workspace permissions
+
+10. File Formats and Artifact Reference
+    One entry per proprietary file or artifact type [TOOL NAME] uses. For each:
+    - What it is
+    - Property table: Created by | Stored in | Contains | Human-readable | Migration target
+    - An example snippet where relevant
+    - An SA Tip
+
+    Cover all artifact types relevant to [TOOL NAME] — report definitions, package/project files, data source definitions, schedule/subscription definitions, any content store DB tables that serve as artifact stores, any SDK or deployment descriptors.
+
+    End with a quick-reference summary table: Artifact | Extension or location | Human-readable | Where stored | Migration target | Risk level
+
+11. Migration Assessment and Artifact Inventory
+    - How to inventory the estate: preferred method (content store DB query, REST API, export tool, file system scan)
+    - Why not to rely on the UI for counting (hidden system items, inactive reports, etc.)
+    - Complexity scoring dimensions — use a scoring table with Low / Medium / High / Critical ratings:
+      * Data source type complexity
+      * Query/dataset complexity (simple SQL vs. stored procedures vs. OLAP/MDX)
+      * Parameter complexity (simple vs. cascading vs. dynamic/data-driven)
+      * Custom code or scripting embedded in reports
+      * Subreport or drill-through nesting depth
+      * Delivery complexity (portal only vs. subscriptions vs. embedded app integration)
+      * Security model complexity (simple vs. row-level vs. dynamic/custom)
+    - Risk areas specific to [TOOL NAME]: call out the 4-6 most common blockers or non-obvious risks an SA should flag early
+    - Provide a sample inventory query or API call that produces: report path/name, type, last accessed date, access count (90d), data source type, has parameters, has subscriptions, has custom code
+
+12. Migration Mapping to Databricks
+    Side-by-side tables covering:
+    - Report types → Databricks SQL dashboards / Lakeview / Power BI / Tableau
+    - Data sources → Databricks SQL warehouses / Unity Catalog
+    - Dataset queries → Databricks SQL queries / dbt models
+    - Row-level security → Unity Catalog row filters
+    - Column-level security → Unity Catalog column masks
+    - Scheduling/subscriptions → Databricks Workflows / partner BI native scheduling
+    - Portal/browsing → Databricks SQL / partner BI workspace
+    - Embedded app integration → Power BI Embedded / Tableau Embedded / Databricks embedded SQL
+    - Governance/permissions → Unity Catalog + workspace permissions
+
+    What Doesn't Map Cleanly (dedicated subsection):
+    - Identify 4-6 [TOOL NAME]-specific capabilities that have no direct equivalent in Databricks or common partner BI tools
+    - For each: what it is, why it doesn't map, and what the SA should recommend instead
+
+13. Quick-Reference Cheat Sheet (final section)
+    A single condensed table an SA can scan before a customer call:
+    | Topic | Key fact | SA question to ask |
+    Cover: report count heuristic, where usage data lives, top 3 migration risks, source control gap (if applicable), any encryption or access blocker for inventory.
+
+Additional requirements:
+- Include two Mermaid diagrams before Section 1:
+  1. [TOOL NAME] platform architecture — show all major components and how they connect (processing engine, portal, content store, scheduler, API layer, client browser, embedded app if applicable)
+  2. Data flow diagram — source systems → [TOOL NAME] server (fetch, process, render) → consumers (portal, email, file share, embedded app)
+- Use > **SA Tip:** callouts for non-obvious insight an SA would need in a customer conversation
+- Use tables wherever concepts are being compared or listed
+- Do NOT include a migration approach or phased plan — only mapping and analysis content
+- Tone: conversational, business-aware, migration-focused
+- Save as: docs/bi/[tool_filename].md (e.g. docs/bi/cognos.md) — derive the filename from [TOOL NAME]
+- Register in mkdocs.yml under the BI Tools tab between # BI_SECTIONS_START and # BI_SECTIONS_END
+  NOTE: Check first using grep — only add the entry if it is not already present. Do NOT add duplicates.
+- Add a row to the BI Tools table in docs/bi/index.md and docs/index.md
+  NOTE: Check first using grep — only add the row if the tool is not already listed. Do NOT add duplicates.
+
+Efficiency instructions (to reduce token usage):
+- DO NOT read any reference files to infer structure — all structural patterns (diagrams, SA Tip callouts, comparison tables, file format property tables, complexity scoring) are fully specified in this prompt. Follow the prompt exactly.
+- DO NOT read mkdocs.yml in full. Use grep to find the # BI_SECTIONS_START marker and read only the surrounding lines needed for the insertion.
+- DO NOT read docs/bi/index.md or docs/index.md in full. Use grep to locate the table insertion point, then read only the relevant lines.

@@ -235,6 +235,13 @@ nav:
     - "Oracle Data Integrator": etl/odi.md
     # ETL_SECTIONS_END
 
+  - BI Tools:
+    - Home: bi/index.md
+    # BI_SECTIONS_START
+    - "SSRS": bi/ssrs.md
+    - "IBM Cognos": bi/cognos.md
+    # BI_SECTIONS_END
+
   - Glossary:
     - AWS: glossary/aws.md
     - Azure: glossary/azure.md

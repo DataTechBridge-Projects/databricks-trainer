@@ -15,5 +15,7 @@ Courses are designed for breadth over depth — enough to hold a credible custom
 | [Azure Data Engineer Associate (DP-203)](azure/index.md) | data engineers familiar with SQL and cloud fundamentals who want to pass the Microsoft Azure Data Engineer Associate DP-203 exam |
 | [Snowflake](snowflake/index.md) | data engineers familiar with SQL and cloud fundamentals who want to pass the Snowflake certification exam |
 | [Google Cloud Platform](gcp/index.md) | data engineers familiar with SQL and cloud fundamentals who want to pass the Google Cloud Platform certification exam |
+| [ETL Tools](etl/index.md) | Migration reference for Ab Initio, Talend, Informatica, SSIS, DataStage, and more — building blocks, orchestration, and Databricks mapping |
+| [BI Tools](bi/index.md) | Migration reference for SSRS, IBM Cognos, and other BI platforms — component architecture, artifact lifecycle, and Databricks mapping |
 
 ---

@@ -1,4 +1,4 @@
-[TOOL NAME] = Power BI
+[TOOL NAME] = Oracle Business Intelligence (OBIEE)
 You are writing a single-page SA migration guide for [TOOL NAME].
 
 The audience is a Solution Architect who needs to quickly learn the tool, analyze a customer's existing BI estate, and map it to Databricks (with Databricks SQL, Lakeview dashboards, or a connected BI layer like Power BI or Tableau) for migration. This is not a developer guide — no hands-on lab content. Focus on understanding, not building.

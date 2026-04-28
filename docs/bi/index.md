@@ -24,6 +24,9 @@ This section helps SAs answer:
 |------|-------------|
 | [SSRS](ssrs.md) | Microsoft SQL Server Reporting Services — components, artifact lifecycle, RDL/RDS/RSD formats, RLS patterns, and Databricks migration mapping |
 | [IBM Cognos](cognos.md) | IBM Cognos Analytics — component architecture, Framework Manager semantic layer, burst delivery, OLAP/TM1 mapping, and Databricks migration assessment |
+| [Amazon QuickSight](quicksight.md) | AWS managed cloud BI — SPICE engine, embedding SDK, tag-based RLS, dataset model, and Databricks migration mapping |
+| [Power BI](power-bi.md) | Microsoft Power BI — semantic model / DAX layer, Import vs. DirectQuery modes, data-driven subscriptions, Power BI Embedded, and Databricks migration mapping |
+| [Tableau](tableau.md) | Tableau — VizQL engine, LOD expressions, hyper extracts, JS Embedding API, Analytics Extensions (TabPy), and Databricks migration mapping |
 
 ---
 

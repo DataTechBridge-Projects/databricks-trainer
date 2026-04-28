@@ -240,6 +240,9 @@ nav:
     # BI_SECTIONS_START
     - "SSRS": bi/ssrs.md
     - "IBM Cognos": bi/cognos.md
+    - "Amazon QuickSight": bi/quicksight.md
+    - "Power BI": bi/power-bi.md
+    - "Tableau": bi/tableau.md
     # BI_SECTIONS_END
 
   - Glossary:

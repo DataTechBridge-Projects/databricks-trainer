@@ -25,7 +25,6 @@
 | Gold Layer | Business-level aggregates and curated datasets ready for BI consumption |
 | HTAP | Hybrid Transactional/Analytical Processing — systems that support both OLTP and OLAP workloads simultaneously |
 | OLTP | Online Transactional Processing — systems optimized for high-volume, low-latency read/write operations (e.g., order entry systems) |
-| OLAP | Online Analytical Processing — systems optimized for complex queries across large datasets for decision support |
 | MPP | Massively Parallel Processing — distributes query execution across many nodes simultaneously; used in Redshift, Snowflake, BigQuery |
 | SMP | Symmetric Multiprocessing — multiple processors sharing a single memory space; limits scalability compared to MPP |
 | Shared-Nothing Architecture | Each node in a cluster has its own CPU, memory, and disk; no resource contention; basis for most MPP systems |
@@ -188,7 +187,6 @@
 | JSON | JavaScript Object Notation — lightweight, human-readable data interchange format |
 | CSV | Comma-Separated Values — plain-text tabular format; ubiquitous but lacks schema enforcement |
 | XML | Extensible Markup Language — hierarchical text-based format; verbose but self-describing |
-| Schema Registry | Service that stores and validates Avro/Protobuf/JSON schemas for event streams (e.g., Confluent Schema Registry) |
 | DAG | Directed Acyclic Graph — representation of pipeline dependencies; used by Airflow, dbt, and other orchestrators |
 | Orchestration | Coordinating and scheduling the execution of pipeline tasks and dependencies |
 | Airflow | Apache Airflow — open-source workflow orchestration platform using Python DAGs |
@@ -246,7 +244,6 @@
 | Technical Metadata | Information about data structure, format, storage, and access (table schemas, file sizes, partitions) |
 | Business Metadata | Context describing business meaning, ownership, and usage policies |
 | Operational Metadata | Information about data pipelines, job runs, data volumes, and processing history |
-| Data Profiling | Statistical analysis of data to understand its content, structure, quality, and relationships |
 | Data Classification | Categorizing data by sensitivity level (Public, Internal, Confidential, Restricted) |
 | PII | Personally Identifiable Information — any data that can identify a specific individual (name, SSN, email) |
 | PHI | Protected Health Information — health data protected under HIPAA regulations |
@@ -412,7 +409,6 @@
 
 | Term | Full Form / Description |
 |------|------------------------|
-| MPP | Massively Parallel Processing — distributes query work across many nodes; core architecture of cloud warehouses |
 | Columnar Storage | Data stored by column rather than row; dramatically improves analytical query performance and compression |
 | Row-Based Storage | Traditional RDBMS storage; efficient for OLTP (full row access) but poor for analytical (column scans) |
 | Compression Ratio | Measure of how much data is reduced by compression; columnar formats achieve much higher ratios than row-based |
@@ -425,7 +421,7 @@
 | Apache Hudi | Hadoop Upserts Deletes and Incrementals — open table format with CDC and incremental processing |
 | ACID | Atomicity, Consistency, Isolation, Durability — properties guaranteeing reliable database transactions |
 | Atomicity | Transaction property: all operations succeed or none do; no partial updates |
-| Consistency | Transaction property: database moves from one valid state to another |
+| Consistency (ACID) | Transaction property: database moves from one valid state to another |
 | Isolation | Transaction property: concurrent transactions don't interfere with each other |
 | Durability | Transaction property: committed transactions survive system failures |
 | MVCC | Multi-Version Concurrency Control — allows concurrent reads and writes by maintaining multiple data versions |
@@ -494,7 +490,7 @@
 | DQ Dimensions | Standard aspects of data quality: completeness, accuracy, consistency, timeliness, validity, uniqueness |
 | Completeness | DQ dimension: percentage of required fields that contain values; no unexpected nulls |
 | Accuracy | DQ dimension: data correctly reflects the real-world entity or event it describes |
-| Consistency | DQ dimension: data values are consistent across systems and over time |
+| Consistency (DQ) | DQ dimension: data values are consistent across systems and over time |
 | Timeliness | DQ dimension: data is available when needed and reflects current reality |
 | Validity | DQ dimension: data conforms to defined formats, ranges, and rules |
 | Uniqueness | DQ dimension: no unintended duplicate records exist |
@@ -512,7 +508,6 @@
 | Null Rate | Percentage of null values in a column; tracked as a quality and freshness indicator |
 | Duplicate Rate | Percentage of duplicate records in a dataset |
 | Data SLA | Service Level Agreement for data products defining freshness, completeness, and availability targets |
-| Data Contract | Formal specification defining schema, semantics, and quality expectations between producer and consumer |
 | Great Expectations | Open-source Python library for defining, documenting, and validating data quality expectations |
 | dbt Tests | dbt's built-in and extensible data testing framework (not_null, unique, accepted_values, relationships) |
 | Soda | Data quality platform for defining and running data checks across SQL and file sources |
@@ -554,7 +549,6 @@
 
 | Term | Full Form / Description |
 |------|------------------------|
-| Data Mesh | Decentralized data architecture treating data as a product, owned by domain teams, with federated governance |
 | Data Product | A self-contained, discoverable, addressable, trustworthy, and interoperable data asset served by a domain team |
 | Domain Ownership | Data Mesh principle: teams closest to the data own its quality, availability, and access |
 | Data as a Product | Data Mesh principle: applying product thinking (SLAs, discoverability, documentation) to data assets |
@@ -577,7 +571,6 @@
 | Vector Database | Database optimized for storing and querying high-dimensional embedding vectors (Pinecone, Weaviate, Qdrant) |
 | Embedding | Dense numerical vector representation of data (text, images, audio) capturing semantic meaning |
 | RAG | Retrieval-Augmented Generation — LLM pattern that retrieves relevant context from a knowledge base before generating responses |
-| Semantic Search | Finding results based on meaning/intent rather than exact keyword matching; uses vector similarity |
 | ANN | Approximate Nearest Neighbor — algorithms for finding similar vectors efficiently (HNSW, IVF) |
 | HNSW | Hierarchical Navigable Small World — graph-based algorithm for fast ANN search in vector databases |
 | Cosine Similarity | Metric measuring the angle between two vectors; common similarity measure for embeddings |
@@ -585,13 +578,10 @@
 | Prompt Engineering | Designing effective prompts to get desired outputs from LLMs without changing model weights |
 | LLM | Large Language Model — deep learning model trained on massive text datasets for NLP tasks (GPT-4, Claude) |
 | Foundation Model | Large pre-trained model serving as a base that can be fine-tuned for specific tasks |
-| Data Lakehouse | Architecture merging data lake flexibility with warehouse structure and ACID transactions |
 | Open Lakehouse | Lakehouse built on open standards (Iceberg, Delta, Parquet) without vendor lock-in |
 | Streaming Lakehouse | Real-time streaming ingestion and processing directly on lakehouse table formats |
-| Data Fabric | AI-driven architecture providing automated, intelligent data management across heterogeneous environments |
 | Knowledge Fabric | Evolution of data fabric incorporating semantic knowledge graphs and ontologies |
 | Semantic Data Fabric | Data fabric with rich semantic metadata enabling context-aware data discovery and access |
-| Active Metadata | Metadata that drives automated actions such as data quality checks, routing, or lineage tagging |
 | Augmented Data Management | Using AI/ML to automate metadata management, data quality, and governance tasks |
 | Generative AI for Data | Using LLMs for automated SQL generation, data documentation, anomaly explanation, and data exploration |
 | Text-to-SQL | LLM capability to convert natural language questions into executable SQL queries |
@@ -602,8 +592,6 @@
 | ksqlDB | SQL streaming engine built on top of Apache Kafka |
 | Materialize | Streaming database maintaining incrementally-updated materialized views from streaming sources |
 | RisingWave | Cloud-native streaming database with PostgreSQL-compatible SQL |
-| Reverse ETL | Syncing processed data warehouse data back into operational tools (CRM, marketing automation) |
-| Operational Analytics | Analytics performed on operational data with low latency; bridges BI and operational systems |
 | Unified Data Platform | Single platform combining data engineering, warehousing, analytics, and ML (Databricks, Snowflake) |
 | Iceberg REST Catalog | Open REST API specification for interacting with Iceberg catalogs; enables multi-engine access |
 | Apache Polaris | Open-source Iceberg catalog supporting the Iceberg REST Catalog spec |

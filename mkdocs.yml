@@ -263,6 +263,7 @@ nav:
     - AWS: glossary/aws.md
     - Azure: glossary/azure.md
     - GCP: glossary/gcp.md
+    - Data Architect: glossary/data-architect-glossary.md
 
 extra:
   social:

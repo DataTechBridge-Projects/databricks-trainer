@@ -4,6 +4,28 @@
 
 ---
 
+## Platform Mind Map
+
+Explore the full Databricks Data Intelligence Platform — all products, capabilities, and 2025–2026 releases in an interactive D3.js mind map.
+
+[**Open Databricks Mind Map →**](../databricks-mindmap.html)
+
+The mind map covers all nine capability domains:
+
+| Domain | What it covers |
+|---|---|
+| Data Engineering | Lakeflow Pipelines, Connect, Orchestrator, Auto Loader, Structured Streaming |
+| Data Governance | Unity Catalog, Lineage, Delta Sharing, UC Metrics, Foreign Catalogs |
+| Mosaic AI | Agent Bricks, Agent Framework, MLflow 3, Model Serving, Vector Search, AI Gateway |
+| Analytics & BI | AI/BI Dashboards, Genie (NL analytics), Databricks SQL, Notebooks, Apps |
+| Security & Identity | RBAC/ABAC, Network Isolation, Encryption, SSO/SCIM, AI Guardrails |
+| Infrastructure & Compute | Delta Lake, Lakebase (OLTP), Serverless, Photon, Databricks Runtimes |
+| Cost & Billing | DBU model, Serverless savings, Budget policies, Reserved capacity |
+| Migration & Adoption | Migration tools, Hive/Hadoop, DW→Lakehouse, Lakehouse Federation, Partners |
+| Monitoring & Ops | System tables, Lakehouse Monitoring, Spark UI, MLflow observability |
+
+---
+
 ## Course Sections
 
 - [Introduction to Databricks Architecture on AWS](section_01_introduction_to_databricks_architecture_on_aws.md)

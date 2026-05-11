@@ -249,7 +249,13 @@ nav:
     - "Oracle OBIEE": bi/obiee.md
     - "SAP BusinessObjects": bi/sap-bo.md
     # BI_SECTIONS_END
+  - OTF:
+    - Home: otf/index.md
 
+    - "Delta Lake": otf/aws-step-functions.md
+    - "Apache Hudi": otf/hudi.md
+    - "Apache Iceberg": otf/iceberg.md
+    # OTF_SECTIONS_END
   - Data Solutions & Architecture:
     - Home: data-ref/index.md
     - "Data Architecture Patterns": data-ref/data-architecture-patterns.md

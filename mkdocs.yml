@@ -251,8 +251,7 @@ nav:
     # BI_SECTIONS_END
   - OTF:
     - Home: otf/index.md
-
-    - "Delta Lake": otf/aws-step-functions.md
+    - "Delta Lake": otf/delta-lake.md
     - "Apache Hudi": otf/hudi.md
     - "Apache Iceberg": otf/iceberg.md
     # OTF_SECTIONS_END

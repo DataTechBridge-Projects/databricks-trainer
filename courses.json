@@ -28,5 +28,15 @@
     "output_dir": "docs/gcp",
     "topic": "Google Cloud Platform",
     "audience": "data engineers familiar with SQL and cloud fundamentals who want to pass the Google Cloud Platform certification exam"
+  },
+  "snaplogic": {
+    "output_dir": "docs/etl/snaplogic",
+    "topic": "SnapLogic Integration Platform",
+    "audience": "Solution Architects with a general IT background who need to hold credible customer conversations about SnapLogic — covering its iPaaS capabilities, pipeline design, connectors, and how it compares to alternatives — no hands-on engineering depth required"
+  },
+  "alteryx": {
+    "output_dir": "docs/etl/alteryx",
+    "topic": "Alteryx Analytics and ETL Platform",
+    "audience": "Solution Architects with a general IT background who need to hold credible customer conversations about Alteryx — covering its self-service analytics, ETL/ELT workflows, data prep, and how it compares to alternatives — no hands-on engineering depth required"
   }
 }

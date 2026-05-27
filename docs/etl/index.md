@@ -28,6 +28,8 @@ Enterprise ETL migrations are complex. Customers have years of logic embedded in
 | [SSIS](ssis.md) | Microsoft SQL Server Integration Services — packages, Control Flow, Data Flow, SQL Agent orchestration, and Databricks migration mapping |
 | [Pentaho](pentaho.md) | Open-core Kettle ETL — Transformations, Jobs, Carte clustering, repository inventory, and Databricks migration mapping |
 | [Oracle Data Integrator](odi.md) | Oracle ELT platform — Mappings, Knowledge Modules, Load Plans, repository inventory, and Databricks migration mapping |
+| [SnapLogic](snaplogic.md) | Cloud-native iPaaS — Snaps, Pipelines, Snaplex execution, Tasks, and Databricks migration mapping |
+| [Alteryx](alteryx.md) | Self-service analytics automation — Workflows, Tools, Macros, Analytic Apps, Server, and Databricks migration mapping |
 
 ---
 
